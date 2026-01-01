@@ -1,0 +1,46 @@
+<script setup>
+/**
+ * MobileShell Component
+ * 
+ * Enforces a mobile-first layout on all devices.
+ * - Desktop: Centers a 390px (iPhone 14/15) frame with shadow and rounded corners.
+ * - Mobile (< 420px): Adapts to 100% width, no horizontal scroll.
+ * - Handles safe area insets (notch support).
+ */
+</script>
+
+<template>
+    <!-- Outer Container: Handles desktop centering and background -->
+    <div
+        class="min-h-screen w-full bg-black flex justify-center items-center overflow-hidden "
+    >
+        <!-- Inner Shell: The "Phone" frame -->
+        <div 
+            class="relative w-full max-w-[430px] h-[90vh] bg-black overflow-y-auto overflow-x-hidden flex flex-col  /* Mobile (Small Screens) overrides: */ max-[500px]:max-w-full max-[500px]:h-[100dvh] max-[500px]:shadow-none max-[500px]:rounded-none border-2 border-gray-700"
+        >
+            <!-- Safe Area padding wrappers could go here if needed globally, 
+           but usually page content handles its own padding or we wrap slot.
+           Here we provide a slot that fills the shell.
+            -->
+            <main
+                class="flex-1 w-full pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]"
+            >
+                <slot />
+            </main>
+        </div>
+    </div>
+</template>
+
+<style scoped>
+/* Ensure the body doesn't scroll on desktop if we want just the phone to scroll,
+   but typically we let the window scroll. 
+   If we wanted "in-phone" scrolling only:
+   1. Set Outer Container max-h-screen, overflow-hidden
+   2. Set Inner Shell overflow-y-auto
+   
+   For this requirements (simple shell), we stick to window scrolling usually, 
+   but requirements said "Mobile-only layout shell", "min-h-[100vh]".
+   
+   If we want the "phone" to be always visible and centered, and CONTENT scrolls inside it:
+*/
+</style>
