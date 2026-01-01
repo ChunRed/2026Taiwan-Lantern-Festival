@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as c}from"./index-D4rd23aq.js";const r={},s={class:"text-white text-center"};function a(n,o){return c(),t("h1",s,"This is an Library Page")}const i=e(r,[["render",a]]);export{i as default};
