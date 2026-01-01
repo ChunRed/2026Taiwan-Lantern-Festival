@@ -16,8 +16,8 @@ node_modules/
 
 # Build outputs
 #dist/
-**/dist/
-dist-ssr/
+#**/dist/
+#dist-ssr/
 coverage/
 
 # Jekyll / GitHub Pages
