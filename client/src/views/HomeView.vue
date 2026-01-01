@@ -6,6 +6,8 @@
 
   import MapPath from "../components/MapPath.vue";
 
+  import LiffProfile from "@/components/LiffProfile.vue";
+
   import { motion } from "motion-v"
 
 
@@ -26,7 +28,7 @@
 
           
           <motion.div
-            :initial="{ opacity: 0, y: 10 }"
+            :initial="{ opacity: 0, y: 0 }"
             :animate="{ opacity: 1, y: 0 }"
             :transition="{ duration: 5, delay: 2.8 }"
           >
@@ -60,6 +62,8 @@
       <!-- Divider -->
       <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4"></div>
       <div class="my-5 text-center"> 2026 @ No Side</div>
+
+      <LiffProfile />
       
     </div>
 

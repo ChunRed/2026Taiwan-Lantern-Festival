@@ -6,25 +6,35 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'normal',
+      component: HomeView,
+    },
+    {
+      path: '/home',
       name: 'home',
       component: HomeView,
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/library',
+      name: 'library',
+      component: () => import('../views/LibraryView.vue'),
+    },
+    {
+      path: '/gen-choose',
+      name: 'gen-choose',
+      component: () => import('../views/Gen-chooseVeiw.vue'),
     },
 
     {
       path: '/practice',
       name: 'practice',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/PracticeView.vue'),
+    },
+
+    {
+      path: '/lineinfo',
+      name: 'lineinfo',
+      component: () => import('../views/LineInfoView.vue'),
     },
 
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('../views/404View.vue') },

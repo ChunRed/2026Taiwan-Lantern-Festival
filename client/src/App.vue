@@ -29,9 +29,14 @@
             :transition="{ duration: 3, delay: 0.2 }"
             class="flex flex-col items-start"
           >
-          <h1 class="text-2xl font-bold tracking-[0.3em] mb-1">逐 鹿 光 溯 源</h1>
-          <p class="text-[0.6rem] text-gray-300 font-light tracking-wide">Chasing Light, Reflecting Deer in the Grass</p>
+
+          <RouterLink to="/" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">
+            <h1 class="text-2xl font-bold tracking-[0.3em] mb-1">逐 鹿 光 溯 源</h1>
+            <p class="text-[0.6rem] text-gray-300 font-light tracking-wide">Chasing Light, Reflecting Deer in the Grass</p>
+          </RouterLink>
+
         </motion.div>
+          
 
 
         
@@ -71,8 +76,10 @@
           class="fixed inset-0 bg-black/95 z-40 flex flex-col justify-center items-center gap-8 backdrop-blur-sm"
         >
           <RouterLink to="/" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">HOME</RouterLink>
-          <RouterLink to="/about" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">ABOUT</RouterLink>
+          <RouterLink to="/library" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">圖鑑</RouterLink>
+          <RouterLink to="/gen-choose" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">生成</RouterLink>
           <RouterLink to="/practice" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">PRACTICE</RouterLink>
+          <RouterLink to="/lineinfo" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">LINEINFO</RouterLink>
         </div>
       </transition>
 

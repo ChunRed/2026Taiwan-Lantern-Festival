@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My LIFF Web</title>
+</head>
+<body>
+  <h2>Welcome to my LIFF page Test</h2>
+  <pre id="Name">loading...</pre>
+  <div id="ID"></div>
+  <div id="Path"></div>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+
+
+    (async () => {
+      const Name = document.getElementById("Name");
+      const ID = document.getElementById("ID");
+      const Path = document.getElementById("Path");
+
+      try {
+        await liff.init({ liffId: "2008806646-oNvJMBiC" });
+
+        // 若不是在 LINE 內開，會要求登入（方便你用外部瀏覽器測）
+        if (!liff.isLoggedIn()) liff.login();
+
+        const profile = await liff.getProfile();
+
+        Name.textContent = "displayName: " + profile.displayName ;
+        ID.textContent = "userId: " + profile.userId ;
+        Path.textContent = "pictureUrl: " + profile.pictureUrl;
+      } catch (e) {
+        Name.textContent = "LIFF init error: " + (e?.message || e);
+      }
+    })();
+
+
+
+  </script>
+</body>
+</html>
