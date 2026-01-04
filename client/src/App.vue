@@ -88,7 +88,6 @@
 
       <!-- Main Content Area -->
       <RouterView />
-
     </div>
   </MobileShell>
 </template>
