@@ -4,14 +4,14 @@
     <div class="mx-auto min-h-screen max-w-[420px] bg-black relative">
       
       <!-- Top header (Sticky at top) -->
-      <header class="sticky top-0 z-50 px-6 pt-3 pb-12 bg-gradient-to-b from-black via-black/90 to-transparent">
+      <div class=" top-0 z-50 px-6 pt-3 pb-12 bg-gradient-to-b from-black via-black/90 to-transparent">
         <!-- Section title -->
         <div class="mt-6 flex items-center gap-4 pl-1">
           <div class="text-lg tracking-[0.35em] font-bold text-gray-200">圖 鑑</div>
           <div class="text-white/20 text-sm">|</div>
           <div class="text-lg tracking-[0.35em] font-normal text-gray-400">LIBRARY</div>
         </div>
-      </header>
+      </div>
 
       <!-- 卡片 stacking 區塊 -->
       <main class="relative px-1 pb-48">
@@ -21,9 +21,8 @@
           :key="c.zh"
           class="stack-card sticky mb-8 overflow-hidden rounded-[32px] border border-white/10 shadow-2xl origin-top"
           :style="{ 
-             top: `calc(110px + ${i * 45}px)`,
+             top: `calc(110px + ${i * 30}px)`,
              zIndex: i + 1,
-             
              willChange: 'transform, filter'
           }"
         >
@@ -38,13 +37,13 @@
               <div class="flex items-start gap-5">
                 <!-- Icon Circle -->
                 <div class="shrink-0 pt-1">
-                  <div class="grid h-[88px] w-[88px] place-items-center rounded-full border border-white/30 bg-white/10 backdrop-blur-sm shadow-inner">
-                    <svg viewBox="0 0 64 64" class="h-12 w-12 opacity-90 drop-shadow-md">
-                      <path
-                        fill="currentColor"
-                        d="M32 6c10 0 18 11 18 26S42 58 32 58 14 47 14 32 22 6 32 6Zm0 6c-6.6 0-12 9-12 20s5.4 20 12 20 12-9 12-20-5.4-20-12-20Z"
-                      />
-                    </svg>
+                  <div class="grid h-[88px] w-[88px] place-items-center rounded-full border border-white/30 bg-white/10 backdrop-blur-sm shadow-inner overflow-hidden">
+                     <!-- Image Asset -->
+                     <img 
+                       :src="getImageUrl(c.img)" 
+                       :alt="c.zh"
+                       class="h-full w-full object-cover opacity-90"
+                     />
                   </div>
                 </div>
 
@@ -108,6 +107,11 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Helper to resolve images from assets folder
+const getImageUrl = (name) => {
+  return new URL(`../assets/${name}`, import.meta.url).href;
+};
+
 const cards = [
   {
     zh: "構樹", 
@@ -115,6 +119,7 @@ const cards = [
     percent: 10,
     gradFrom: "#F5B7FF",
     gradTo: "rgba(0,0,0, 1)",
+    img: "構樹W.png"
   },
   {
     zh: "月桃", 
@@ -122,6 +127,7 @@ const cards = [
     percent: 10,
     gradFrom: "#C8AAFF",
     gradTo: "rgba(0,0,0, 1)",
+    img: "月桃W.png"
   },
   {
     zh: "青剛櫟", 
@@ -129,6 +135,7 @@ const cards = [
     percent: 10,
     gradFrom: "#517ADA",
     gradTo: "rgba(0,0,0, 1)",
+    img: "青剛櫟W.png"
   },
   {
     zh: "小葉桑", 
@@ -136,6 +143,7 @@ const cards = [
     percent: 10,
     gradFrom: "#01B9FF",
     gradTo: "rgba(0,0,0, 1)",
+    img: "小葉桑W.png"
   },
   {
     zh: "五節芒",
@@ -143,6 +151,7 @@ const cards = [
     percent: 75,
     gradFrom: "#6FC8D7",
     gradTo: "rgba(0,0,0, 1)",
+    img: "五節芒W.png"
   },
   {
     zh: "赤榕",
@@ -150,6 +159,7 @@ const cards = [
     percent: 25,
     gradFrom: "#51CCB4",
     gradTo: "rgba(0,0,0, 1)",
+    img: "赤榕W.png"
   },
   {
     zh: "穀穗",
@@ -157,6 +167,7 @@ const cards = [
     percent: 75,
     gradFrom: "#FFF2A6",
     gradTo: "rgba(0,0,0, 1)",
+    img: "穀穗W.png"
   },
   {
     zh: "金草蘭",
@@ -164,6 +175,7 @@ const cards = [
     percent: 100,
     gradFrom: "#FFC3CC",
     gradTo: "rgba(0,0,0, 1)",
+    img: "金草蘭W.png"
   },
 ];
 
@@ -173,24 +185,24 @@ onMounted(() => {
   ctx = gsap.context(() => {
     const cardEls = gsap.utils.toArray(".stack-card");
     const headerOffset = 110; 
-    const stackGap = 45;
+    const stackGap = 35; // User changed this to 35 previously
 
     // Explicitly set initial state INCLUDING blur to enable interpolation from 0px
     gsap.set(cardEls, { 
       filter: "brightness(1) blur(0px)", 
       scale: 1, y: 0 
     });
-    
-    
+
     cardEls.forEach((card, i) => {
       const nextCard = cardEls[i + 1];
       if (!nextCard) return;
-      
+
       const nextCardStickyTop = headerOffset + (i + 1) * stackGap;
       
       gsap.to(card, {
         scale: 0.7 + (0.05 * i), // Smaller scale for deeper cards       
-        filter: "brightness(0.5) blur("+ ( cardEls.length - i ) +"px)", // Target state: Darker + Blurred
+        // Dynamic blur logic user requested:
+        filter: "brightness(0.5) blur("+ ( cardEls.length - i ) +"px)", 
         y: -10,
         transformOrigin: "center top",
         ease: "none",
