@@ -63,7 +63,7 @@
       <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4"></div>
       <div class="my-5 text-center"> 2026 @ No Side</div>
 
-      <LiffProfile />
+      <!-- <LiffProfile /> -->
       
     </div>
 

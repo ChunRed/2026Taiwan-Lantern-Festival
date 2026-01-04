@@ -4,6 +4,7 @@
 
   import ComTest from "../components/com_test.vue";
   import MobileShell from "../components/MobileShell.vue";
+  import ScrollTriggerPlayground from "../components/ScrollTriggerPlayground.vue";
 
   const count  = ref(0);
 
@@ -83,7 +84,7 @@
     </div>
     
     
-
+    <ScrollTriggerPlayground />
     
 </template>
 

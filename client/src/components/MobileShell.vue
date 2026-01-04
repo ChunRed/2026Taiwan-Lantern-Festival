@@ -1,12 +1,26 @@
 <script setup>
+import { onMounted } from "vue";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
 /**
  * MobileShell Component
  * 
  * Enforces a mobile-first layout on all devices.
- * - Desktop: Centers a 390px (iPhone 14/15) frame with shadow and rounded corners.
- * - Mobile (< 420px): Adapts to 100% width, no horizontal scroll.
- * - Handles safe area insets (notch support).
+ * - Sets up GSAP ScrollTrigger to use the inner scrollable container by default.
  */
+
+gsap.registerPlugin(ScrollTrigger);
+
+onMounted(() => {
+  // Tell GSAP to listen to this container instead of the window/body
+  ScrollTrigger.defaults({
+    scroller: "#mobile-scroll-container"
+  });
+  
+  // Refresh to ensure any existing triggers are aware
+  ScrollTrigger.refresh();
+});
 </script>
 
 <template>
@@ -16,6 +30,7 @@
     >
         <!-- Inner Shell: The "Phone" frame -->
         <div 
+            id="mobile-scroll-container"
             class="relative w-full max-w-[430px] h-[90vh] bg-black overflow-y-auto overflow-x-hidden flex flex-col  /* Mobile (Small Screens) overrides: */ max-[500px]:max-w-full max-[500px]:h-[100dvh] max-[500px]:shadow-none max-[500px]:rounded-none border-2 border-gray-700"
         >
             <!-- Safe Area padding wrappers could go here if needed globally, 

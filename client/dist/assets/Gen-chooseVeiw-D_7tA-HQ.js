@@ -1,1 +1,0 @@
-import{_ as e,c as t,o as c}from"./index-D4rd23aq.js";const s={},n={class:"text-white text-center"};function o(r,a){return c(),t("h1",n,"This is an Generative Page")}const i=e(s,[["render",o]]);export{i as default};
