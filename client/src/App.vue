@@ -3,6 +3,7 @@
   import { RouterLink, RouterView, useRoute } from "vue-router";
   import MobileShell from "./components/MobileShell.vue";
   import { motion } from "motion-v";
+  import Modal from "./components/modal.vue"
 
   const isMenuOpen = ref(false);
   const route = useRoute();
@@ -89,5 +90,6 @@
       <!-- Main Content Area -->
       <RouterView />
     </div>
+    <Modal/>
   </MobileShell>
 </template>

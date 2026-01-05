@@ -7,7 +7,6 @@
   import MapPath from "../components/MapPath.vue";
 
   import LiffProfile from "@/components/LiffProfile.vue";
-
   import { motion } from "motion-v"
 
 
@@ -38,7 +37,6 @@
 
           
         <MapPath /> 
-
         </div>
 
       </main>
@@ -68,5 +66,4 @@
     </div>
 
   <!-- </MobileShell> -->
-
 </template>
