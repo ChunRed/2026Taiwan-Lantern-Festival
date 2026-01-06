@@ -16,7 +16,7 @@
 
   <!-- <MobileShell> -->
 
-    <div class="flex flex-col h-full px-6 py-6 text-white font-sans">
+    <div class="flex flex-col h-full px-0 py-6 text-white font-sans">
       
      
 
@@ -25,10 +25,9 @@
 
         <div class="relative w-full max-w-[450px]">
 
-          
           <motion.div
-            :initial="{ opacity: 0, y: 0 }"
-            :animate="{ opacity: 1, y: 0 }"
+            :initial="{ opacity: 0, y: 0, scale: 1.1 }"
+            :animate="{ opacity: 1, y: 0 , scale: 1}"
             :transition="{ duration: 5, delay: 2.8 }"
           >
             <img :src="MapImg" alt="Main Map" class="w-full h-full object-contain" />

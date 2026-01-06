@@ -90,6 +90,6 @@
       <!-- Main Content Area -->
       <RouterView />
     </div>
-    <Modal/>
+    <!-- <Modal/> -->
   </MobileShell>
 </template>
