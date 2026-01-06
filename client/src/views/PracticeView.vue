@@ -6,6 +6,8 @@
   import MobileShell from "../components/MobileShell.vue";
   import ScrollTriggerPlayground from "../components/ScrollTriggerPlayground.vue";
 
+  import MotionPathDemo from "../components/MotionPathDemo.vue"
+
   const count  = ref(0);
 
   //reactive 可被 watch 監聽
@@ -83,8 +85,8 @@
     </motion.div>
     </div>
     
-    
-    <ScrollTriggerPlayground />
+    <MotionPathDemo/>
+
     
 </template>
 
