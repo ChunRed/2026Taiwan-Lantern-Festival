@@ -10,7 +10,10 @@
     onMounted(() => {
   
         gsap.to("#rect3", {
-            duration: 15, 
+            
+            duration: 12, 
+            delay:2,
+
             repeat: 12,
             repeatDelay: 3,
             yoyo: true,
@@ -20,10 +23,15 @@
                 align: "#path3",
                 autoRotate: true,
                 alignOrigin: [0.5, 0.5]
-                }
+                },
+            scale:100,
         });
+        
+        
+
         gsap.to("#rect1", {
-            duration: 20, 
+            duration: 16, 
+            delay:2,
             repeat: 12,
             repeatDelay: 5,
             yoyo: true,
@@ -33,10 +41,12 @@
                 align: "#path1",
                 autoRotate: true,
                 alignOrigin: [0.5, 0.5]
-                }
+                },
+            scale:100,
         });
         gsap.to("#rect4", {
-            duration: 14, 
+            duration: 14,
+            delay:2, 
             repeat: 12,
             repeatDelay: 7,
             yoyo: true,
@@ -46,10 +56,12 @@
                 align: "#path4",
                 autoRotate: true,
                 alignOrigin: [0.5, 0.5]
-                }
+                },
+            scale:100,
         });
         gsap.to("#rect2", {
-            duration: 25, 
+            duration: 14, 
+            delay:2,
             repeat: 12,
             repeatDelay: 1,
             yoyo: true,
@@ -59,10 +71,12 @@
                 align: "#path2",
                 autoRotate: true,
                 alignOrigin: [0.5, 0.5]
-                }
+                },
+            scale:100,
         });
         gsap.to("#rect5", {
             duration: 12, 
+            delay:2,
             repeat: 12,
             repeatDelay: 2,
             yoyo: true,
@@ -72,7 +86,8 @@
                 align: "#path5",
                 autoRotate: true,
                 alignOrigin: [0.5, 0.5]
-                }
+                },
+            scale:100,
         });
     });
 
@@ -92,7 +107,7 @@
         :transition="{ duration: 3, ease: 'easeInOut', delay: 0 }"
         class="blur-[2px]"/>
         <g id="rect1">
-		 <circle ref="dotEl" r="10" fill="white" />
+		 <circle ref="dotEl" r=".1" fill="white" />
 	</g>
     </svg>
 
@@ -111,7 +126,7 @@
         :transition="{ duration: 3, ease: 'easeInOut', delay: 0 }"
         />
         <g id="rect2">
-		 <circle ref="dotEl" r="9" fill="white" />
+		 <circle ref="dotEl" r=".09" fill="white" />
 	</g>
     </svg>
 
@@ -129,8 +144,8 @@
         :animate="{ pathLength: 1 }"
         :transition="{ duration: 3, ease: 'easeInOut', delay: 0 }"
         />
-        <g id="rect3">
-		 <circle ref="dotEl" r="5" fill="white" />
+        <g id="rect3" class="circle3">
+		 <circle ref="dotEl" r=".1" fill="white" />
 	</g>
     </svg>
 
@@ -151,7 +166,7 @@
         :transition="{ duration: 3, ease: 'easeInOut', delay: 0 }"
         />
          <g id="rect5">
-		 <circle ref="dotEl" r="12" fill="white" />
+		 <circle ref="dotEl" r=".12" fill="white" />
 	</g>
     </svg>
 
@@ -172,7 +187,7 @@
         :transition="{ duration: 3, ease: 'easeInOut', delay: 0 }"
         />
         <g id="rect4">
-		 <circle ref="dotEl" r="7" fill="white" />
+		 <circle ref="dotEl" r=".08" fill="white" />
 	</g>
     </svg>
 
