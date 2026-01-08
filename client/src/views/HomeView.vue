@@ -40,7 +40,11 @@
 
       </main>
 
-
+      <motion.div
+            :initial="{ opacity: 0, y: 0 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 5, delay: 5 }"
+          >
       <!-- Footer -->
       <footer class="flex justify-between items-center w-full mt-auto pt-4">
         <div class="text-lg tracking-[0.2em] font-light text-white">地 圖 | M A P</div>
@@ -59,10 +63,12 @@
       <!-- Divider -->
       <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4"></div>
       <div class="my-5 text-center"> 2026 @ No Side</div>
-
+      
+      </motion.div>
       <!-- <LiffProfile /> -->
       
     </div>
+
 
   <!-- </MobileShell> -->
 </template>
