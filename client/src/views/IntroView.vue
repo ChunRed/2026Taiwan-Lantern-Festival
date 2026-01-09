@@ -3,6 +3,8 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import gsap from 'gsap';
 
+import { motion } from "motion-v";
+
 const router = useRouter();
 const containerRef = ref(null);
 
@@ -60,8 +62,25 @@ onMounted(() => {
 
         // Animate Decor Particles (Stacked PNG Layers)
         // Subtle breathing/twinkle effect
-        gsap.to('.particle-layer', {
+        // gsap.fromTo('.particle-layer', {
+        //     opacity: 0,
+        // },{
+        //     opacity: 0.3,
+        //     duration: 2,
+        //     delay:4,
+        // });
+
+        gsap.fromTo('.particle-layer', {
+            opacity: 0,
+        },{
             opacity: 0.3,
+            duration: 1,
+        }).delay(5);
+
+
+
+        gsap.to('.particle-layer', {
+            opacity: 1,
             duration: 2,
             repeat: -1,
             yoyo: true,
@@ -70,7 +89,8 @@ onMounted(() => {
                 amount: 1,
                 from: "random"
             }
-        });
+        }).delay(6);
+
 
         gsap.to('.particle-layer', {
             scale: 1.1,
@@ -106,30 +126,42 @@ onMounted(() => {
                     <img src="@/assets/Intro/I_IconBG.png" alt="Moon Background" class="absolute inset-0 w-full h-full object-contain drop-shadow-[-15px_-6px_10px_rgba(132,160,233,1)]" />
                     
                     <!-- Deer Image -->
+                    <motion.div
+                        :initial="{ opacity: 0, y: 20 }"
+                        :animate="{ opacity: 1, y: 0 }"
+                        :transition="{ duration: 2, delay: 3 }"
+                        class="flex flex-col items-start"
+                    >
                     <img 
                         src="@/assets/Intro/I_deer.svg" 
                         alt="Deer" 
                         class="w-60 h-auto object-contain relative z-20 translate-y-3 drop-shadow-[-6px_5px_4px_rgba(0,0,0,0.6)]"
                     />
+                    </motion.div>
 
-                    <!-- Decor Particles (Stacked PNGs) -->
-                    <!-- Container to center the stacked particles. Size is estimated to cover the spread. -->
+                    <!-- <motion.div
+                        :initial="{ opacity: 0, y: 30 }"
+                        :animate="{ opacity: 1, y: 0 }"
+                        :transition="{ duration: 3, delay: 4 }"
+                    > -->
                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] pointer-events-none z-30 flex items-center justify-center">
-                         <img src="@/assets/Intro/I_particle1.png" class="absolute w-full h-full object-contain particle-layer layer-1" />
-                         <img src="@/assets/Intro/I_particle2.png" class="absolute w-full h-full object-contain particle-layer layer-2" />
-                         <img src="@/assets/Intro/I_particle3.png" class="absolute w-full h-full object-contain particle-layer layer-3" />
+                         <img src="@/assets/Intro/I_particle1.png" class="absolute w-full h-full object-contain particle-layer layer-1 " />
+                         <img src="@/assets/Intro/I_particle2.png" class="absolute w-full h-full object-contain particle-layer layer-2 " />
+                         <img src="@/assets/Intro/I_particle3.png" class="absolute w-full h-full object-contain particle-layer layer-3 " />
                     </div>
+                    <!-- </motion.div> -->
                 </div>
             </div>
-
-            <!-- Floating Orbs (simulating the larger blurred dots in the reference) -->
-            <!-- The PNGs likely contain these dots now, so we can hide the generic CSS orbs or make them very subtle background -->
-            <div class="absolute top-1/3 left-1/4 w-4 h-4 rounded-full bg-purple-300 blur-sm animate-pulse opacity-20"></div>
-            <div class="absolute bottom-1/3 right-1/4 w-6 h-6 rounded-full bg-blue-300 blur-md animate-bounce opacity-20" style="animation-duration: 3s;"></div>
 
         </div>
 
         <!-- Text Section -->
+        <motion.div
+                        :initial="{ opacity: 0, y: 0 }"
+                        :animate="{ opacity: 1, y: 0 }"
+                        :transition="{ duration: 3, delay: 6 }"
+                        
+                    >
         <div class="relative z-20 space-y-3 mt-20 mb-14 intro-text">
             <p class="text-sm tracking-[0.2em] font-light text-gray-100 drop-shadow-md">
                 一個能夠掌握足夠的山林智慧
@@ -144,6 +176,7 @@ onMounted(() => {
                 也能守護這塊土地與神靈的獵人
             </p>
         </div>
+        </motion.div>
 
         <!-- Navigation Button -->
         <div class="relative z-30 mb-4 intro-btn">
@@ -156,6 +189,7 @@ onMounted(() => {
                 </svg>
             </button>
         </div>
+        
     </div>
 </template>
 

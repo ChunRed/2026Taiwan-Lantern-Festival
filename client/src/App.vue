@@ -1,11 +1,13 @@
 <script setup>
-  import { ref, watch } from "vue";
+  import { ref, watch, onMounted } from "vue";
   import { RouterLink, RouterView, useRoute } from "vue-router";
   import MobileShell from "./components/MobileShell.vue";
+  import LoadingPage from "./components/LoadingPage.vue";
   import { motion } from "motion-v";
   import Modal from "./components/modal.vue"
 
   const isMenuOpen = ref(false);
+  const isLoading = ref(true);
   const route = useRoute();
 
   // Close menu when route changes
@@ -16,10 +18,41 @@
   const toggleMenu = () => {
     isMenuOpen.value = !isMenuOpen.value;
   };
+
+  onMounted(() => {
+    const handleLoad = () => {
+      // Small delay to ensure smooth transition
+      setTimeout(() => {
+        isLoading.value = false;
+      }, 3000);
+    };
+
+    if (document.readyState === "complete") {
+      handleLoad();
+    } else {
+      window.addEventListener("load", handleLoad);
+    }
+    
+    // Safety timeout
+    setTimeout(() => {
+      isLoading.value = false;
+    }, 5000);
+  });
 </script>
 
 <template>
   <MobileShell>
+    <transition
+      enter-active-class="transition duration-500 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition duration-500 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <LoadingPage v-if="isLoading" />
+    </transition>
+
     <div class="flex flex-col h-full px-6 py-6 text-white font-sans relative">
       
       <!-- Header -->
@@ -31,7 +64,7 @@
             class="flex flex-col items-start"
           >
 
-          <RouterLink to="/" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">
+          <RouterLink to="/home" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">
             <h1 class="text-2xl font-bold tracking-[0.3em] mb-1">逐 鹿 光 溯 源</h1>
             <p class="text-[0.6rem] text-gray-300 font-light tracking-wide">Chasing Light, Reflecting Deer in the Grass</p>
           </RouterLink>
@@ -76,7 +109,7 @@
           v-if="isMenuOpen" 
           class="fixed inset-0 bg-black/95 z-40 flex flex-col justify-center items-center gap-8 backdrop-blur-sm"
         >
-          <RouterLink to="/" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">HOME</RouterLink>
+          <RouterLink to="/home" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">HOME</RouterLink>
           <RouterLink to="/library" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">圖鑑</RouterLink>
           <RouterLink to="/gen-choose" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">生成</RouterLink>
           <RouterLink to="/practice" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">PRACTICE</RouterLink>
