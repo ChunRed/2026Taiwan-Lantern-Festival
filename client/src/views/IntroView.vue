@@ -123,7 +123,7 @@ onMounted(() => {
                 <!-- Main Moon Circle -->
                 <div class="relative w-40 h-40 flex items-center justify-center">
                     <!-- Background Image -->
-                    <img src="@/assets/Intro/I_IconBG.png" alt="Moon Background" class="absolute inset-0 w-full h-full object-contain drop-shadow-[-15px_-6px_10px_rgba(132,160,233,1)]" />
+                    <img src="@/assets/Intro/I_IconBG.png" alt="Moon Background" class="absolute inset-0 w-full h-full object-contain drop-shadow-[-8px_-4px_5px_rgba(132,160,233,1)]" />
                     
                     <!-- Deer Image -->
                     <motion.div

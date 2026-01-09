@@ -43,6 +43,12 @@ const router = createRouter({
       component: () => import('../views/LineInfoView.vue'),
     },
 
+    {
+      path: '/haengu',
+      name: 'haengu',
+      component: () => import('../views/HaenguView.vue'),
+    },
+
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('../views/404View.vue') },
 
 

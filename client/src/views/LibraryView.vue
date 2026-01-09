@@ -14,14 +14,14 @@
       </div>
 
       <!-- 卡片 stacking 區塊 -->
-      <main class="relative px-1 pb-48">
+      <main class="relative px-1 pb-10">
         <!-- Card Loop -->
         <article
           v-for="(c, i) in cards"
           :key="c.zh"
-          class="stack-card sticky mb-8 overflow-hidden rounded-[32px] border border-white/10 shadow-2xl origin-top"
+          class="stack-card sticky mb-8 overflow-hidden rounded-[20px] border border-white/10 shadow-2xl origin-top"
           :style="{ 
-             top: `calc(110px + ${i * 30}px)`,
+             top: `calc(30px + ${i * 74}px)`,
              zIndex: i + 1,
              willChange: 'transform, filter'
           }"
@@ -29,15 +29,15 @@
             <!-- Background -->
             <div 
               class="absolute inset-0 z-0 transition-transform duration-700" 
-              :style="{ background: `linear-gradient(180deg, ${c.gradFrom} 0%, ${c.gradTo} 80%, #111 100%)` }"
+              :style="{ background: `linear-gradient(180deg, ${c.gradFrom} 0%, ${c.gradTo} 50%)` }"
             ></div>
             
             <!-- Content -->
-            <div class="relative z-10 flex min-h-[180px] flex-col p-6">
+            <div class="relative z-10 flex min-h-[180px] flex-col p-4">
               <div class="flex items-start gap-5">
                 <!-- Icon Circle -->
                 <div class="shrink-0 pt-1">
-                  <div class="grid h-[88px] w-[88px] place-items-center rounded-full border border-white/30 bg-white/10 backdrop-blur-sm shadow-inner overflow-hidden">
+                  <div class="grid h-[55px] w-[55px] place-items-center rounded-full border border-white/30 bg-white/10 backdrop-blur-sm shadow-inner overflow-hidden">
                      <!-- Image Asset -->
                      <img 
                        :src="getImageUrl(c.img)" 
@@ -50,21 +50,35 @@
                 <!-- Text Info -->
                 <div class="flex-1">
                   <div class="flex items-start justify-between">
-                    <h2 class="text-[26px] font-bold tracking-[0.4em] text-white drop-shadow-md">
+                    <h2 class="text-[18px] font-bold tracking-[1.2em] text-white drop-shadow-md">
                       {{ c.zh }}
                     </h2>
                     <!-- Arrow Btn -->
-                    <div class="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5">
-                      <span class="text-lg leading-none text-white/70">›</span>
-                    </div>
+                    <!-- <div class="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-white/5">
+                      
+                    </div> -->
+                      <RouterLink to="/haengu" class="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-white/5">
+                      <span class="text-lg leading-none text-white/70">
+                        ›
+                      </span>
+                    </RouterLink>
                   </div>
 
-                  <p class="mt-1 text-base tracking-wider text-white/80 italic font-serif">
+
+                  
+
+
+
+
+
+
+
+                  <p class="mt-2 text-base tracking-wider text-white/80 italic font-serif">
                     {{ c.en }}
                   </p>
 
                   <!-- Badge -->
-                  <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/20 px-3 py-1 backdrop-blur-md">
+                  <div class="mt-2 inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/20 px-3 py-1 backdrop-blur-md">
                    <div class="h-1.5 w-1.5 rounded-full bg-white"></div>
                    <span class="text-xs font-bold text-white">{{ c.percent }}%</span>
                   </div>
@@ -72,7 +86,7 @@
               </div>
 
               <!-- Legend -->
-              <div class="mt-8 rounded-2xl border border-white/10 bg-black/10 p-5 backdrop-blur-md">
+              <div class="mt-3 rounded-2xl border border-white/10 bg-black/10 p-5 backdrop-blur-md">
                   <div class="mb-2 flex justify-between text-[10px] font-medium tracking-widest text-white/50 uppercase">
                     <span>Maturity</span>
                     <span>Collection</span>
@@ -84,24 +98,33 @@
 
                   <div class="mt-4 flex justify-between text-center">
                      <div v-for="step in [25, 50, 75, 100]" :key="step" class="flex flex-col items-center gap-1">
-                        <div class="h-10 w-10 rounded-full border border-white/20 bg-white/5 transition hover:bg-white/10 hover:scale-110"></div>
-                        <span class="text-[10px] text-white/40">{{ step }}%</span>
+                        <div class="h-10 w-10 rounded-full border border-white/60 bg-white/5 transition hover:bg-white/50 hover:scale-110"></div>
+                        <span class="text-[10px] text-white/80">{{ step }}%</span>
                      </div>
                   </div>
               </div>
             </div>
         </article>
       </main>
+      <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4 mt-2"></div>
+        <div class="mt-150 mb-50 text-white">2026</div>
+        <div class="mt-150 mb-50 text-white">2026</div>
+        <div class="mt-150 mb-50 text-white">2026</div>
+        <div class="mt-150 mb-50 text-white">2026</div>
+        <div class="mt-150 mb-50 text-white">2026</div>
+        <div class="mt-150 mb-50 text-white">2026</div>
 
-       <!-- Footer Spacer / Hint -->
-       <div class="pointer-events-none fixed bottom-0 left-0 right-0 z-50 h-32 bg-gradient-to-t from-black via-black/80 to-transparent" />
+       <!-- Footer Spacer / Hint
+       <div class="pointer-events-none fixed bottom-0 mt-90 left-0 right-0 z-50 h-32 bg-gradient-to-t from-black via-black/80 to-transparent" ></div>-->
        
     </div>
   </div>
+
 </template>
 
 <script setup>
 import { onMounted, onUnmounted } from "vue";
+import { RouterLink} from "vue-router";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
@@ -151,7 +174,8 @@ const cards = [
     percent: 75,
     gradFrom: "#6FC8D7",
     gradTo: "rgba(0,0,0, 1)",
-    img: "五節芒W.png"
+    img: "五節芒W.png",
+    link: "HeanguView.vue"
   },
   {
     zh: "赤榕",
@@ -200,9 +224,9 @@ onMounted(() => {
       const nextCardStickyTop = headerOffset + (i + 1) * stackGap;
       
       gsap.to(card, {
-        scale: 0.7 + (0.05 * i), // Smaller scale for deeper cards       
+        scale: 0.9 + (0.01 * i), // Smaller scale for deeper cards       
         // Dynamic blur logic user requested:
-        filter: "brightness(0.5) blur("+ ( cardEls.length - i ) +"px)", 
+        filter: "brightness(0.7) ", 
         y: -10,
         transformOrigin: "center top",
         ease: "none",
