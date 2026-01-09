@@ -1,0 +1,82 @@
+[
+    {
+        "nameZh": "構樹",
+        "id": "Broussonetia papyrifera",
+        "title": "樹皮布文化的源頭",
+        "subtitle": "Origin of Bark Cloth Culture",
+        "nameEn": "Broussonetia papyrifera",
+        "description": "構樹在南島語族遷徙歷史中具有重要地位，其樹皮是製作樹皮布（Tapa）的主要原料。透過DNA分析，證實了台灣是南島語族的起源地之一。構樹不僅是實用的材料，更承載著跨越海洋的文化記憶，連結著太平洋島嶼的歷史脈絡。",
+        "themeColor": "#F5B7FF",
+        "image": "構樹.png"
+    },
+    {
+        "nameZh": "月桃",
+        "id": "Alpinia katsumadai",
+        "title": "強韌生命力的象徵",
+        "subtitle": "Symbol of Resilient Vitality",
+        "nameEn": "Alpinia katsumadai",
+        "description": "月桃廣泛分布於台灣低海拔山區，其強韌的纖維常被用於編織工藝，象徵著原住民族的編織文化與生活智慧。在傳統祭儀中，月桃亦扮演重要角色，具有驅邪納福之意。其花朵盛開時如串串珍珠，果實成熟時轉為鮮紅，展現四季更迭的生命力。",
+        "themeColor": "#C8AAFF",
+        "image": "月桃.png"
+    },
+    {
+        "nameZh": "青剛櫟",
+        "id": "Quercus glauca",
+        "title": "生態復甦的守望者",
+        "subtitle": "Guardian of Ecological Revival",
+        "nameEn": "Quercus glauca",
+        "description": "梅花鹿會經因人為活動而銳減，卻在近代復育中逐漸回歸山林。牠象徵自然自我療癒的能力，也成為守望者般的存在，提醒人們生態修復與土地保護的責任。鹿的再現，不僅是族群記憶的回歸，更是一種關於永續與希望的見證。",
+        "themeColor": "#517ADA",
+        "image": "青剛櫟.png"
+    },
+    {
+        "nameZh": "小葉桑",
+        "id": "Morus australis",
+        "title": "生態復甦的守望者",
+        "subtitle": "Guardian of Ecological Revival",
+        "nameEn": "Morus australis",
+        "description": "梅花鹿會經因人為活動而銳減，卻在近代復育中逐漸回歸山林。牠象徵自然自我療癒的能力，也成為守望者般的存在，提醒人們生態修復與土地保護的責任。鹿的再現，不僅是族群記憶的回歸，更是一種關於永續與希望的見證。",
+        "themeColor": "#01B9FF",
+        "image": "小葉桑.png"
+    },
+    {
+        "nameZh": "五節芒",
+        "id": "Haengu",
+        "title": "生態復甦的守望者",
+        "subtitle": "Guardian of Ecological Revival",
+        "nameEn": "Haengu",
+        "description": "梅花鹿會經因人為活動而銳減，卻在近代復育中逐漸回歸山林。牠象徵自然自我療癒的能力，也成為守望者般的存在，提醒人們生態修復與土地保護的責任。鹿的再現，不僅是族群記憶的回歸，更是一種關於永續與希望的見證。",
+        "themeColor": "#6FC8D7",
+        "image": "五節芒.png"
+    },
+    {
+        "nameZh": "赤榕",
+        "id": "Ficus subpisocarpa",
+        "title": "生態復甦的守望者",
+        "subtitle": "Guardian of Ecological Revival",
+        "nameEn": "Ficus subpisocarpa",
+        "description": "梅花鹿會經因人為活動而銳減，卻在近代復育中逐漸回歸山林。牠象徵自然自我療癒的能力，也成為守望者般的存在，提醒人們生態修復與土地保護的責任。鹿的再現，不僅是族群記憶的回歸，更是一種關於永續與希望的見證。",
+        "themeColor": "#51CCB4",
+        "image": "赤榕.png"
+    },
+    {
+        "nameZh": "穀穗",
+        "id": "Oryza sativa",
+        "title": "生態復甦的守望者",
+        "subtitle": "Guardian of Ecological Revival",
+        "nameEn": "Oryza sativa",
+        "description": "梅花鹿會經因人為活動而銳減，卻在近代復育中逐漸回歸山林。牠象徵自然自我療癒的能力，也成為守望者般的存在，提醒人們生態修復與土地保護的責任。鹿的再現，不僅是族群記憶的回歸，更是一種關於永續與希望的見證。",
+        "themeColor": "#FFF2A6",
+        "image": "穀穗.png"
+    },
+    {
+        "nameZh": "金草蘭",
+        "id": "Cymbidium kanran",
+        "title": "生態復甦的守望者",
+        "subtitle": "Guardian of Ecological Revival",
+        "nameEn": "Cymbidium kanran",
+        "description": "梅花鹿會經因人為活動而銳減，卻在近代復育中逐漸回歸山林。牠象徵自然自我療癒的能力，也成為守望者般的存在，提醒人們生態修復與土地保護的責任。鹿的再現，不僅是族群記憶的回歸，更是一種關於永續與希望的見證。",
+        "themeColor": "#FFC3CC",
+        "image": "金草蘭.png"
+    }
+]

@@ -53,25 +53,13 @@
                     <h2 class="text-[18px] font-bold tracking-[1.2em] text-white drop-shadow-md">
                       {{ c.zh }}
                     </h2>
-                    <!-- Arrow Btn -->
-                    <!-- <div class="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-white/5">
-                      
-                    </div> -->
-                      <RouterLink to="/haengu" class="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-white/5">
+
+                      <RouterLink :to="{ path: '/information', query: { id: c.id } }" class="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-white/5">
                       <span class="text-lg leading-none text-white/70">
                         ›
                       </span>
                     </RouterLink>
                   </div>
-
-
-                  
-
-
-
-
-
-
 
                   <p class="mt-2 text-base tracking-wider text-white/80 italic font-serif">
                     {{ c.en }}
@@ -139,6 +127,7 @@ const cards = [
   {
     zh: "構樹", 
     en: "Broussonetia papyrifera",
+    id: "Broussonetia papyrifera",
     percent: 10,
     gradFrom: "#F5B7FF",
     gradTo: "rgba(0,0,0, 1)",
@@ -147,6 +136,7 @@ const cards = [
   {
     zh: "月桃", 
     en: "Alpinia katsumadai",
+    id: "Alpinia katsumadai",
     percent: 10,
     gradFrom: "#C8AAFF",
     gradTo: "rgba(0,0,0, 1)",
@@ -155,6 +145,7 @@ const cards = [
   {
     zh: "青剛櫟", 
     en: "Quercus glauca",
+    id: "Quercus glauca",
     percent: 10,
     gradFrom: "#517ADA",
     gradTo: "rgba(0,0,0, 1)",
@@ -163,6 +154,7 @@ const cards = [
   {
     zh: "小葉桑", 
     en: "Morus australis",
+    id: "Morus australis",
     percent: 10,
     gradFrom: "#01B9FF",
     gradTo: "rgba(0,0,0, 1)",
@@ -171,6 +163,7 @@ const cards = [
   {
     zh: "五節芒",
     en: "Haengu",
+    id: "Haengu",
     percent: 75,
     gradFrom: "#6FC8D7",
     gradTo: "rgba(0,0,0, 1)",
@@ -180,6 +173,7 @@ const cards = [
   {
     zh: "赤榕",
     en: "Ficus subpisocarpa",
+    id: "Ficus subpisocarpa",
     percent: 25,
     gradFrom: "#51CCB4",
     gradTo: "rgba(0,0,0, 1)",
@@ -188,6 +182,7 @@ const cards = [
   {
     zh: "穀穗",
     en: "Oryza sativa",
+    id: "Oryza sativa",
     percent: 75,
     gradFrom: "#FFF2A6",
     gradTo: "rgba(0,0,0, 1)",
@@ -195,7 +190,8 @@ const cards = [
   },
   {
     zh: "金草蘭",
-    en: "Cymbidium kanran",
+    en: "Cymbidium kanran", 
+    id: "Cymbidium kanran",
     percent: 100,
     gradFrom: "#FFC3CC",
     gradTo: "rgba(0,0,0, 1)",

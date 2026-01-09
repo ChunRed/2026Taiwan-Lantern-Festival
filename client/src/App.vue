@@ -4,6 +4,7 @@
   import MobileShell from "./components/MobileShell.vue";
   import LoadingPage from "./components/LoadingPage.vue";
   import { motion } from "motion-v";
+  import IconStroll from "./components/IconStroll.vue"
   import Modal from "./components/modal.vue"
 
   const isMenuOpen = ref(false);
@@ -41,7 +42,7 @@
 </script>
 
 <template>
-  <MobileShell>
+  <MobileShell >
     <transition
       enter-active-class="transition duration-500 ease-out"
       enter-from-class="opacity-0"
@@ -53,10 +54,12 @@
       <LoadingPage v-if="isLoading" />
     </transition>
 
-    <div class="flex flex-col h-full px-6 py-6 text-white font-sans relative">
+    
+
+    <div class="flex flex-col h-full px-6 py-6 text-white font-sans relative ">
       
       <!-- Header -->
-      <header class="flex justify-between items-center w-full mb-2 z-50 relative">
+      <header class="flex justify-between items-center w-full mb-2 z-50 relative ">
         <motion.div
             :initial="{ opacity: 0, y: 20 }"
             :animate="{ opacity: 1, y: 0 }"
@@ -118,10 +121,13 @@
       </transition>
 
        <!-- Divider -->
-      <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4 mt-5"></div>
+      <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4 mt-1 z-20"></div>
 
       <!-- Main Content Area -->
+      <IconStroll v-if="route.name === 'information'" />
       <RouterView />
+      <div class="absolute top-0 left-0 w-full h-[108px] bg-[rgb(0,0,0,0.3)] backdrop-blur-sm"></div>
+      
     </div>
     <!-- <Modal/> -->
   </MobileShell>

@@ -123,7 +123,7 @@ onMounted(() => {
                 <!-- Main Moon Circle -->
                 <div class="relative w-40 h-40 flex items-center justify-center">
                     <!-- Background Image -->
-                    <img src="@/assets/Intro/I_IconBG.png" alt="Moon Background" class="absolute inset-0 w-full h-full object-contain drop-shadow-[-8px_-4px_5px_rgba(132,160,233,1)]" />
+                    <img src="@/assets/Intro/I_IconBG.png" alt="Moon Background" class="absolute inset-0 w-full h-full object-contain blur-sm" />
                     
                     <!-- Deer Image -->
                     <motion.div
@@ -133,9 +133,9 @@ onMounted(() => {
                         class="flex flex-col items-start"
                     >
                     <img 
-                        src="@/assets/Intro/I_deer.svg" 
+                        src="@/assets/Intro/I_deer.png" 
                         alt="Deer" 
-                        class="w-60 h-auto object-contain relative z-20 translate-y-3 drop-shadow-[-6px_5px_4px_rgba(0,0,0,0.6)]"
+                        class="w-32 h-auto object-contain relative z-20 translate-y-3 drop-shadow-[-6px_5px_4px_rgba(0,0,0,0.6)]"
                     />
                     </motion.div>
 

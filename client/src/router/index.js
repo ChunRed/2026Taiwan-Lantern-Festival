@@ -44,9 +44,9 @@ const router = createRouter({
     },
 
     {
-      path: '/haengu',
-      name: 'haengu',
-      component: () => import('../views/HaenguView.vue'),
+      path: '/information',
+      name: 'information',
+      component: () => import('../views/DeerInformationView.vue'),
     },
 
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('../views/404View.vue') },

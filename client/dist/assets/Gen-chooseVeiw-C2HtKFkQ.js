@@ -1,0 +1,1 @@
+import{_ as e,c as t,e as c}from"./index-Brs6wN7l.js";const s={},n={class:"text-white text-center"};function o(r,a){return c(),t("h1",n,"This is an Generative Page")}const i=e(s,[["render",o]]);export{i as default};
