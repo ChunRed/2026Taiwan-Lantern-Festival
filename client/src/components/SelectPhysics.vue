@@ -298,6 +298,8 @@ onMounted(() => {
   buildWorld();
 });
 
+
+
 onBeforeUnmount(() => {
   teardown();
 });
