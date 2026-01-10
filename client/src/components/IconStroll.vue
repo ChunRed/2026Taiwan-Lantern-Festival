@@ -29,7 +29,7 @@
                     opacity: 0.2,
                     y:-100,
                     scrollTrigger: {
-                        trigger: ".icon1",
+                        trigger: ".Layer",
                         scroller: "#mobile-scroll-container",
                         start: "top top", 
                         end: "+=300",
@@ -42,7 +42,7 @@
                     opacity: 0.2,
                     y:100,
                     scrollTrigger: {
-                        trigger: ".icon1",
+                        trigger: ".Layer",
                         scroller: "#mobile-scroll-container",
                         start: "top top", 
                         end: "+=300",
@@ -73,7 +73,7 @@
 
 
 <template>
-    <div class="absolute w-full h-full left-0 top-0">
+    <div class="Layer absolute w-full h-full left-0 top-0">
         
         <!-- Fixed Background Images -->
         <div class=" absolute inset-x-0 top-0 h-screen sticky pointer-events-none z-0 overflow-hidden">

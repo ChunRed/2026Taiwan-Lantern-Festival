@@ -6,7 +6,9 @@
   import MobileShell from "../components/MobileShell.vue";
   import ScrollTriggerPlayground from "../components/ScrollTriggerPlayground.vue";
 
-  import MotionPathDemo from "../components/MotionPathDemo.vue"
+  import MotionPathDemo from "../components/MotionPathDemo.vue";
+  import TwoBallsPhysics from "../components/TwoBallsPhysics.vue";
+  import SelectPhysics from "../components/SelectPhysics.vue";
 
   const count  = ref(0);
 
@@ -86,6 +88,9 @@
     </div>
     
     <MotionPathDemo/>
+
+    <TwoBallsPhysics/>
+    <SelectPhysics class="mt-10" />
 
     
 </template>
