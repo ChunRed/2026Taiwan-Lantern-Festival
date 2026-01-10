@@ -1,25 +1,11 @@
 <template>
   <div class="w-full">
-    <!-- 控制列：在白色互動視窗外 -->
-    <div class="mb-3 flex items-center justify-between">
-      <div class="text-sm text-white">
-        球數：<span class="font-medium text-white">{{ ballCount }}</span> / {{ MAX_BALLS }}
-      </div>
-
-      <div class="flex gap-2">
-        <button
-          type="button"
-          class="px-3 py-1.5 text-sm rounded-lg border border-slate-200 bg-white hover:bg-slate-50 active:scale-[0.99]
-                 disabled:opacity-50 disabled:cursor-not-allowed"
-          :class="limitPulse ? 'animate-[limitShake_.35s_ease-in-out]' : ''"
-          @click="handleAddBall"
-          :disabled="!ready"
-        >
-          <span v-if="ballCount < MAX_BALLS " class="text-black">新增球</span>
-          <span v-else class="text-black inline-flex items-center gap-2">
-            已達上限
-          </span>
-        </button>
+    <!-- 控制列：8 個 Toggle（在互動視窗外） -->
+    <div class="mb-3 flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <div class="text-sm text-white">
+          球數：<span class="font-medium text-white">{{ ballCount }}</span> / {{ MAX_BALLS }}
+        </div>
 
         <button
           type="button"
@@ -28,13 +14,42 @@
           @click="resetAll"
           :disabled="ballCount === 0 || !ready"
         >
-          重置
+          重置歸零
+        </button>
+      </div>
+
+      <!-- 8 個 Toggle -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <button
+          v-for="i in MAX_BALLS"
+          :key="i"
+          type="button"
+          @click="toggleBall(i - 1)"
+          :disabled="!ready"
+          class="relative flex items-center justify-between px-3 py-2 rounded-lg border text-sm transition
+                 disabled:opacity-50 disabled:cursor-not-allowed"
+          :class="toggles[i-1]
+            ? 'bg-white text-black border-white/50'
+            : 'bg-black text-white border-white/20 hover:border-white/40'"
+        >
+          <span class="font-medium">Toggle {{ i }}</span>
+
+          <!-- 右側小指示燈 -->
+          <span
+            class="ml-3 inline-flex items-center gap-2"
+          >
+            <span
+              class="h-2.5 w-2.5 rounded-full"
+              :class="toggles[i-1] ? 'bg-emerald-400' : 'bg-white/30'"
+            />
+            <span class="text-xs opacity-80">{{ toggles[i-1] ? 'ON' : 'OFF' }}</span>
+          </span>
         </button>
       </div>
     </div>
 
-    <!-- 白色互動視窗：只放物理場景 -->
-    <div class="relative w-full h-[200px] rounded-xl border border-white border-slate-200 bg-black overflow-hidden">
+    <!-- 互動視窗 -->
+    <div class="relative w-full h-[200px] rounded-xl border border-white/30 bg-black overflow-hidden">
       <div ref="sceneEl" class="w-full h-full"></div>
     </div>
   </div>
@@ -44,43 +59,42 @@
 import { onMounted, onBeforeUnmount, ref } from "vue";
 import * as Matter from "matter-js";
 
-/** ✅ 你要的上限 */
-const MAX_BALLS = 5;
+const MAX_BALLS = 8;
 
-/** ✅ 每顆球的「半徑」用 array 記錄（可自行調整） */
-const ballRadii = [26, 40, 22, 34, 58]; // 0~4 對應第 1~5 顆球
+/** 每顆球半徑（index 0~7 對應 Toggle 1~8） */
+const ballRadii = [26, 30, 22, 34, 48, 20, 10, 35];
 
-/**
- * ✅ 球的貼圖（你提供的兩張圖）
- * 請把檔案放在：src/assets/青剛櫟.png、src/assets/月桃.png
- * 若你放不同資料夾/不同檔名，改這裡即可
- */
-const tex1 = new URL("../assets/青剛櫟.png", import.meta.url).href;
+/** 每顆球貼圖（index 0~7 對應 Toggle 1~8） */
+const tex1 = new URL("../assets/構樹.png", import.meta.url).href;
 const tex2 = new URL("../assets/月桃.png", import.meta.url).href;
-const tex3 = new URL("../assets/五節芒.png", import.meta.url).href;
-const tex4 = new URL("../assets/赤榕.png", import.meta.url).href;
-const tex5 = new URL("../assets/金草蘭.png", import.meta.url).href;
+const tex3 = new URL("../assets/青剛櫟.png", import.meta.url).href;
+const tex4 = new URL("../assets/小葉桑.png", import.meta.url).href;
+const tex5 = new URL("../assets/五節芒.png", import.meta.url).href;
+const tex6 = new URL("../assets/赤榕.png", import.meta.url).href;
+const tex7 = new URL("../assets/穀穗.png", import.meta.url).href;
+const tex8 = new URL("../assets/金草蘭.png", import.meta.url).href;
 
-/** ✅ 你只有兩張圖，所以我用 pattern 重複到 5 顆 */
-const ballTextures = [
-  tex1,
-  tex2,
-  tex3,
-  tex4,
-  tex5
-];
+const ballTextures = [tex1, tex2, tex3, tex4, tex5, tex6, tex7, tex8];
 
-/** 你的圖片邊長（你給的圖是 512；其中一張是 512x511 也可當 512） */
+/** 你的圖片邊長（你提供的 icon 是 512 左右） */
 const textureBaseSize = 512;
 
 const sceneEl = ref(null);
-const ballCount = ref(0);
 const ready = ref(false);
-const limitPulse = ref(false);
+const ballCount = ref(0);
+
+/** 8 個 toggle 狀態 */
+const toggles = ref(Array.from({ length: MAX_BALLS }, () => false));
+
+/**
+ * 用 map 記錄「每個 index 對應的 Matter body」
+ * - key: 0~7
+ * - value: Body
+ */
+const ballByIndex = new Map();
 
 let engine, render, runner;
 let walls = [];
-let balls = [];
 let mouseConstraint = null;
 
 function buildWorld() {
@@ -110,7 +124,7 @@ function buildWorld() {
     },
   });
 
-  // Walls（避免球飛出去）
+  // Walls
   const t = 60;
   const wallOpts = { isStatic: true, render: { visible: false } };
   walls = [
@@ -121,7 +135,7 @@ function buildWorld() {
   ];
   World.add(engine.world, walls);
 
-  // 滑鼠拖曳
+  // Mouse drag
   const mouse = Mouse.create(render.canvas);
   mouseConstraint = MouseConstraint.create(engine, {
     mouse,
@@ -154,27 +168,36 @@ function teardown() {
 
   engine = render = runner = null;
   walls = [];
-  balls = [];
   mouseConstraint = null;
 
+  // 清球狀態
+  ballByIndex.clear();
+  toggles.value = Array.from({ length: MAX_BALLS }, () => false);
   ballCount.value = 0;
 }
 
-/** ✅ 找不重疊生成位置（會考慮新球半徑 + 既有球半徑） */
+function updateBallCount() {
+  ballCount.value = ballByIndex.size;
+}
+
+/** 找不重疊位置：會避開目前所有存在的球 */
 function findNonOverlappingPosition(newR) {
   const w = sceneEl.value.clientWidth;
   const h = sceneEl.value.clientHeight;
 
-  const margin = newR + 10; // 離牆的安全距離
-  const gap = 8;            // 球與球的最小間隙
-  const tries = 80;         // 嘗試次數
+  const margin = newR + 10;
+  const gap = 8;
+  const tries = 120;
+
+  // 目前存在的球 bodies
+  const existingBodies = Array.from(ballByIndex.values());
 
   for (let k = 0; k < tries; k++) {
     const x = margin + Math.random() * (w - margin * 2);
     const y = margin + Math.random() * (h - margin * 2);
 
     let ok = true;
-    for (const b of balls) {
+    for (const b of existingBodies) {
       const rb = b.circleRadius || newR;
       const dx = x - b.position.x;
       const dy = y - b.position.y;
@@ -192,35 +215,16 @@ function findNonOverlappingPosition(newR) {
   return null;
 }
 
-function handleAddBall() {
-  if (!ready.value) return;
-
-  if (ballCount.value >= MAX_BALLS) {
-    // ✅ 上限提示動畫
-    limitPulse.value = false;
-    requestAnimationFrame(() => {
-      limitPulse.value = true;
-      setTimeout(() => (limitPulse.value = false), 380);
-    });
-    return;
-  }
-
-  addBall();
-}
-
-function addBall() {
+function createBallByIndex(idx) {
   const { Bodies, Body, World } = Matter;
 
-  const idx = ballCount.value; // 0~4
   const r = ballRadii[idx] ?? 28;
-
   const pos = findNonOverlappingPosition(r);
   if (!pos) {
-    console.warn("No space to spawn a new ball (non-overlapping).");
-    return;
+    console.warn(`No space to spawn ball #${idx + 1} (non-overlapping).`);
+    return null;
   }
 
-  // ✅ 讓 sprite 貼圖大小 = 球直徑
   const scale = (2 * r) / textureBaseSize;
 
   const ball = Bodies.circle(pos.x, pos.y, r, {
@@ -230,7 +234,7 @@ function addBall() {
     density: 0.002,
     render: {
       sprite: {
-        texture: ballTextures[idx] || texOak,
+        texture: ballTextures[idx],
         xScale: scale,
         yScale: scale,
       },
@@ -238,23 +242,56 @@ function addBall() {
   });
 
   World.add(engine.world, ball);
-  balls.push(ball);
-  ballCount.value = balls.length;
 
-  // ✅ 給初速度（避免完全靜止）
-  const vx = (Math.random() > 0.5 ? 1 : -1) * (4 + Math.random() * 3);
+  // 初速度，讓它有生命感
+  const vx = (Math.random() > 0.5 ? 1 : -1) * (3 + Math.random() * 3);
   const vy = (Math.random() > 0.5 ? 1 : -1) * (1 + Math.random() * 2);
   Body.setVelocity(ball, { x: vx, y: vy });
+
+  return ball;
+}
+
+function removeBallByIndex(idx) {
+  const { World } = Matter;
+  const body = ballByIndex.get(idx);
+  if (!body) return;
+
+  World.remove(engine.world, body);
+  ballByIndex.delete(idx);
+}
+
+function toggleBall(idx) {
+  if (!ready.value) return;
+
+  const next = !toggles.value[idx];
+
+  if (next) {
+    // ON：若尚未存在就建立
+    if (!ballByIndex.has(idx)) {
+      const ball = createBallByIndex(idx);
+      if (!ball) return; // 找不到空位就不切 ON
+      ballByIndex.set(idx, ball);
+    }
+    toggles.value[idx] = true;
+  } else {
+    // OFF：移除
+    removeBallByIndex(idx);
+    toggles.value[idx] = false;
+  }
+
+  updateBallCount();
 }
 
 function resetAll() {
   if (!ready.value) return;
 
-  const { World } = Matter;
-
-  for (const b of balls) World.remove(engine.world, b);
-  balls = [];
-  ballCount.value = 0;
+  // 全部 OFF + 移除所有球
+  for (let i = 0; i < MAX_BALLS; i++) {
+    removeBallByIndex(i);
+  }
+  ballByIndex.clear();
+  toggles.value = Array.from({ length: MAX_BALLS }, () => false);
+  updateBallCount();
 }
 
 onMounted(() => {
@@ -265,13 +302,3 @@ onBeforeUnmount(() => {
   teardown();
 });
 </script>
-
-<style>
-@keyframes limitShake {
-  0%   { transform: translateX(0); }
-  25%  { transform: translateX(-4px); }
-  50%  { transform: translateX(4px); }
-  75%  { transform: translateX(-3px); }
-  100% { transform: translateX(0); }
-}
-</style>
