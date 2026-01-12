@@ -126,7 +126,7 @@
       <!-- Main Content Area -->
       <IconStroll v-if="route.name === 'information'" />
       <RouterView />
-      <div class="absolute top-0 left-0 w-full h-[108px] bg-[rgb(0,0,0,0.3)] backdrop-blur-sm"></div>
+      <div class="absolute top-0 left-0 w-full h-[108px] bg-[rgb(0,0,0,0.3)] backdrop-blur-sm z-40"></div>
       
     </div>
     <!-- <Modal/> -->

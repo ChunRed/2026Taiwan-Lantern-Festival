@@ -1,19 +1,23 @@
 <template>
   <div class="w-full">
-    <!-- 控制列：8 個 Toggle（在互動視窗外） -->
-    <!-- <div class="mb-3 flex flex-col gap-2">
-      <div class="flex items-center justify-center">
-        <div class="text-sm text-white">
-          選擇數量：<span class="font-medium text-white">{{ ballCount }}</span> / {{ MAX_BALLS }}
-        </div>
-      </div>
-    </div> -->
 
     <!-- 互動視窗 -->
-    <div class="relative w-[110%] h-[200px]  -ml-5 bg-black overflow-hidden">
+    <div class="relative w-[110%] h-[250px]  -ml-5 bg-black overflow-hidden">
       
       <div ref="sceneEl" class="] ml-5 h-full"></div>
-      <div class="absolute w-[110%] h-12 bottom-0  -ml-5  mt-1 z-20  bg-gradient-to-t from-[#517ADA] to-black-500"></div>
+      <div class="absolute w-[110%] h-24 bottom-0  -ml-5  mt-1 z-20  bg-gradient-to-t from-[#517ADA] to-black-500">
+
+        <!-- Bottom Arrow (Fixed at bottom) -->
+        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex-none z-10">
+
+          <RouterLink to="/gen-show" class="flex h-12 w-12 items-center justify-center rounded-full border border-[#517ADA] bg-black/60">
+            <span class="text-3xl leading-none text-[#517ADA]">
+              ›
+            </span>
+          </RouterLink>
+
+        </div>
+      </div>
     </div>
   </div>
 
@@ -21,6 +25,11 @@
   <!-- Divider -->
       
 </template>
+
+
+
+
+
 
 <script setup>
 import { onMounted, onBeforeUnmount, ref, watchEffect } from "vue";

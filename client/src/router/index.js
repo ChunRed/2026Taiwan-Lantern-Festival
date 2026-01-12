@@ -30,6 +30,11 @@ const router = createRouter({
       name: 'gen-choose',
       component: () => import('../views/Gen-chooseVeiw.vue'),
     },
+    {
+      path: '/gen-show',
+      name: 'gen-show',
+      component: () => import('../views/Gen-ShowView.vue'),
+    },
 
     {
       path: '/practice',

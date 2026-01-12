@@ -8,7 +8,7 @@
 
   import MotionPathDemo from "../components/MotionPathDemo.vue";
   import TwoBallsPhysics from "../components/TwoBallsPhysics.vue";
-  import SelectPhysics from "../components/SelectPhysics.vue";
+  import SelectPhysics from "../components/Gen_select.vue";
 
   const count  = ref(0);
 

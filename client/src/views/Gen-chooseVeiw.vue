@@ -1,12 +1,8 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import SelectPhysics from "../components/SelectPhysics.vue";
+import SelectPhysics from "../components/Gen_select.vue";
 import plantData from '@/data/plantData.json';
-
-console.log(plantData[0].nameZh);
-
-
 
 const textColor = ref("#888888");
 
@@ -106,7 +102,11 @@ const getImageUrl = (name) => {
       <!-- 底部預留空間，確保最後一個按鈕不貼底 -->
       <div class="h-20"></div>
     </div>
+
+    
   </div>
+
+
 </template>
 
 
