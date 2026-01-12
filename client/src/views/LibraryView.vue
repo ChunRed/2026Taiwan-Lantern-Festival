@@ -95,12 +95,10 @@
         </article>
       </main>
       <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4 mt-2"></div>
-        <div class="mt-150 mb-50 text-white">2026</div>
-        <div class="mt-150 mb-50 text-white">2026</div>
-        <div class="mt-150 mb-50 text-white">2026</div>
-        <div class="mt-150 mb-50 text-white">2026</div>
-        <div class="mt-150 mb-50 text-white">2026</div>
-        <div class="mt-150 mb-50 text-white">2026</div>
+
+
+        <div class="w-full h-[300px] mt-150 mb-50 text-white"></div>
+        
 
        <!-- Footer Spacer / Hint
        <div class="pointer-events-none fixed bottom-0 mt-90 left-0 right-0 z-50 h-32 bg-gradient-to-t from-black via-black/80 to-transparent" ></div>-->

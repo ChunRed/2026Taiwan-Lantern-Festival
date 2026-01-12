@@ -3,8 +3,9 @@
 import { onMounted, ref } from "vue";
 import SelectPhysics from "../components/Gen_select.vue";
 import plantData from '@/data/plantData.json';
+import { useGenStore } from "../stores/Gen.js";
 
-const textColor = ref("#888888");
+const genStore = useGenStore();
 
 
 const MAX_BALLS = 8;
@@ -29,6 +30,8 @@ function toggleBall(idx) {
   //console.log("toggle", idx, next ? "ON" : "OFF");
   //console.log(toggles);
   clickValue = idx;
+
+  genStore.SetGen(toggles.value);
 }
 
 
@@ -51,6 +54,7 @@ const getImageUrl = (name) => {
     <div class="flex-none z-10 bg-black pt-2 px-4 pb-2 border-b border-white/10">
       <SelectPhysics
         :Index = toggles
+        :Scale = genStore.ItemScale
         :Value = clickValue
       />
     </div>

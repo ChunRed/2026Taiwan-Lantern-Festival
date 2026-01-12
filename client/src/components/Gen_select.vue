@@ -7,7 +7,7 @@
       <div ref="sceneEl" class="] ml-5 h-full"></div>
       <div class="absolute w-[110%] h-24 bottom-0  -ml-5  mt-1 z-20  bg-gradient-to-t from-[#517ADA] to-black-500">
 
-        <!-- Bottom Arrow (Fixed at bottom) -->
+        <!-- Button -->
         <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex-none z-10">
 
           <RouterLink to="/gen-show" class="flex h-12 w-12 items-center justify-center rounded-full border border-[#517ADA] bg-black/60">
@@ -36,7 +36,26 @@ import { onMounted, onBeforeUnmount, ref, watchEffect } from "vue";
 import * as Matter from "matter-js";
 import "matter-js/build/matter.js";
 
-  const props = defineProps(['Index','Value']);
+const props = defineProps({
+
+  Index: {
+    type: Array,
+    required: true,
+    default: () => []
+  },
+
+  Scale: {
+    type: Array,
+    required: true,
+    default: () => [10,10,10,10,10,10,10,10]
+  },
+
+  Value: {
+    type: Number,
+    required: true,
+    default: 0
+  }
+});
   
   
 
@@ -240,7 +259,7 @@ function findNonOverlappingPosition(newR) {
 function createBallByIndex(idx) {
   const { Bodies, Body, World } = Matter;
 
-  const r = ballRadii[idx] ?? 28;
+  const r = props.Scale[idx] ?? 28;
   let pos = findNonOverlappingPosition(r);
   if (!pos) {
     // Fallback: Random position (ignoring overlap)

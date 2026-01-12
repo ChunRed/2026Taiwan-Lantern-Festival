@@ -26,7 +26,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex flex-col h-full relative font-sans transition-colors duration-700">
+    <div class="flex px-6 flex-col h-full relative font-sans transition-colors duration-700">
         
         
 
