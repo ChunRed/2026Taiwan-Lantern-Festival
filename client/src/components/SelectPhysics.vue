@@ -1,63 +1,38 @@
 <template>
   <div class="w-full">
     <!-- 控制列：8 個 Toggle（在互動視窗外） -->
-    <div class="mb-3 flex flex-col gap-2">
-      <div class="flex items-center justify-between">
+    <!-- <div class="mb-3 flex flex-col gap-2">
+      <div class="flex items-center justify-center">
         <div class="text-sm text-white">
-          球數：<span class="font-medium text-white">{{ ballCount }}</span> / {{ MAX_BALLS }}
+          選擇數量：<span class="font-medium text-white">{{ ballCount }}</span> / {{ MAX_BALLS }}
         </div>
-
-        <button
-          type="button"
-          class="text-black px-3 py-1.5 text-sm rounded-lg border border-slate-200 bg-white hover:bg-slate-50 active:scale-[0.99]
-                 disabled:opacity-50 disabled:cursor-not-allowed"
-          @click="resetAll"
-          :disabled="ballCount === 0 || !ready"
-        >
-          重置歸零
-        </button>
       </div>
-
-      <!-- 8 個 Toggle -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        <button
-          v-for="i in MAX_BALLS"
-          :key="i"
-          type="button"
-          @click="toggleBall(i - 1)"
-          :disabled="!ready"
-          class="relative flex items-center justify-between px-3 py-2 rounded-lg border text-sm transition
-                 disabled:opacity-50 disabled:cursor-not-allowed"
-          :class="toggles[i-1]
-            ? 'bg-white text-black border-white/50'
-            : 'bg-black text-white border-white/20 hover:border-white/40'"
-        >
-          <span class="font-medium">Toggle {{ i }}</span>
-
-          <!-- 右側小指示燈 -->
-          <span
-            class="ml-3 inline-flex items-center gap-2"
-          >
-            <span
-              class="h-2.5 w-2.5 rounded-full"
-              :class="toggles[i-1] ? 'bg-emerald-400' : 'bg-white/30'"
-            />
-            <span class="text-xs opacity-80">{{ toggles[i-1] ? 'ON' : 'OFF' }}</span>
-          </span>
-        </button>
-      </div>
-    </div>
+    </div> -->
 
     <!-- 互動視窗 -->
-    <div class="relative w-full h-[200px] rounded-xl border border-white/30 bg-black overflow-hidden">
-      <div ref="sceneEl" class="w-full h-full"></div>
+    <div class="relative w-[110%] h-[200px]  -ml-5 bg-black overflow-hidden">
+      
+      <div ref="sceneEl" class="] ml-5 h-full"></div>
+      <div class="absolute w-[110%] h-12 bottom-0  -ml-5  mt-1 z-20  bg-gradient-to-t from-[#517ADA] to-black-500"></div>
     </div>
   </div>
+
+
+  <!-- Divider -->
+      
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, ref } from "vue";
+import { onMounted, onBeforeUnmount, ref, watchEffect } from "vue";
 import * as Matter from "matter-js";
+import "matter-js/build/matter.js";
+
+  const props = defineProps(['Index','Value']);
+  
+  
+
+  
+
 
 const MAX_BALLS = 8;
 
@@ -98,7 +73,7 @@ let walls = [];
 let mouseConstraint = null;
 
 function buildWorld() {
-  const { Engine, Render, Runner, World, Bodies, Mouse, MouseConstraint } = Matter;
+  const { Engine, Render, Runner, World, Bodies, Body, Mouse, MouseConstraint, Events } = Matter;
 
   engine = Engine.create();
   engine.gravity.y = 0;
@@ -125,7 +100,7 @@ function buildWorld() {
   });
 
   // Walls
-  const t = 60;
+  const t = 2000;
   const wallOpts = { isStatic: true, render: { visible: false } };
   walls = [
     Bodies.rectangle(w / 2, -t / 2, w + t * 2, t, wallOpts),
@@ -139,10 +114,48 @@ function buildWorld() {
   const mouse = Mouse.create(render.canvas);
   mouseConstraint = MouseConstraint.create(engine, {
     mouse,
-    constraint: { stiffness: 0.12, render: { visible: false } },
+    constraint: { stiffness: 0.05, render: { visible: false } },
   });
   World.add(engine.world, mouseConstraint);
   render.mouse = mouse;
+
+  // Add center gravity
+  Events.on(engine, 'beforeUpdate', () => {
+    const cx = w / 2;
+    const cy = h / 2;
+    for (const ball of ballByIndex.values()) {
+      // Calculate vector to center
+      const dx = cx - ball.position.x;
+      const dy = cy - ball.position.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      // Apply force if not too close to center
+      if (dist > 5) {
+        const forceMagnitude = 0.0003 * ball.mass;
+        Body.applyForce(ball, ball.position, {
+          x: (dx / dist) * forceMagnitude,
+          y: (dy / dist) * forceMagnitude,
+        });
+      }
+
+      // Keep within bounds (Safety Net)
+      const r = ball.circleRadius; // approximate
+      let clamped = false;
+      let newX = ball.position.x;
+      let newY = ball.position.y;
+
+      if (newX < r) { newX = r; clamped = true; }
+      else if (newX > w - r) { newX = w - r; clamped = true; }
+
+      if (newY < r) { newY = r; clamped = true; }
+      else if (newY > h - r) { newY = h - r; clamped = true; }
+
+      if (clamped) {
+        Body.setPosition(ball, { x: newX, y: newY });
+        Body.setVelocity(ball, { x: ball.velocity.x * -0.5, y: ball.velocity.y * -0.5 }); // Bounce back slightly
+      }
+    }
+  });
 
   Render.run(render);
   runner = Runner.create();
@@ -219,10 +232,17 @@ function createBallByIndex(idx) {
   const { Bodies, Body, World } = Matter;
 
   const r = ballRadii[idx] ?? 28;
-  const pos = findNonOverlappingPosition(r);
+  let pos = findNonOverlappingPosition(r);
   if (!pos) {
-    console.warn(`No space to spawn ball #${idx + 1} (non-overlapping).`);
-    return null;
+    // Fallback: Random position (ignoring overlap)
+    console.warn(`No space to spawn ball #${idx + 1}, forcing spawn.`);
+    const w = sceneEl.value.clientWidth;
+    const h = sceneEl.value.clientHeight;
+    const margin = r + 10;
+    pos = {
+      x: margin + Math.random() * (w - margin * 2),
+      y: margin + Math.random() * (h - margin * 2)
+    };
   }
 
   const scale = (2 * r) / textureBaseSize;
@@ -263,7 +283,8 @@ function removeBallByIndex(idx) {
 function toggleBall(idx) {
   if (!ready.value) return;
 
-  const next = !toggles.value[idx];
+  //const next = !toggles.value[idx];
+  const next = props.Index[idx];
 
   if (next) {
     // ON：若尚未存在就建立
@@ -282,17 +303,6 @@ function toggleBall(idx) {
   updateBallCount();
 }
 
-function resetAll() {
-  if (!ready.value) return;
-
-  // 全部 OFF + 移除所有球
-  for (let i = 0; i < MAX_BALLS; i++) {
-    removeBallByIndex(i);
-  }
-  ballByIndex.clear();
-  toggles.value = Array.from({ length: MAX_BALLS }, () => false);
-  updateBallCount();
-}
 
 onMounted(() => {
   buildWorld();
@@ -303,4 +313,13 @@ onMounted(() => {
 onBeforeUnmount(() => {
   teardown();
 });
+
+
+
+watchEffect(() => {
+  toggleBall(props.Value);
+})
+
+
+
 </script>

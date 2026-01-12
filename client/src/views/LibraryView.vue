@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-black text-white selection:bg-rose-500 selection:text-white">
+  <div class="min-h-screen bg-black text-white selection:bg-rose-500 px-3 selection:text-white">
     <!-- 模擬手機安全區 (Centered container) -->
     <div class="mx-auto min-h-screen max-w-[420px] bg-black relative">
       

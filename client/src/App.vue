@@ -56,10 +56,10 @@
 
     
 
-    <div class="flex flex-col h-full px-6 py-6 text-white font-sans relative ">
+    <div class="flex flex-col w-full h-full  py-6 text-white font-sans relative ">
       
       <!-- Header -->
-      <header class="flex justify-between items-center w-full mb-2 z-50 relative ">
+      <header class="flex justify-between items-center w-full px-6 mb-2 z-50 relative ">
         <motion.div
             :initial="{ opacity: 0, y: 20 }"
             :animate="{ opacity: 1, y: 0 }"

@@ -1,1 +1,0 @@
-import{_ as t}from"./SelectPhysics-B0UsiRbx.js";import{c as a,b as s,f as r,F as n,e as o}from"./index-Yz0s6d4Q.js";const l={__name:"Gen-chooseVeiw",setup(c){return(m,e)=>(o(),a(n,null,[e[0]||(e[0]=s("h1",{class:"text-white text-center mb-10"},"This is an Generative Page",-1)),r(t)],64))}};export{l as default};

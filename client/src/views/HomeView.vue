@@ -16,7 +16,7 @@
 
   <!-- <MobileShell> -->
 
-    <div class="flex flex-col h-full px-0 py-6 text-white font-sans">
+    <div class="flex flex-col h-full px-6 py-6 text-white font-sans">
       
      
 
