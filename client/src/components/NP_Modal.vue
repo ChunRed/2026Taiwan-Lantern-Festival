@@ -49,7 +49,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { motion } from "motion-v"
-import MapImg from "../assets/Map.png";
+import MapImg from "../assets/map_p.png";
 
 const isVisible = ref(false)
 
