@@ -17,13 +17,28 @@
           <motion.div
               :initial="{ opacity: 0, y: 20 }"
               :animate="{ opacity: 1, y: 0 }"
-              :transition="{ duration: 3, delay: 0.2 }"
+              :transition="{ duration: 1, delay: 0.2 }"
               class="flex flex-col items-start"
             >
 
             <div class="text-3xl font-light tracking-widest ">
-              <h1 class="text-2xl font-bold tracking-[0.3em] mb-1">逐 鹿 光 溯 源</h1>
-              <p class="text-[0.6rem] text-gray-300 font-light tracking-wide">Chasing Light, Reflecting Deer in the Grass</p>
+              <div v-if="state == 0">
+                <h1 class="text-2xl font-bold tracking-[0.3em] mb-1">光點為中鹿的位置</h1>
+                <p class="text-[15px] text-gray-300 font-light tracking-[0.5em]">接近中鹿收集不同的元素</p>
+              </div>
+              <div v-else-if="state == 1">
+                <h1 class="text-2xl font-bold tracking-[0.3em] mb-1">獲得新元素開啟圖鑑</h1>
+                <p class="text-[15px] text-gray-300 font-light tracking-[0.2em]">每種元素分別對應不動的鹿以及植物</p>
+              </div>
+              <div v-else-if="state == 2">
+                <h1 class="text-2xl font-bold tracking-[0.3em] mb-1">獲得新元素開啟圖鑑</h1>
+                <p class="text-[15px] text-gray-300 font-light tracking-[0.2em]">每種元素分別對應不動的鹿以及植物</p>
+              </div>
+              <div v-else-if="state == 3">
+                <h1 class="text-2xl font-bold tracking-[0.3em] mb-1">獲得新元素開啟圖鑑</h1>
+                <p class="text-[15px] text-gray-300 font-light tracking-[0.2em]">每種元素分別對應不動的鹿以及植物</p>
+              </div>
+              
             </div>
 
           </motion.div>
@@ -34,40 +49,28 @@
 
 
 
-
-
+        <div v-if="state == 0"><NP_Intro_Map/></div>
+        <div v-if="state == 1"><NP_Intro_Library/></div>
+        <div v-if="state == 2"><NP_Intro_Gen/></div>
+        <div v-if="state == 3"><NP_Intro_led/></div>
         
-        <div class=" flex flex-col h-full px-6 py-6 text-white font-sans">
-        
-          <div class="flex-1 flex justify-center items-center w-full relative overflow-hidden my-4  ">
-
-            <div class="relative w-full max-w-[450px] -top-[50px]">
-
-              <motion.div
-                :initial="{ opacity: 0, y: 0, scale: 1 }"
-                :animate="{ opacity: 1, y: 0 , scale: 1}"
-                :transition="{ duration: 5, delay: 0}"
-              >
-                <img :src="MapImg" alt="Main Map" class="w-full h-full object-contain" />
-              </motion.div>
-            </div>
-          </div>
-        </div>
 
 
 
 
 
 
-        <div class="relative mt-4 flex justify-center bottom-4">
+        <div class="relative  flex justify-center bottom-10">
           <button
             type="button"
-            class="inline-flex justify-center rounded-md border border-transparent bg-white/50 px-4 py-2 text-sm font-medium text-white  focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-            @click="closeModal"
-          >
-            返回
+            class="flex h-10 w-10 items-center justify-center rounded-full border border-[#ffffff] bg-black/60"
+            @click="closeModal()">
+            <span class="text-3xl leading-none text-[#ffffff]">
+              ›
+            </span>
           </button>
         </div>
+
       </div>
     </div>
   </Transition>
@@ -78,14 +81,27 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { motion } from "motion-v"
-import MapImg from "../assets/deer_points.png";
 import { RouterLink, RouterView, useRoute } from "vue-router";
 import IconStroll from "../components/IconStroll.vue"
+import NP_Introduction from './NP_Intro_Map.vue';
+import NP_Intro_Map from './NP_Intro_Map.vue';
+import NP_Intro_Library from './NP_Intro_Library.vue';
+import NP_Intro_Gen from './NP_Intro_Gen.vue';
+import NP_Intro_led from './NP_Intro_Led.vue';  
 
 const isVisible = ref(false)
 
+const state = ref(0)
+
 const closeModal = () => {
-  isVisible.value = false
+  if (state.value < 3 ){
+    state.value ++;
+    console.log(state.value);
+    
+  }
+  else {
+    isVisible.value = false;
+  }
 }
 
 
