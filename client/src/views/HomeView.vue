@@ -17,12 +17,12 @@
 
   <!-- <MobileShell> -->
 
-    <div class="flex flex-col h-full px-6 py-6 text-white font-sans">
+    <div class="flex flex-col h-full px-6 py-6 text-white font-sans ">
       
      
 
       <!-- Main Content: Map -->
-      <main class="flex-1 flex justify-center items-center w-full relative overflow-hidden my-4">
+      <main class="flex-1 flex justify-center items-center w-full relative overflow-hidden my-4 ">
 
         <div class="relative w-full max-w-[450px]">
 
