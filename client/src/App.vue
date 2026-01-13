@@ -5,7 +5,6 @@
   import LoadingPage from "./components/LoadingPage.vue";
   import { motion } from "motion-v";
   import IconStroll from "./components/IconStroll.vue"
-  import Modal from "./components/modal.vue"
 
   const isMenuOpen = ref(false);
   const isLoading = ref(true);
@@ -37,7 +36,7 @@
     // Safety timeout
     setTimeout(() => {
       isLoading.value = false;
-    }, 1000);
+    }, 100);
   });
 </script>
 
@@ -129,6 +128,5 @@
       <div class="absolute top-0 left-0 w-full h-[108px] bg-[rgb(0,0,0,0.3)] backdrop-blur-sm z-40"></div>
       
     </div>
-    <!-- <Modal/> -->
   </MobileShell>
 </template>

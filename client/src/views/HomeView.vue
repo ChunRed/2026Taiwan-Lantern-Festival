@@ -5,8 +5,9 @@
   import { RouterLink, RouterView } from "vue-router";
 
   import MapPath from "../components/MapPath.vue";
-
   import LiffProfile from "@/components/LiffProfile.vue";
+  import Modal from "../components/NP_Modal.vue"
+
   import { motion } from "motion-v"
 
 
@@ -66,7 +67,7 @@
       
       </motion.div>
       <!-- <LiffProfile /> -->
-      
+      <Modal />
     </div>
 
 

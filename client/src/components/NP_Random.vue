@@ -1,11 +1,10 @@
 <template>
-    
-    <div class="Modal1 absolute top-40  size-24 text-white z-50" > 
+    <div class="Modal1 absolute top-40  size-24 text-white z-50" >
         <img 
-            src="../assets/deer-sm-1.png" 
+            src="../assets/deer-sm-1.png"
             alt="Deer"
             class="h-full w-full object-cover opacity-100"
-             />
+        />
     </div>
 </template>
 
@@ -37,4 +36,3 @@
 
 
 </script>
-
