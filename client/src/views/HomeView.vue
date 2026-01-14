@@ -136,7 +136,7 @@
         </div>
 
 
-        <div v-else-if="state != 0" key="state1">
+        <div v-else-if="state == 1" key="state1">
           <motion.div
             :initial="{ opacity: 0, y: 0 }"
             :animate="{ opacity: 1, y: 0 }"
@@ -147,33 +147,103 @@
               
               <!-- Deer Button -->
               <button class="w-14 h-14 rounded-full border border-white flex justify-center items-center p-2 bg-transparent hover:bg-white/10 transition-colors" @click="PN_Intro()">
-                <span v-if="state < 4" class="text-xl leading-none text-[#fffff]">
+                <span  class="text-xl leading-none text-[#fffff]">
                   {{state}}/4
                 </span>
-                <span v-else class="text-3xl leading-none text-[#fffff]">
+                <!-- <span v-else class="text-3xl leading-none text-[#fffff]">
                   ›
-                </span>
+                </span> -->
               </button>
 
-              
               <!-- Skip button -->
-              <button v-if="state < 4" class="absolute right-2 w-14 h-14 rounded-full border border-[#666666] flex justify-center items-center p-2  transition-colors" @click="PN_Intro_Skip()">
+              <button class="absolute right-5 w-14 h-14 rounded-full border border-[#666666] flex justify-center items-center p-2  transition-colors" @click="PN_Intro_Skip()">
                 <span  class="text-md leading-none text-[#666666]">
                   skip
                 </span>
               </button>
-
             </footer>
+          </motion.div>
+        </div>
 
 
+        <div v-else-if="state == 2" key="state2">
+          <motion.div
+            :initial="{ opacity: 0, y: 0 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.5, delay: 0 }"
+          >
+            <!-- Footer -->
+            <footer class="flex justify-center items-center w-full mt-auto pt-4">
+              
+              <!-- Deer Button -->
+              <button class="w-14 h-14 rounded-full border border-white flex justify-center items-center p-2 bg-transparent hover:bg-white/10 transition-colors" @click="PN_Intro()">
+                <span  class="text-xl leading-none text-[#fffff]">
+                  {{state}}/4
+                </span>
+              </button>
+
+              <!-- Skip button -->
+              <button class="absolute right-5 w-14 h-14 rounded-full border border-[#666666] flex justify-center items-center p-2  transition-colors" @click="PN_Intro_Skip()">
+                <span  class="text-md leading-none text-[#666666]">
+                  skip
+                </span>
+              </button>
+            </footer>
+          </motion.div>
+        </div>
 
 
-            <div class="my-5"></div>
-            <div class="my-5"></div>
-            <!-- Divider -->
-            <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4"></div>
-            <div class="my-5 text-center">2026 Taiwan Lantern Festival</div>
-          
+        <div v-else-if="state == 3" key="state3">
+          <motion.div
+            :initial="{ opacity: 0, y: 0 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.5, delay: 0 }"
+          >
+            <!-- Footer -->
+            <footer class="flex justify-center items-center w-full mt-auto pt-4">
+              
+              <!-- Deer Button -->
+              <button class="w-14 h-14 rounded-full border border-white flex justify-center items-center p-2 bg-transparent hover:bg-white/10 transition-colors" @click="PN_Intro()">
+                <span  class="text-xl leading-none text-[#fffff]">
+                  {{state}}/4
+                </span>
+                </button>
+
+              <!-- Skip button -->
+              <button class="absolute right-5 w-14 h-14 rounded-full border border-[#666666] flex justify-center items-center p-2  transition-colors" @click="PN_Intro_Skip()">
+                <span  class="text-md leading-none text-[#666666]">
+                  skip
+                </span>
+              </button>
+            </footer>
+          </motion.div>
+        </div>
+
+
+        <div v-else-if="state == 4" key="state4">
+          <motion.div
+            :initial="{ opacity: 0, y: 0 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.5, delay: 0 }"
+          >
+            <!-- Footer -->
+            <footer class="flex justify-center items-center w-full mt-auto pt-4">
+              
+              <!-- Deer Button -->
+              <button class="w-14 h-14 rounded-full border border-white flex justify-center items-center p-2 bg-transparent hover:bg-white/10 transition-colors" @click="PN_Intro()">
+                
+                <span  class="text-3xl leading-none text-[#fffff]">
+                  ›
+                </span>
+              </button>
+
+              <!-- Skip button -->
+              <button class="absolute right-5 w-14 h-14 rounded-full border border-[#666666] flex justify-center items-center p-2  transition-colors" @click="PN_Intro_Skip()">
+                <span  class="text-md leading-none text-[#666666]">
+                  skip
+                </span>
+              </button>
+            </footer>
           </motion.div>
         </div>
       </transition>
