@@ -1,7 +1,6 @@
 <script setup>
   import MobileShell from "../components/MobileShell.vue";
   import MapImg from "../assets/Map.jpg";
-  import MapImg_O from "../assets/deer_points.png";
   import DeerBtn from "../assets/deer_button.png";
   import { RouterLink, RouterView } from "vue-router";
 
@@ -12,7 +11,7 @@
   import { ref, onMounted } from 'vue'
   import PN_Intro_Map from "../components/PN_Intro_Map.vue";
   import PN_Intro_Collect from "../components/PN_Intro_Collect.vue";
-  import PN_Intro_Library from "../components/PN_intro_Library.vue";
+  import PN_Intro_Library from "../components/PN_Intro_Library.vue";
   import PN_Intro_Gen from "../components/PN_Intro_Gen.vue";
 
 

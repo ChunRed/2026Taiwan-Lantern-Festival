@@ -3,7 +3,7 @@
 
 <script setup>
 
-    import MapImg from "../assets/Intro_map.png";
+    import MapImg from "../assets/intro_map.png";
     import { motion } from "motion-v"
     import { ref, onMounted } from 'vue'
 </script>
