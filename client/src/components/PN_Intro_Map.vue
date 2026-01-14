@@ -3,7 +3,7 @@
 
 <script setup>
 
-    import MapImg from "../assets/intro_map.png";
+    import intro_map from "../assets/Intro_map.png";
     import { motion } from "motion-v"
     import { ref, onMounted } from 'vue'
 </script>
@@ -15,6 +15,6 @@
         :animate="{ opacity: 1, y: 0 , scale: 1}"
         :transition="{ duration: 1, delay: 0 }"
     >
-        <img :src="MapImg" alt="Main Map" class="w-full h-full object-contain" />
+        <img :src="intro_map" alt="Main Map" class="w-full h-full object-contain" />
     </motion.div>
 </template>
