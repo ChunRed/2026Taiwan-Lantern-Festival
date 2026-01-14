@@ -46,13 +46,6 @@
 
         <!-- Divider -->
         <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4 mt-1 z-20"></div>
-
-
-
-        <div v-if="state == 0"><NP_Intro_Map/></div>
-        <div v-if="state == 1"><NP_Intro_Library/></div>
-        <div v-if="state == 2"><NP_Intro_Gen/></div>
-        <div v-if="state == 3"><NP_Intro_led/></div>
         
 
 
@@ -83,11 +76,6 @@ import { ref, onMounted } from 'vue'
 import { motion } from "motion-v"
 import { RouterLink, RouterView, useRoute } from "vue-router";
 import IconStroll from "../components/IconStroll.vue"
-import NP_Introduction from './NP_Intro_Map.vue';
-import NP_Intro_Map from './NP_Intro_Map.vue';
-import NP_Intro_Library from './NP_Intro_Library.vue';
-import NP_Intro_Gen from './NP_Intro_Gen.vue';
-import NP_Intro_led from './NP_Intro_Led.vue';  
 
 const isVisible = ref(false)
 

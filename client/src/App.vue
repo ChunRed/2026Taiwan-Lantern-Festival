@@ -62,7 +62,7 @@
         <motion.div
             :initial="{ opacity: 0, y: 20 }"
             :animate="{ opacity: 1, y: 0 }"
-            :transition="{ duration: 3, delay: 0.2 }"
+            :transition="{ duration: 1, delay: 0.2 }"
             class="flex flex-col items-start"
           >
 

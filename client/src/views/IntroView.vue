@@ -89,12 +89,12 @@ onMounted(() => {
                 amount: 1,
                 from: "random"
             }
-        }).delay(6);
+        }).delay(1);
 
 
         gsap.to('.particle-layer', {
             scale: 1.1,
-            duration: 3,
+            duration: 2,
             repeat: -1,
             yoyo: true,
             ease: "sine.inOut",
@@ -129,7 +129,7 @@ onMounted(() => {
                     <motion.div
                         :initial="{ opacity: 0, y: 20 }"
                         :animate="{ opacity: 1, y: 0 }"
-                        :transition="{ duration: 2, delay: 3 }"
+                        :transition="{ duration: 1, delay: 0 }"
                         class="flex flex-col items-start"
                     >
                     <img 
@@ -159,7 +159,7 @@ onMounted(() => {
         <motion.div
                         :initial="{ opacity: 0, y: 0 }"
                         :animate="{ opacity: 1, y: 0 }"
-                        :transition="{ duration: 3, delay: 6 }"
+                        :transition="{ duration: 1, delay: 1.5 }"
                         
                     >
         <div class="relative z-20 space-y-3 mt-20 mb-14 intro-text">
