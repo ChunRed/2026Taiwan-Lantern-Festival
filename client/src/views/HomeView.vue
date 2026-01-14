@@ -1,6 +1,6 @@
 <script setup>
   import MobileShell from "../components/MobileShell.vue";
-  import MapImg from "../assets/Map.jpg";
+  import MapImg from "../assets/Map.png";
   import DeerBtn from "../assets/deer_button.png";
   import { RouterLink, RouterView } from "vue-router";
 
@@ -140,7 +140,7 @@
           <motion.div
             :initial="{ opacity: 0, y: 0 }"
             :animate="{ opacity: 1, y: 0 }"
-            :transition="{ duration: 0.5, delay: 0 }"
+            :transition="{ duration: 0.5, delay: 1 }"
           >
             <!-- Footer -->
             <footer class="flex justify-center items-center w-full mt-auto pt-4">
@@ -170,7 +170,7 @@
           <motion.div
             :initial="{ opacity: 0, y: 0 }"
             :animate="{ opacity: 1, y: 0 }"
-            :transition="{ duration: 0.5, delay: 0 }"
+            :transition="{ duration: 0.5, delay: 1 }"
           >
             <!-- Footer -->
             <footer class="flex justify-center items-center w-full mt-auto pt-4">
@@ -197,7 +197,7 @@
           <motion.div
             :initial="{ opacity: 0, y: 0 }"
             :animate="{ opacity: 1, y: 0 }"
-            :transition="{ duration: 0.5, delay: 0 }"
+            :transition="{ duration: 0.5, delay: 1 }"
           >
             <!-- Footer -->
             <footer class="flex justify-center items-center w-full mt-auto pt-4">
@@ -224,7 +224,7 @@
           <motion.div
             :initial="{ opacity: 0, y: 0 }"
             :animate="{ opacity: 1, y: 0 }"
-            :transition="{ duration: 0.5, delay: 0 }"
+            :transition="{ duration: 0.5, delay: 1 }"
           >
             <!-- Footer -->
             <footer class="flex justify-center items-center w-full mt-auto pt-4">
@@ -237,12 +237,7 @@
                 </span>
               </button>
 
-              <!-- Skip button -->
-              <button class="absolute right-5 w-14 h-14 rounded-full border border-[#666666] flex justify-center items-center p-2  transition-colors" @click="PN_Intro_Skip()">
-                <span  class="text-md leading-none text-[#666666]">
-                  skip
-                </span>
-              </button>
+              
             </footer>
           </motion.div>
         </div>

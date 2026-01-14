@@ -259,7 +259,12 @@ function findNonOverlappingPosition(newR) {
 function createBallByIndex(idx) {
   const { Bodies, Body, World } = Matter;
 
-  const r = props.Scale[idx] ?? 28;
+  const table = [10, 20, 30, 40, 50];
+  const idx2 = Math.min(Math.floor(props.Scale[idx] / 20), table.length - 1);
+  const r = table[idx2];
+
+
+
   let pos = findNonOverlappingPosition(r);
   if (!pos) {
     // Fallback: Random position (ignoring overlap)
@@ -273,7 +278,7 @@ function createBallByIndex(idx) {
     };
   }
 
-  const scale = (2 * r) / textureBaseSize;
+  const scale = (2 *r) / textureBaseSize;
 
   const ball = Bodies.circle(pos.x, pos.y, r, {
     restitution: 0.95,

@@ -25,15 +25,23 @@
              zIndex: i + 1,
              willChange: 'transform, filter'
           }"
-        >
+        >  
+
+
+
+
+
+
+
+          <div v-if=" c.percent > 0 ">
             <!-- Background -->
             <div 
               class="absolute inset-0 z-0 transition-transform duration-700" 
-              :style="{ background: `linear-gradient(180deg, ${c.gradFrom} 0%, ${c.gradTo} 50%)` }"
+              :style="{ background: `linear-gradient(180deg, ${c.gradFrom} 0%, ${c.gradTo} 80%)` }"
             ></div>
             
             <!-- Content -->
-            <div class="relative z-10 flex min-h-[180px] flex-col p-4">
+            <div class="relative z-10 flex min-h-[140px] flex-col p-4">
               <div class="flex items-start gap-5">
                 <!-- Icon Circle -->
                 <div class="shrink-0 pt-1">
@@ -54,8 +62,8 @@
                       {{ c.zh }}
                     </h2>
 
-                      <RouterLink :to="{ path: '/information', query: { id: c.id } }" class="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-white/5">
-                      <span class="text-lg leading-none text-white/70">
+                      <RouterLink :to="{ path: '/information', query: { id: c.id } }" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/80 bg-white/5">
+                      <span class="text-2xl leading-none text-white/70">
                         ›
                       </span>
                     </RouterLink>
@@ -72,32 +80,73 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
 
-              <!-- Legend -->
-              <div class="mt-3 rounded-2xl border border-white/10 bg-black/10 p-5 backdrop-blur-md">
-                  <div class="mb-2 flex justify-between text-[10px] font-medium tracking-widest text-white/50 uppercase">
-                    <span>Maturity</span>
-                    <span>Collection</span>
+
+
+
+
+
+
+
+          <div v-else>
+            <!-- Background -->
+            <div 
+              class="absolute inset-0 z-0 transition-transform duration-700" 
+              :style="{ background: `linear-gradient(180deg, #333333 0%, #000000 80%)` }"
+            ></div>
+            
+            <!-- Content -->
+            <div class="relative z-10 flex min-h-[140px] flex-col p-4">
+              <div class="flex items-start gap-5">
+                <!-- Icon Circle -->
+                <div class="shrink-0 pt-1">
+                  <div class="grid h-[55px] w-[55px] place-items-center rounded-full bg-white/10 backdrop-blur-sm shadow-inner overflow-hidden">
+                     <!-- Image Asset -->
+                     <img 
+                       :src="getImageUrl('未知元素.png')" 
+                       :alt="c.zh"
+                       class="h-full w-full object-cover opacity-50"
+                     />
                   </div>
-                  
-                  <div class="relative h-2 w-full rounded-full bg-white/10">
-                     <div class="absolute left-0 top-0 h-full rounded-full bg-white/80" style="width: 75%"></div>
+                </div>
+
+                <!-- Text Info -->
+                <div class="flex-1">
+                  <div class="flex items-start justify-between">
+                    <h2 class="text-[18px] font-bold tracking-[1.2em] text-white/40 drop-shadow-md">
+                      ????
+                    </h2>
                   </div>
 
-                  <div class="mt-4 flex justify-between text-center">
-                     <div v-for="step in [25, 50, 75, 100]" :key="step" class="flex flex-col items-center gap-1">
-                        <div class="h-10 w-10 rounded-full border border-white/60 bg-white/5 transition hover:bg-white/50 hover:scale-110"></div>
-                        <span class="text-[10px] text-white/80">{{ step }}%</span>
-                     </div>
+                  <!-- Badge -->
+                  <div class="mt-5 inline-flex items-center gap-2 rounded-full  bg-white/10 px-3 py-1 backdrop-blur-md">
+                   <div class="h-1.5 w-1.5 rounded-full bg-white/40"></div>
+                   <span class="text-xs font-bold text-white/40">{{ c.percent }}%</span>
                   </div>
+                </div>
               </div>
             </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+          
         </article>
       </main>
-      <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4 mt-2"></div>
+      <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4 mt-20"></div>
+      <div class="my-5 text-center">2026 Taiwan Lantern Festival</div>
 
-
-        <div class="w-full h-[300px] mt-150 mb-50 text-white"></div>
+      <div class="w-full h-[200px] mt-150 mb-50 text-white"></div>
+        
         
 
        <!-- Footer Spacer / Hint
@@ -113,6 +162,9 @@ import { onMounted, onUnmounted } from "vue";
 import { RouterLink} from "vue-router";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { useGenStore } from "../stores/Gen.js";
+
+const genStore = useGenStore();
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -126,7 +178,7 @@ const cards = [
     zh: "構樹", 
     en: "Broussonetia papyrifera",
     id: "Broussonetia papyrifera",
-    percent: 10,
+    percent: genStore.ItemScale[0],
     gradFrom: "#F5B7FF",
     gradTo: "rgba(0,0,0, 1)",
     img: "構樹W.png"
@@ -135,7 +187,7 @@ const cards = [
     zh: "月桃", 
     en: "Alpinia katsumadai",
     id: "Alpinia katsumadai",
-    percent: 10,
+    percent: genStore.ItemScale[1],
     gradFrom: "#C8AAFF",
     gradTo: "rgba(0,0,0, 1)",
     img: "月桃W.png"
@@ -144,7 +196,7 @@ const cards = [
     zh: "青剛櫟", 
     en: "Quercus glauca",
     id: "Quercus glauca",
-    percent: 10,
+    percent: genStore.ItemScale[2],
     gradFrom: "#517ADA",
     gradTo: "rgba(0,0,0, 1)",
     img: "青剛櫟W.png"
@@ -153,7 +205,7 @@ const cards = [
     zh: "小葉桑", 
     en: "Morus australis",
     id: "Morus australis",
-    percent: 10,
+    percent: genStore.ItemScale[3],
     gradFrom: "#01B9FF",
     gradTo: "rgba(0,0,0, 1)",
     img: "小葉桑W.png"
@@ -162,7 +214,7 @@ const cards = [
     zh: "五節芒",
     en: "Haengu",
     id: "Haengu",
-    percent: 75,
+    percent: genStore.ItemScale[4],
     gradFrom: "#6FC8D7",
     gradTo: "rgba(0,0,0, 1)",
     img: "五節芒W.png",
@@ -172,7 +224,7 @@ const cards = [
     zh: "赤榕",
     en: "Ficus subpisocarpa",
     id: "Ficus subpisocarpa",
-    percent: 25,
+    percent: genStore.ItemScale[5],
     gradFrom: "#51CCB4",
     gradTo: "rgba(0,0,0, 1)",
     img: "赤榕W.png"
@@ -181,7 +233,7 @@ const cards = [
     zh: "穀穗",
     en: "Oryza sativa",
     id: "Oryza sativa",
-    percent: 75,
+    percent: genStore.ItemScale[6],
     gradFrom: "#FFF2A6",
     gradTo: "rgba(0,0,0, 1)",
     img: "穀穗W.png"
@@ -190,7 +242,7 @@ const cards = [
     zh: "金草蘭",
     en: "Cymbidium kanran", 
     id: "Cymbidium kanran",
-    percent: 100,
+    percent: genStore.ItemScale[7],
     gradFrom: "#FFC3CC",
     gradTo: "rgba(0,0,0, 1)",
     img: "金草蘭W.png"

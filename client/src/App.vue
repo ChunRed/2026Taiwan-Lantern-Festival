@@ -111,11 +111,27 @@
           v-if="isMenuOpen" 
           class="fixed inset-0 bg-black/95 z-40 flex flex-col justify-center items-center gap-8 backdrop-blur-sm"
         >
-          <RouterLink to="/home" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">HOME</RouterLink>
-          <RouterLink to="/library" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">圖鑑</RouterLink>
-          <RouterLink to="/gen-choose" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">生成</RouterLink>
-          <RouterLink to="/practice" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">PRACTICE</RouterLink>
-          <RouterLink to="/lineinfo" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">LINEINFO</RouterLink>
+          <RouterLink to="/home" class="text-2xl font-light text-center tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">首頁<div class="mt-3 text-sm text-center text-gray-300 font-light tracking-[0.6em]">HOME</div></RouterLink>
+
+
+          <RouterLink to ="/library" class="text-2xl font-light text-center tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">圖鑑<div class="mt-3 text-sm text-center text-gray-300 font-light tracking-[0.6em]">LIBRARY</div></RouterLink>
+
+          
+          <RouterLink to="/gen-choose" class="text-2xl font-light text-center tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">生成<div class="mt-3 text-sm text-center text-gray-300 font-light tracking-[0.6em]">GENERATE</div></RouterLink>
+
+
+
+          <RouterLink to="/test" class="text-2xl font-light text-center tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">測試<div class="mt-3 text-sm text-center text-gray-300 font-light tracking-[0.6em]">TEST</div></RouterLink>
+
+
+
+
+
+
+
+
+          <!-- <RouterLink to="/practice" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">PRACTICE</RouterLink>
+          <RouterLink to="/lineinfo" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">LINEINFO</RouterLink> -->
         </div>
       </transition>
 
