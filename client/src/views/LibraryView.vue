@@ -62,19 +62,19 @@
                       {{ c.zh }}
                     </h2>
 
-                      <RouterLink :to="{ path: '/information', query: { id: c.id } }" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/80 bg-white/5">
+                      <RouterLink :to="{ path: '/information', query: { id: c.id } }" class="flex h-8 w-8 items-center justify-center rounded-full border border-white/80 bg-white/5">
                       <span class="text-2xl leading-none text-white/70">
                         ›
                       </span>
                     </RouterLink>
                   </div>
 
-                  <p class="mt-2 text-base tracking-wider text-white/80 italic font-serif">
+                  <p class="mt-1 text-base tracking-wider text-white/80 italic font-serif">
                     {{ c.en }}
                   </p>
 
                   <!-- Badge -->
-                  <div class="mt-2 inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/20 px-3 py-1 backdrop-blur-md">
+                  <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/20 px-3 py-1 backdrop-blur-md">
                    <div class="h-1.5 w-1.5 rounded-full bg-white"></div>
                    <span class="text-xs font-bold text-white">{{ c.percent }}%</span>
                   </div>
@@ -176,8 +176,8 @@ const getImageUrl = (name) => {
 const cards = [
   {
     zh: "構樹", 
-    en: "Broussonetia papyrifera",
-    id: "Broussonetia papyrifera",
+    en: "tapangeosx",
+    id: "tapangeosx",
     percent: genStore.ItemScale[0],
     gradFrom: "#F5B7FF",
     gradTo: "rgba(0,0,0, 1)",
@@ -185,8 +185,8 @@ const cards = [
   },
   {
     zh: "月桃", 
-    en: "Alpinia katsumadai",
-    id: "Alpinia katsumadai",
+    en: "kitposa",
+    id: "kitposa",
     percent: genStore.ItemScale[1],
     gradFrom: "#C8AAFF",
     gradTo: "rgba(0,0,0, 1)",
@@ -194,8 +194,8 @@ const cards = [
   },
   {
     zh: "青剛櫟", 
-    en: "Quercus glauca",
-    id: "Quercus glauca",
+    en: "otu",
+    id: "otu",
     percent: genStore.ItemScale[2],
     gradFrom: "#517ADA",
     gradTo: "rgba(0,0,0, 1)",
@@ -203,8 +203,8 @@ const cards = [
   },
   {
     zh: "小葉桑", 
-    en: "Morus australis",
-    id: "Morus australis",
+    en: "tahivcu & tahzucu",
+    id: "tahivcu & tahzucu",
     percent: genStore.ItemScale[3],
     gradFrom: "#01B9FF",
     gradTo: "rgba(0,0,0, 1)",
@@ -212,8 +212,8 @@ const cards = [
   },
   {
     zh: "五節芒",
-    en: "Haengu",
-    id: "Haengu",
+    en: "haengu",
+    id: "haengu",
     percent: genStore.ItemScale[4],
     gradFrom: "#6FC8D7",
     gradTo: "rgba(0,0,0, 1)",
@@ -222,8 +222,8 @@ const cards = [
   },
   {
     zh: "赤榕",
-    en: "Ficus subpisocarpa",
-    id: "Ficus subpisocarpa",
+    en: "yono",
+    id: "yono",
     percent: genStore.ItemScale[5],
     gradFrom: "#51CCB4",
     gradTo: "rgba(0,0,0, 1)",
@@ -231,8 +231,8 @@ const cards = [
   },
   {
     zh: "穀穗",
-    en: "Oryza sativa",
-    id: "Oryza sativa",
+    en: "ton'u & pai",
+    id: "ton'u & pai",
     percent: genStore.ItemScale[6],
     gradFrom: "#FFF2A6",
     gradTo: "rgba(0,0,0, 1)",
@@ -240,8 +240,8 @@ const cards = [
   },
   {
     zh: "金草蘭",
-    en: "Cymbidium kanran", 
-    id: "Cymbidium kanran",
+    en: "fiteu", 
+    id: "fiteu",
     percent: genStore.ItemScale[7],
     gradFrom: "#FFC3CC",
     gradTo: "rgba(0,0,0, 1)",

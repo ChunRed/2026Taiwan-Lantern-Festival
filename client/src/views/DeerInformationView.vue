@@ -75,13 +75,20 @@ onMounted(() => {
                         class="text-2xl font-bold tracking-widest tracking-[0.5em] transition-colors duration-500"
                         :style="{ color: currentData.themeColor }"
                     >
-                        光鹿設計
+                        {{ currentData.title2 }}
                     </h2>
                     <p 
-                        class="mt-2 text-sm uppercase tracking-[0.3em] font-light transition-colors duration-500"
+                        class="mt-2 text-[11px] uppercase tracking-[0.2em] font-light transition-colors duration-500"
                         :style="{ color: currentData.themeColor }"
                     >
-                        Deer of Light
+                        {{ currentData.subtitle2 }}
+                    </p>
+                </div>
+
+                <!-- Text Content -->
+                <div class="space-y-6 text-md leading-6 tracking-widest text-gray-200 font-light text-justify transition-opacity duration-300">
+                    <p>
+                        {{ currentData.description2 }}
                     </p>
                 </div>
 

@@ -24,13 +24,11 @@ onMounted(() => {
 function toggleBall(idx) {
   if (!ready.value) return;
 
+  if (genStore.ItemScale[idx] == 0) return;
+
   const next = !toggles.value[idx];
   toggles.value[idx] = next;
-
-  //console.log("toggle", idx, next ? "ON" : "OFF");
-  //console.log(toggles);
   clickValue = idx;
-
   genStore.SetGen(toggles.value);
 }
 
@@ -70,19 +68,31 @@ const getImageUrl = (name) => {
           type="button"
           @click="toggleBall(i - 1)"
           :disabled="!ready"
-          class="relative flex items-center justify-between px-4 py-3 rounded-lg border text-base transition
+          class="relative flex items-center justify-between px-4 rounded-lg border text-base transition
                  disabled:opacity-50 disabled:cursor-not-allowed"
           :class="toggles[i-1]
             ? ' border-white/80'
             : 'bg-black text-white border-white/10 hover:border-white/40'"
         >
-      
-          <div class="flex items-start gap-2">
+          
+          <div v-if="genStore.ItemScale[i-1] > 0" class="flex items-start gap-2 mt-2">
             <img :src="getImageUrl(plantData[i-1].image)" alt="" class="w-10 h-10 " >
             
             <div class="px-3 flex flex-col text-left">
               <span class="font-medium text-[16px] tracking-[1.2em]" :style="{ color: plantData[i-1].themeColor }">{{ plantData[i-1].nameZh }} </span>
-            <span class="font-medium text-[11px] tracking-[0.1em]" :style="{ color: plantData[i-1].themeColor }">{{ plantData[i-1].nameEn }}</span>
+            <span class="font-medium text-[11px] tracking-[0.1em] " :style="{ color: plantData[i-1].themeColor }">{{ plantData[i-1].nameEn }}</span>
+            </div>
+            
+          </div>
+
+
+          <!-- 未知元素 -->
+          <div v-else class="flex items-start gap-2">
+            <img :src="getImageUrl('未知元素.png')" alt="" class="w-10 h-10 opacity-60 my-2" >
+            
+            <div class="px-3 flex flex-col text-left">
+              <span class="font-medium text-[16px] tracking-[1.2em] text-white/40 mt-2"  >????</span>
+              <span class="font-medium text-[11px] tracking-[0.1em] text-white/40" >????</span>
             </div>
             
           </div>
@@ -92,6 +102,7 @@ const getImageUrl = (name) => {
 
           <!-- 右側小指示燈 -->
           <span
+            v-if="genStore.ItemScale[i-1] > 0"
             class="ml-3 inline-flex items-center gap-2"
           >
             <span
