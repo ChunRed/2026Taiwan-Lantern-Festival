@@ -74,12 +74,12 @@ const triggerSpecialEvent = () => {
             
             <!-- Quantity Input -->
             <div class="flex items-center justify-between bg-black/30 p-2 rounded-lg">
-                <span class="text-sm font-medium text-white/80">Qty (0-10)</span>
+                <span class="text-sm font-medium text-white/80">Qty (0-100)</span>
                 <input 
                     type="number" 
                     v-model="genStore.ItemScale[index]" 
                     min="0" 
-                    max="10"
+                    max="100"
                     class="w-16 bg-transparent border-b border-white/30 text-center focus:outline-none focus:border-white transition-colors"
                 >
             </div>

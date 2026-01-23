@@ -23,6 +23,11 @@ onMounted(() => {
         scrollContainer.scrollTop = 0;
     }
 });
+
+// --- Methods ---
+const getImageUrl = (name) => {
+    return new URL(`../assets/Middle_Deer/${name}`, import.meta.url).href;
+};
 </script>
 
 <template>
@@ -84,6 +89,20 @@ onMounted(() => {
                         {{ currentData.subtitle2 }}
                     </p>
                 </div>
+
+                <!-- Deer Image -->
+                <div class="w-full flex justify-center my-10 relative group z-50">
+                     <!-- Image with consistent styling -->
+                     <!-- Added a subtle optional glow or effect matching the theme color if desired, 
+                          but keeping it clean for now per standard request -->
+                    <img 
+                        :src="getImageUrl(currentData.DeerImage)" 
+                        :alt="currentData.nameZh" 
+                        class="w-full h-auto object-contain drop-shadow-2xl transition-all duration-700 hover:scale-[1.02] "
+                    />
+                </div>
+
+
 
                 <!-- Text Content -->
                 <div class="space-y-6 text-md leading-6 tracking-widest text-gray-200 font-light text-justify transition-opacity duration-300">

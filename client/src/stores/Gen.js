@@ -4,7 +4,7 @@ import { ref } from 'vue'
 export const useGenStore = defineStore('gen', () => {
 
     const gen = ref([]);
-    const ItemScale = ref([20, 0, 30, 30, 40, 40, 50, 50]);
+    const ItemScale = ref([20, 0, 0, 0, 0, 0, 0, 0]);
     const SelectedItemRate = ref([]);
 
 

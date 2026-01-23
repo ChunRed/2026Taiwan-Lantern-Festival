@@ -112,13 +112,13 @@ const getImageUrl = (name) => {
             <span class="text-xs opacity-80 font-mono">{{ toggles[i-1] ? '刪除' : '選擇' }}</span>
           </span>
         </button>
+        <div class="mt-40 text-white/50 text-center"></div>
+        <div class="mt-40 text-white/50 text-center"></div>
       </div>
       
       <!-- 底部預留空間，確保最後一個按鈕不貼底 -->
       <div class="h-20"></div>
     </div>
-
-    
   </div>
 
 
