@@ -24,7 +24,7 @@
 
             <div v-else>
                 <div class="  text-white  mt-3  text-[18px] font-bold text-center mb-3">
-                    你還沒有選擇任何元素，請錢選擇元素
+                    你還沒有選擇任何元素，請選擇元素
                 </div>
                 <!-- Button -->
                 <div class="flex justify-center">

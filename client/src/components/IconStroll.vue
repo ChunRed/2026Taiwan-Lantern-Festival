@@ -32,7 +32,7 @@
                         trigger: ".Layer",
                         scroller: "#mobile-scroll-container",
                         start: "top top", 
-                        end: "+=300",
+                        end: "+=600",
                         scrub: true, 
                 }
             });
@@ -45,7 +45,7 @@
                         trigger: ".Layer",
                         scroller: "#mobile-scroll-container",
                         start: "top top", 
-                        end: "+=300",
+                        end: "+=600",
                         scrub: true, 
                 }
             });
