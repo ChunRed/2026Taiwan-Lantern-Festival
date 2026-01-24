@@ -11,6 +11,9 @@ import PN_Intro_Map from "../components/PN_Intro_Map.vue";
 import PN_Intro_Collect from "../components/PN_Intro_Collect.vue";
 import PN_Intro_Library from "../components/PN_Intro_Library.vue";
 import PN_Intro_Gen from "../components/PN_Intro_Gen.vue";
+import PN_Intro_Gen2 from "../components/PN_Intro_Gen2.vue";
+import PN_Intro_Gen3 from "../components/PN_Intro_Gen3.vue";
+import PN_Intro_Gen4 from "../components/PN_Intro_Gen4.vue";
 
 // Assets
 import MapImg from "../assets/Map.png";
@@ -21,7 +24,7 @@ const state = ref(0);
 
 // Methods
 const PN_Intro = () => {
-  if (state.value < 4) state.value++;
+  if (state.value < 7) state.value++;
   else state.value = 0;
 };
 
@@ -76,6 +79,21 @@ setTimeout(() => {
             <PN_Intro_Gen />
           </div>
 
+          <!-- State 5 -->
+          <div v-else-if="state == 5" key="state5" class="w-full h-full object-contain">
+            <PN_Intro_Gen2 />
+          </div>
+
+          <!-- State 6 -->
+          <div v-else-if="state == 6" key="state6" class="w-full h-full object-contain">
+            <PN_Intro_Gen3 />
+          </div>
+
+          <!-- State 7 -->
+          <div v-else-if="state == 7" key="state7" class="w-full h-full object-contain">
+            <PN_Intro_Gen4 />
+          </div>
+
         </transition>
       </div>
     </main>
@@ -124,7 +142,7 @@ setTimeout(() => {
 
             <!-- Deer Button -->
             <button class="w-14 h-14 rounded-full border border-white flex justify-center items-center p-2 bg-transparent hover:bg-white/10 transition-colors" @click="PN_Intro()">
-              <span class="text-xl leading-none text-[#fffff]">{{state}}/4</span>
+              <span class="text-xl leading-none text-[#fffff]">{{state}}/7</span>
             </button>
 
             <!-- Skip button -->
@@ -151,7 +169,7 @@ setTimeout(() => {
 
             <!-- Deer Button -->
             <button class="w-14 h-14 rounded-full border border-white flex justify-center items-center p-2 bg-transparent hover:bg-white/10 transition-colors" @click="PN_Intro()">
-              <span class="text-xl leading-none text-[#fffff]">{{state}}/4</span>
+              <span class="text-xl leading-none text-[#fffff]">{{state}}/7</span>
             </button>
 
             <!-- Skip button -->
@@ -178,7 +196,7 @@ setTimeout(() => {
 
             <!-- Deer Button -->
             <button class="w-14 h-14 rounded-full border border-white flex justify-center items-center p-2 bg-transparent hover:bg-white/10 transition-colors" @click="PN_Intro()">
-              <span class="text-xl leading-none text-[#fffff]">{{state}}/4</span>
+              <span class="text-xl leading-none text-[#fffff]">{{state}}/7</span>
             </button>
 
             <!-- Skip button -->
@@ -191,8 +209,95 @@ setTimeout(() => {
         </motion.div>
       </div>
 
+
       <!-- State 4 Footer -->
       <div v-else-if="state == 4" key="state4">
+        <motion.div
+          :initial="{ opacity: 0, y: 0 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.5, delay: 1 }"
+          class="w-full"
+        >
+          <footer class="grid grid-cols-[1fr_auto_1fr] items-center w-full mt-auto mb-12 px-5">
+             <!-- Left Spacer -->
+            <div></div>
+
+            <!-- Deer Button -->
+            <button class="w-14 h-14 rounded-full border border-white flex justify-center items-center p-2 bg-transparent hover:bg-white/10 transition-colors" @click="PN_Intro()">
+              <span class="text-xl leading-none text-[#fffff]">{{state}}/7</span>
+            </button>
+
+            <!-- Skip button -->
+            <div class="flex justify-end">
+              <button class="w-14 h-14 rounded-full border border-[#666666] flex justify-center items-center p-2 transition-colors" @click="PN_Intro_Skip()">
+                <span class="text-md leading-none text-[#666666]">skip</span>
+              </button>
+            </div>
+          </footer>
+        </motion.div>
+      </div>
+
+
+      <!-- State 5 Footer -->
+      <div v-else-if="state == 5" key="state5">
+        <motion.div
+          :initial="{ opacity: 0, y: 0 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.5, delay: 1 }"
+          class="w-full"
+        >
+          <footer class="grid grid-cols-[1fr_auto_1fr] items-center w-full mt-auto mb-12 px-5">
+             <!-- Left Spacer -->
+            <div></div>
+
+            <!-- Deer Button -->
+            <button class="w-14 h-14 rounded-full border border-white flex justify-center items-center p-2 bg-transparent hover:bg-white/10 transition-colors" @click="PN_Intro()">
+              <span class="text-xl leading-none text-[#fffff]">{{state}}/7</span>
+            </button>
+
+            <!-- Skip button -->
+            <div class="flex justify-end">
+              <button class="w-14 h-14 rounded-full border border-[#666666] flex justify-center items-center p-2 transition-colors" @click="PN_Intro_Skip()">
+                <span class="text-md leading-none text-[#666666]">skip</span>
+              </button>
+            </div>
+          </footer>
+        </motion.div>
+      </div>
+
+
+      <!-- State 6 Footer -->
+      <div v-else-if="state == 6" key="state6">
+        <motion.div
+          :initial="{ opacity: 0, y: 0 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.5, delay: 1 }"
+          class="w-full"
+        >
+          <footer class="grid grid-cols-[1fr_auto_1fr] items-center w-full mt-auto mb-12 px-5">
+             <!-- Left Spacer -->
+            <div></div>
+
+            <!-- Deer Button -->
+            <button class="w-14 h-14 rounded-full border border-white flex justify-center items-center p-2 bg-transparent hover:bg-white/10 transition-colors" @click="PN_Intro()">
+              <span class="text-xl leading-none text-[#fffff]">{{state}}/7</span>
+            </button>
+
+            <!-- Skip button -->
+            <div class="flex justify-end">
+              <button class="w-14 h-14 rounded-full border border-[#666666] flex justify-center items-center p-2 transition-colors" @click="PN_Intro_Skip()">
+                <span class="text-md leading-none text-[#666666]">skip</span>
+              </button>
+            </div>
+          </footer>
+        </motion.div>
+      </div>
+
+
+
+
+      <!-- State 7 Footer -->
+      <div v-else-if="state == 7" key="state7">
         <motion.div
           :initial="{ opacity: 0, y: 0 }"
           :animate="{ opacity: 1, y: 0 }"
