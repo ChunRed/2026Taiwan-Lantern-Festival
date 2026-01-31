@@ -1,20 +1,15 @@
-
-
-
 <script setup>
-
-    import intro_map from "../assets/Intro_map.png";
-    import { motion } from "motion-v"
-    import { ref, onMounted } from 'vue'
+import intro_map from "../assets/Intro_map.png";
+import { motion } from "motion-v";
+import { ref, onMounted } from "vue";
 </script>
 
-
 <template>
-    <motion.div
-        :initial="{ opacity: 0, y: 0, scale: 1 }"
-        :animate="{ opacity: 1, y: 0 , scale: 1}"
-        :transition="{ duration: 1, delay: 0 }"
-    >
-        <img :src="intro_map" alt="Main Map" class="w-full h-full object-contain" />
-    </motion.div>
+  <motion.div
+    :initial="{ opacity: 0, y: 0, scale: 1 }"
+    :animate="{ opacity: 1, y: 0, scale: 1 }"
+    :transition="{ duration: 1, delay: 0 }"
+  >
+    <img :src="intro_map" alt="Main Map" class="w-full h-full object-contain" />
+  </motion.div>
 </template>

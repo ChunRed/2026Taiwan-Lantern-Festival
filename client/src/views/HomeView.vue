@@ -219,7 +219,7 @@ setTimeout(() => {
           class="w-full"
         >
           <footer class="grid grid-cols-[1fr_auto_1fr] items-center w-full mt-auto mb-12 px-5">
-             <!-- Left Spacer -->
+            <!-- Left Spacer -->
             <div></div>
 
             <!-- Deer Button -->

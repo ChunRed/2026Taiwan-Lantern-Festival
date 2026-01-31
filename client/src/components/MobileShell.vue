@@ -5,7 +5,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 /**
  * MobileShell Component
- * 
+ *
  * Enforces a mobile-first layout on all devices.
  * - Sets up GSAP ScrollTrigger to use the inner scrollable container by default.
  */
@@ -15,35 +15,35 @@ gsap.registerPlugin(ScrollTrigger);
 onMounted(() => {
   // Tell GSAP to listen to this container instead of the window/body
   ScrollTrigger.defaults({
-    scroller: "#mobile-scroll-container"
+    scroller: "#mobile-scroll-container",
   });
-  
+
   // Refresh to ensure any existing triggers are aware
   ScrollTrigger.refresh();
 });
 </script>
 
 <template>
-    <!-- Outer Container: Handles desktop centering and background -->
+  <!-- Outer Container: Handles desktop centering and background -->
+  <div
+    class="min-h-screen w-full bg-black flex justify-center items-center overflow-hidden"
+  >
+    <!-- Inner Shell: The "Phone" frame -->
     <div
-        class="min-h-screen w-full bg-black flex justify-center items-center overflow-hidden "
+      id="mobile-scroll-container"
+      class="relative w-full max-w-[430px] h-[90vh] bg-black overflow-y-auto overflow-x-hidden flex flex-col /* Mobile (Small Screens) overrides: */ max-[500px]:max-w-full max-[500px]:h-[100dvh] max-[500px]:shadow-none max-[500px]:rounded-none border border-[#222222]"
     >
-        <!-- Inner Shell: The "Phone" frame -->
-        <div 
-            id="mobile-scroll-container"
-            class="relative w-full max-w-[430px] h-[90vh] bg-black overflow-y-auto overflow-x-hidden flex flex-col  /* Mobile (Small Screens) overrides: */ max-[500px]:max-w-full max-[500px]:h-[100dvh] max-[500px]:shadow-none max-[500px]:rounded-none border border-[#222222]"
-        >
-            <!-- Safe Area padding wrappers could go here if needed globally, 
+      <!-- Safe Area padding wrappers could go here if needed globally, 
            but usually page content handles its own padding or we wrap slot.
            Here we provide a slot that fills the shell.
             -->
-            <main
-                class="flex-1 w-full pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]"
-            >
-                <slot />
-            </main>
-        </div>
+      <main
+        class="flex-1 w-full pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]"
+      >
+        <slot />
+      </main>
     </div>
+  </div>
 </template>
 
 <style scoped>

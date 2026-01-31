@@ -35,7 +35,16 @@ let engine, render, runner;
 let ballA, ballB;
 
 function buildWorld() {
-  const { Engine, Render, Runner, World, Bodies, Body, Mouse, MouseConstraint } = Matter;
+  const {
+    Engine,
+    Render,
+    Runner,
+    World,
+    Bodies,
+    Body,
+    Mouse,
+    MouseConstraint,
+  } = Matter;
 
   engine = Engine.create();
   engine.gravity.y = 0;
@@ -122,7 +131,8 @@ function teardown() {
   Engine.clear(engine);
 
   // 移除 canvas
-  if (render?.canvas?.parentNode) render.canvas.parentNode.removeChild(render.canvas);
+  if (render?.canvas?.parentNode)
+    render.canvas.parentNode.removeChild(render.canvas);
 
   engine = render = runner = null;
   ballA = ballB = null;

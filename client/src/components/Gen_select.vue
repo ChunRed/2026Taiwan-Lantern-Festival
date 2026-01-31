@@ -1,35 +1,26 @@
 <template>
   <div class="w-full">
-
     <!-- 互動視窗 -->
-    <div class="relative w-[110%] h-[250px]  -ml-5 bg-black overflow-hidden">
-      
+    <div class="relative w-[110%] h-[250px] -ml-5 bg-black overflow-hidden">
       <div ref="sceneEl" class="] ml-5 h-full"></div>
-      <div class="absolute w-[110%] h-24 bottom-0  -ml-5  mt-1 z-20  bg-gradient-to-t from-[#517ADA] to-black-500">
-
+      <div
+        class="absolute w-[110%] h-24 bottom-0 -ml-5 mt-1 z-20 bg-gradient-to-t from-[#517ADA] to-black-500"
+      >
         <!-- Button -->
         <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex-none z-10">
-
-          <RouterLink to="/gen-show" class="flex h-12 w-12 items-center justify-center rounded-full border border-[#517ADA] bg-black/60">
-            <span class="text-3xl leading-none text-[#517ADA]">
-              ›
-            </span>
+          <RouterLink
+            to="/gen-show"
+            class="flex h-12 w-12 items-center justify-center rounded-full border border-[#517ADA] bg-black/60"
+          >
+            <span class="text-3xl leading-none text-[#517ADA]"> › </span>
           </RouterLink>
-
         </div>
       </div>
     </div>
   </div>
 
-
   <!-- Divider -->
-      
 </template>
-
-
-
-
-
 
 <script setup>
 import { onMounted, onBeforeUnmount, ref, watchEffect } from "vue";
@@ -37,30 +28,24 @@ import * as Matter from "matter-js";
 import "matter-js/build/matter.js";
 
 const props = defineProps({
-
   Index: {
     type: Array,
     required: true,
-    default: () => []
+    default: () => [],
   },
 
   Scale: {
     type: Array,
     required: true,
-    default: () => [10,10,10,10,10,10,10,10]
+    default: () => [10, 10, 10, 10, 10, 10, 10, 10],
   },
 
   Value: {
     type: Number,
     required: true,
-    default: 0
-  }
+    default: 0,
+  },
 });
-  
-  
-
-  
-
 
 const MAX_BALLS = 8;
 
@@ -101,7 +86,17 @@ let walls = [];
 let mouseConstraint = null;
 
 function buildWorld() {
-  const { Engine, Render, Runner, World, Bodies, Body, Mouse, MouseConstraint, Events } = Matter;
+  const {
+    Engine,
+    Render,
+    Runner,
+    World,
+    Bodies,
+    Body,
+    Mouse,
+    MouseConstraint,
+    Events,
+  } = Matter;
 
   engine = Engine.create();
   engine.gravity.y = 0;
@@ -148,7 +143,7 @@ function buildWorld() {
   render.mouse = mouse;
 
   // Add center gravity
-  Events.on(engine, 'beforeUpdate', () => {
+  Events.on(engine, "beforeUpdate", () => {
     const cx = w / 2;
     const cy = h / 2;
     for (const ball of ballByIndex.values()) {
@@ -172,15 +167,28 @@ function buildWorld() {
       let newX = ball.position.x;
       let newY = ball.position.y;
 
-      if (newX < r) { newX = r; clamped = true; }
-      else if (newX > w - r) { newX = w - r; clamped = true; }
+      if (newX < r) {
+        newX = r;
+        clamped = true;
+      } else if (newX > w - r) {
+        newX = w - r;
+        clamped = true;
+      }
 
-      if (newY < r) { newY = r; clamped = true; }
-      else if (newY > h - r) { newY = h - r; clamped = true; }
+      if (newY < r) {
+        newY = r;
+        clamped = true;
+      } else if (newY > h - r) {
+        newY = h - r;
+        clamped = true;
+      }
 
       if (clamped) {
         Body.setPosition(ball, { x: newX, y: newY });
-        Body.setVelocity(ball, { x: ball.velocity.x * -0.5, y: ball.velocity.y * -0.5 }); // Bounce back slightly
+        Body.setVelocity(ball, {
+          x: ball.velocity.x * -0.5,
+          y: ball.velocity.y * -0.5,
+        }); // Bounce back slightly
       }
     }
   });
@@ -205,7 +213,8 @@ function teardown() {
   World.clear(engine.world, false);
   Engine.clear(engine);
 
-  if (render?.canvas?.parentNode) render.canvas.parentNode.removeChild(render.canvas);
+  if (render?.canvas?.parentNode)
+    render.canvas.parentNode.removeChild(render.canvas);
 
   engine = render = runner = null;
   walls = [];
@@ -263,8 +272,6 @@ function createBallByIndex(idx) {
   const idx2 = Math.min(Math.floor(props.Scale[idx] / 20), table.length - 1);
   const r = table[idx2];
 
-
-
   let pos = findNonOverlappingPosition(r);
   if (!pos) {
     // Fallback: Random position (ignoring overlap)
@@ -274,11 +281,11 @@ function createBallByIndex(idx) {
     const margin = r + 10;
     pos = {
       x: margin + Math.random() * (w - margin * 2),
-      y: margin + Math.random() * (h - margin * 2)
+      y: margin + Math.random() * (h - margin * 2),
     };
   }
 
-  const scale = (2 *r) / textureBaseSize;
+  const scale = (2 * r) / textureBaseSize;
 
   const ball = Bodies.circle(pos.x, pos.y, r, {
     restitution: 0.95,
@@ -336,23 +343,15 @@ function toggleBall(idx) {
   updateBallCount();
 }
 
-
 onMounted(() => {
   buildWorld();
 });
-
-
 
 onBeforeUnmount(() => {
   teardown();
 });
 
-
-
 watchEffect(() => {
   toggleBall(props.Value);
-})
-
-
-
+});
 </script>

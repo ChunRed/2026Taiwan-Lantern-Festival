@@ -14,6 +14,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { useGenStore } from "../stores/Gen";
 
 // 狀態
 const status = ref("loading...");
@@ -37,6 +38,10 @@ onMounted(async () => {
 
     const p = await liff.getProfile();
     profile.value = p;
+
+    // Initialize Socket
+    const genStore = useGenStore();
+    genStore.initSocket(p.userId);
 
     status.value = "LIFF ready";
   } catch (e) {
@@ -63,6 +68,9 @@ function loadLiffSdk() {
 <style scoped>
 .liff-profile {
   padding: 16px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont;
 }
 </style>
