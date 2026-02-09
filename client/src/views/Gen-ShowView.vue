@@ -1,14 +1,15 @@
 <template>
   <div class="flex flex-col">
     <div
-      class="flex-none fixed z-10 w-[110%] h-[500px] overflow-hidden -ml-5 top-0 bg-[#000000]"
+      class="absolute top-0 left-0 z-0 w-full h-[500px] overflow-hidden bg-[#000000]"
     >
+      <!-- 藍色漸層 -->
       <div
-        class="absolute w-[110%] h-24 bottom-0 -ml-5 mt-1 z-20 bg-gradient-to-t from-[#517ADA] to-black-500"
+        class="absolute bottom-0 left-0 z-10 w-full h-24 bg-gradient-to-t from-[#517ADA] to-black-500"
       ></div>
     </div>
 
-    <div class="relative top-[380px] w-full">
+    <div class="relative z-10 top-[380px] w-full">
       <div v-if="genStore.gen.length > 0">
         <div class="text-white mt-3 text-[24px] font-bold text-center">
           你獲得了一隻ＯＯＯ鹿

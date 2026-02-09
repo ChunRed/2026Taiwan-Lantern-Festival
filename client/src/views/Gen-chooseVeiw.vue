@@ -48,84 +48,66 @@ const getImageUrl = (name) => {
 
     <!-- 可捲動的按鈕列表區塊 -->
     <div class="flex-1 overflow-y-auto px-6 py-6">
-      <div class="flex flex-col gap-3">
+      <div class="grid grid-cols-3 gap-3">
         <button
           v-for="i in MAX_BALLS"
           :key="i"
           type="button"
           @click="toggleBall(i - 1)"
           :disabled="!ready"
-          class="relative flex items-center justify-between px-4 rounded-lg border text-base transition disabled:opacity-50 disabled:cursor-not-allowed"
+          class="relative flex flex-col items-center justify-center aspect-square rounded-xl border text-base transition disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
           :class="
             toggles[i - 1]
-              ? ' border-white/80'
+              ? ' border-white/80 bg-white/5'
               : 'bg-black text-white border-white/10 hover:border-white/40'
           "
         >
+          <!-- Selection Indicator (Dot) -->
+          <span
+            v-if="genStore.ItemScale[i - 1] > 0 && toggles[i - 1]"
+            class="absolute top-2 right-2 h-2 w-2 rounded-full shadow-[0_0_5px_currentColor]"
+            :style="{ backgroundColor: plantData[i - 1].themeColor }"
+          ></span>
+
+          <!-- Known Plant -->
           <div
             v-if="genStore.ItemScale[i - 1] > 0"
-            class="flex items-start gap-2 mt-2"
+            class="flex flex-col items-center gap-1 w-full px-1"
           >
             <img
               :src="getImageUrl(plantData[i - 1].image)"
               alt=""
-              class="w-10 h-10"
+              class="w-12 h-12 object-contain mb-1"
             />
 
-            <div class="px-3 flex flex-col text-left">
+            <div class="flex flex-col text-center w-full overflow-hidden">
               <span
-                class="font-medium text-[16px] tracking-[1.2em]"
+                class="font-medium text-[13px] tracking-widest truncate w-full"
                 :style="{ color: plantData[i - 1].themeColor }"
                 >{{ plantData[i - 1].nameZh }}
               </span>
               <span
-                class="font-medium text-[11px] tracking-[0.1em]"
+                class="font-medium text-[9px] tracking-wider opacity-60 truncate w-full"
                 :style="{ color: plantData[i - 1].themeColor }"
                 >{{ plantData[i - 1].nameEn }}</span
               >
             </div>
           </div>
 
-          <!-- 未知元素 -->
-          <div v-else class="flex items-start gap-2">
+          <!-- Unknown Element -->
+          <div v-else class="flex flex-col items-center gap-1 w-full opacity-40">
             <img
               :src="getImageUrl('未知元素.png')"
               alt=""
-              class="w-10 h-10 opacity-60 my-2"
+              class="w-10 h-10 grayscale mb-1"
             />
-
-            <div class="px-3 flex flex-col text-left">
-              <span
-                class="font-medium text-[16px] tracking-[1.2em] text-white/40 mt-2"
-                >????</span
-              >
-              <span
-                class="font-medium text-[11px] tracking-[0.1em] text-white/40"
+            <div class="flex flex-col text-center">
+              <span class="font-medium text-xs tracking-[0.5em] text-white/40"
                 >????</span
               >
             </div>
           </div>
-
-          <!-- 右側小指示燈 -->
-          <span
-            v-if="genStore.ItemScale[i - 1] > 0"
-            class="ml-3 inline-flex items-center gap-2"
-          >
-            <span
-              class="h-2.5 w-2.5 rounded-full shadow-sm"
-              :style="{
-                backgroundColor: toggles[i - 1]
-                  ? plantData[i - 1].themeColor
-                  : '#333333',
-              }"
-            ></span>
-            <span class="text-xs opacity-80 font-mono">{{
-              toggles[i - 1] ? "刪除" : "選擇"
-            }}</span>
-          </span>
         </button>
-        <div class="mt-40 text-white/50 text-center"></div>
-        <div class="mt-40 text-white/50 text-center"></div>
       </div>
 
       <!-- 底部預留空間，確保最後一個按鈕不貼底 -->

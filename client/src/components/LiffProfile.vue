@@ -1,15 +1,18 @@
 <template>
+  <!-- 
   <div class="liff-profile">
-    <h2>Welcome to my LIFF page Test</h2>
+    
+    <h2>Welcome to my LIFF page Test</h2> 
 
     <pre>{{ status }}</pre>
-
     <div v-if="profile">
       <div>displayName: {{ profile.displayName }}</div>
       <div>userId: {{ profile.userId }}</div>
       <div>pictureUrl: {{ profile.pictureUrl }}</div>
     </div>
   </div>
+  -->
+  
 </template>
 
 <script setup>
@@ -32,7 +35,13 @@ onMounted(async () => {
 
     // 若不是在 LINE App 內開啟，要求登入
     if (!liff.isLoggedIn()) {
-      liff.login();
+      //liff.login();
+      profile.value = {
+        displayName: "Test",
+        userId: "test",
+        pictureUrl: "test",
+      };
+
       return;
     }
 

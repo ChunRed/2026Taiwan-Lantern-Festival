@@ -272,22 +272,30 @@ function createBallByIndex(idx) {
   const idx2 = Math.min(Math.floor(props.Scale[idx] / 20), table.length - 1);
   const r = table[idx2];
 
-  let pos = findNonOverlappingPosition(r);
+  // Gap adjustment: increase physics body size
+  // Visual radius = r
+  // Physics radius = r + padding
+  const padding = 5;
+  const collisionRadius = r + padding;
+
+  let pos = findNonOverlappingPosition(collisionRadius);
   if (!pos) {
     // Fallback: Random position (ignoring overlap)
     console.warn(`No space to spawn ball #${idx + 1}, forcing spawn.`);
     const w = sceneEl.value.clientWidth;
     const h = sceneEl.value.clientHeight;
-    const margin = r + 10;
+    // Ensure we don't spawn inside walls too much
+    const margin = collisionRadius + 10;
     pos = {
       x: margin + Math.random() * (w - margin * 2),
       y: margin + Math.random() * (h - margin * 2),
     };
   }
 
+  // Scale based on original visual radius 'r'
   const scale = (2 * r) / textureBaseSize;
 
-  const ball = Bodies.circle(pos.x, pos.y, r, {
+  const ball = Bodies.circle(pos.x, pos.y, collisionRadius, {
     restitution: 0.95,
     friction: 0.02,
     frictionAir: 0.002,

@@ -34,7 +34,7 @@ export const useGenStore = defineStore('gen', () => {
     const loadingFinish = ref(false)
 
     const gen = ref([]);
-    const ItemScale = ref([20, 0, 0, 0, 0, 0, 0, 0]);
+    const ItemScale = ref([20, 40, 60, 80, 10, 30, 50, 70]);
     const SelectedItemRate = ref([]);
 
 

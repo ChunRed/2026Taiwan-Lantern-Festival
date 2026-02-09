@@ -23,6 +23,12 @@ const resetAll = () => {
   genStore.ItemScale = [0, 0, 0, 0, 0, 0, 0, 0];
 };
 
+const randomizeAll = () => {
+  genStore.ItemScale = genStore.ItemScale.map(() =>
+    Math.floor(Math.random() * 101)
+  );
+};
+
 const triggerSpecialEvent = () => {
   console.log("Special Event Triggered!");
   alert("Special Event Triggered!");
@@ -44,6 +50,12 @@ const triggerSpecialEvent = () => {
         RESET
       </button>
       <button
+        @click="randomizeAll"
+        class="px-6 py-3 bg-white/20 border border-white/80 rounded-lg font-bold tracking-wider transition-colors"
+      >
+        RANDOM
+      </button>
+      <button
         @click="triggerSpecialEvent"
         class="px-6 py-3 bg-white/20 border border-white/80 rounded-lg font-bold tracking-wider transition-colors"
       >
@@ -53,7 +65,7 @@ const triggerSpecialEvent = () => {
 
     <!-- Plant Grid -->
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto"
+      class="grid grid-cols-1 gap-6 max-w-md mx-auto"
     >
       <div
         v-for="(plant, index) in plants"
