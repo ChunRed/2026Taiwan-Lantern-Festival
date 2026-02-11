@@ -33,6 +33,10 @@ const currentColors = computed(() => {
   if (route.name === 'home' && genStore.beaconStatus !== 0) {
     return colorMap['home-active'];
   }
+  else{
+    return colorMap['home'];
+  }
+  
   return colorMap[route.name] || ['#000000', '#517ADA', '#000000'];
 });
 
