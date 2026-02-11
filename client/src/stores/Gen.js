@@ -29,11 +29,11 @@ export const useGenStore = defineStore('gen', () => {
 
 
         socket.value.on('beacon-enter', (data) => {
-            if (data == '靠近了baecon') {
+            if (data.message == '靠近了baecon') {
                 // alert(data.message || '您已靠近一隻鹿！')
                 trigger_state = 1;
             }
-            else if (data == '離開了baecon') {
+            else if (data.message == '離開了baecon') {
                 trigger_state = 0;
             }
 

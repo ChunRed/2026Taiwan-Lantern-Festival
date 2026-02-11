@@ -74,6 +74,7 @@ async function handleEvent(event) {
                 const roomName = buffer.toString('utf8');
 
                 console.log(`用戶 ${userId} 收到來自 HWID: ${hwid} 的訊號，位置在: ${roomName}`);
+                console.log(roomName);
 
                 if (roomName === "ROOM1") {
                     // 推送到前端 Vue
@@ -83,10 +84,10 @@ async function handleEvent(event) {
                         message: '靠近了baecon'
                     });
                     //推送到line聊天室
-                    return client.pushMessage(userId, {
-                        type: 'text',
-                        text: '靠近了baecon！發現了一隻鹿。'
-                    });
+                    // return client.pushMessage(userId, {
+                    //     type: 'text',
+                    //     text: '靠近了baecon！發現了一隻鹿。'
+                    // });
                 }
 
                 else if (roomName === "ROOM2") {
@@ -97,10 +98,10 @@ async function handleEvent(event) {
                         message: '離開了baecon'
                     });
                     //推送到line聊天室
-                    return client.pushMessage(userId, {
-                        type: 'text',
-                        text: '離開了一隻鹿。'
-                    });
+                    // return client.pushMessage(userId, {
+                    //     type: 'text',
+                    //     text: '離開了一隻鹿。'
+                    // });
                 }
             }
 
