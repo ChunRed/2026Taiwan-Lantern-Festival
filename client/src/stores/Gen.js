@@ -6,9 +6,20 @@ export const useGenStore = defineStore('gen', () => {
 
     const socket = ref(null)
     const userId = ref(null)
+    const current_state = ref(' -- ');
+    const beaconStatus = ref(0);
 
-    const trigger_state = ref(100);
-    const current_state = ref(100);
+    let triggerName = [
+        ' -- ',
+        '構樹鹿',
+        '月桃鹿',
+        '青剛櫟鹿',
+        '小葉桑鹿',
+        '五節芒鹿',
+        '赤榕鹿',
+        '穀穗鹿',
+        '金草蘭鹿',
+    ]
 
     function initSocket(uid) {
         if (!uid) return
@@ -29,15 +40,15 @@ export const useGenStore = defineStore('gen', () => {
 
 
         socket.value.on('beacon-enter', (data) => {
-            if (data.message == '靠近了baecon') {
-                alert(data.message || '您已靠近一隻鹿！')
-                trigger_state.value = 1;
-                current_state.value = 1;
+            beaconStatus.value = Number(data.message); // Store raw status
+
+            if (data.message == 0) {
+                alert('您已離開一隻鹿！')
+                current_state.value = '您已離開一隻鹿！';
             }
-            else if (data.message == '離開了baecon') {
-                alert(data.message || '您已離開一隻鹿！')
-                trigger_state.value = 0;
-                current_state.value = 0;
+            else if (data.message > 0 && data.message < triggerName.length) {
+                alert('您已接近' + triggerName[data.message])
+                current_state.value = '您已接近' + triggerName[data.message];
             }
         })
     }
@@ -86,6 +97,7 @@ export const useGenStore = defineStore('gen', () => {
         userId,
         userId,
         loadingFinish,
-        current_state
+        current_state,
+        beaconStatus
     }
 })

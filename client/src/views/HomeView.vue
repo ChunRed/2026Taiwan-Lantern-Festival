@@ -131,10 +131,7 @@ setTimeout(() => {
 
           <!-- 狀態機 -->
           <div class="my-5 text-center">
-            <!-- {{ state }}  -->
-            目前狀態：
-            <span v-if="genStore.current_state === 0">尚未接近鹿</span>
-            <span v-else-if="genStore.current_state === 1">正在接近鹿</span>
+            {{ genStore.current_state }}
           </div>
         </motion.div>
       </div>

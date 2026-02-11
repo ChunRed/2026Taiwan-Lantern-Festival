@@ -66,43 +66,25 @@ async function handleEvent(event) {
         if (type === 'enter') {
 
             const hwid = event.beacon.hwid;
-            const rawDm = event.beacon.dm; // 這裡是 hex 字串 "524f4f4d31"
+            const dmHex = event.beacon.dm;
 
-            if (rawDm) {
-                // 將 Hex 轉換回 ASCII 字串
-                const buffer = Buffer.from(rawDm, 'hex');
-                const roomName = buffer.toString('utf8');
+            if (dmHex) {
+                const deviceId = parseInt(dmHex, 16);
 
-                console.log(`用戶 ${userId} 收到來自 HWID: ${hwid} 的訊號，位置在: ${roomName}`);
-                console.log(roomName);
+                console.log(`用戶 ${userId} 收到來自 HWID: ${hwid} 的訊號，位置在: ${deviceId}`);
 
-                if (roomName === "ROOM1") {
-                    // 推送到前端 Vue
-                    io.to(userId).emit('beacon-enter', {
-                        type: 'text',
-                        hwid: hwid,
-                        message: '靠近了baecon'
-                    });
-                    //推送到line聊天室
-                    // return client.pushMessage(userId, {
-                    //     type: 'text',
-                    //     text: '靠近了baecon！發現了一隻鹿。'
-                    // });
-                }
+                // 推送到前端 Vue
+                io.to(userId).emit('beacon-enter', {
+                    type: 'text',
+                    hwid: hwid,
+                    message: deviceId
+                });
 
-                else if (roomName === "ROOM2") {
-                    // 推送到前端 Vue
-                    io.to(userId).emit('beacon-enter', {
-                        type: 'text',
-                        hwid: hwid,
-                        message: '離開了baecon'
-                    });
-                    //推送到line聊天室
-                    // return client.pushMessage(userId, {
-                    //     type: 'text',
-                    //     text: '離開了一隻鹿。'
-                    // });
-                }
+                //推送到line聊天室
+                // return client.pushMessage(userId, {
+                //     type: 'text',
+                //     text: '靠近了baecon！發現了一隻鹿。'
+                // });
             }
 
         }

@@ -12,11 +12,14 @@ const isMenuOpen = ref(false);
 const isLoading = ref(true);
 const brightness = ref(0.3);
 const route = useRoute();
+import { useGenStore } from "@/stores/Gen";
+const genStore = useGenStore();
 
 // Define color palettes for different pages
 // Format: [Color1, Color2, Color3]
 const colorMap = {
   'home': ['#000000', '#517ADA', '#C8AAFF'],      // Dark Blue/Black theme
+  'home-active': ['#FFD700', '#FF8C00', '#FFFFFF'], // Active/Near Deer (Gold/Orange)
   'library': ['#000000', '#000000', '#000000'],   // Example: More earthy/dark for library
   'gen-choose': ['#000000', '#000000', '#000000'],  // Original purple/blue mix
   'gen-show': ['#000000', '#000000', '#000000'], 
@@ -26,7 +29,22 @@ const colorMap = {
 };
 
 const currentColors = computed(() => {
+  // Check if we are home and close to a deer
+  if (route.name === 'home' && genStore.beaconStatus !== 0) {
+    return colorMap['home-active'];
+  }
   return colorMap[route.name] || ['#000000', '#517ADA', '#000000'];
+});
+
+// Watch beacon status to adjust brightness on home page
+watch(() => genStore.beaconStatus, (newStatus) => {
+  if (route.name === 'home') {
+    if (newStatus !== 0) {
+      brightness.value = 0.8; // Brighter when near deer
+    } else {
+      brightness.value = 0.3; // Default dim
+    }
+  }
 });
 
 // Close menu when route changes
