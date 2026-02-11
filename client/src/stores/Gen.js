@@ -7,6 +7,9 @@ export const useGenStore = defineStore('gen', () => {
     const socket = ref(null)
     const userId = ref(null)
 
+    let trigger_state = 100;
+    let current_state = 100;
+
     function initSocket(uid) {
         if (!uid) return
         userId.value = uid
@@ -24,10 +27,24 @@ export const useGenStore = defineStore('gen', () => {
             socket.value.emit('register', uid)
         })
 
+
         socket.value.on('beacon-enter', (data) => {
-            console.log('Beacon Enter:', data)
-            alert(data.message || '您已靠近一隻鹿！')
+            if (data == '靠近了baecon') {
+                // alert(data.message || '您已靠近一隻鹿！')
+                trigger_state = 1;
+            }
+            else if (data == '離開了baecon') {
+                trigger_state = 0;
+            }
         })
+
+        if (current_state == trigger_state) return
+        else {
+            if (trigger_state == 0) alert(data.message || '您已離開一隻鹿！')
+            else if (trigger_state == 1) alert(data.message || '您已接近一隻鹿！')
+            current_state = trigger_state;
+        }
+
     }
 
     // State

@@ -1,15 +1,17 @@
+// ngrok http 4000
+
 const express = require('express');
 const app = express();
 
 // 1. 修正 http 的引入方式
-const http = require('http'); 
+const http = require('http');
 
 const axios = require("axios");
 const path = require('path');
 const line = require('@line/bot-sdk');
 
 // 2. 必須從 socket.io 中解構出 Server 類別
-const { Server } = require("socket.io"); 
+const { Server } = require("socket.io");
 
 // LINE Bot 配置
 const config = {
@@ -23,7 +25,7 @@ const server = http.createServer(app);
 // 4. 正確初始化 Socket.IO
 const io = new Server(server, {
     cors: {
-        origin: "*", 
+        origin: "*",
         methods: ["GET", "POST"]
     }
 });
@@ -62,19 +64,46 @@ async function handleEvent(event) {
         const userId = event.source.userId;
 
         if (type === 'enter') {
-            console.log(`用戶 ${userId} 靠近了 Beacon: ${hwid}`);
-            // 推送到前端 Vue
-            io.to(userId).emit('beacon-enter', {
-                type: 'text',
-                hwid: hwid,
-                message: '靠近了baecon'
-            });
 
-            //推送到line聊天室
-            // return client.pushMessage(userId, {
-            //     type: 'text',
-            //     text: '靠近了baecon！發現了一隻鹿。'
-            // });
+            const hwid = event.beacon.hwid;
+            const rawDm = event.beacon.dm; // 這裡是 hex 字串 "524f4f4d31"
+
+            if (rawDm) {
+                // 將 Hex 轉換回 ASCII 字串
+                const buffer = Buffer.from(rawDm, 'hex');
+                const roomName = buffer.toString('utf8');
+
+                console.log(`用戶 ${userId} 收到來自 HWID: ${hwid} 的訊號，位置在: ${roomName}`);
+
+                if (roomName === "ROOM1") {
+                    // 推送到前端 Vue
+                    io.to(userId).emit('beacon-enter', {
+                        type: 'text',
+                        hwid: hwid,
+                        message: '靠近了baecon'
+                    });
+                    //推送到line聊天室
+                    return client.pushMessage(userId, {
+                        type: 'text',
+                        text: '靠近了baecon！發現了一隻鹿。'
+                    });
+                }
+
+                else if (roomName === "ROOM2") {
+                    // 推送到前端 Vue
+                    io.to(userId).emit('beacon-enter', {
+                        type: 'text',
+                        hwid: hwid,
+                        message: '離開了baecon'
+                    });
+                    //推送到line聊天室
+                    return client.pushMessage(userId, {
+                        type: 'text',
+                        text: '離開了一隻鹿。'
+                    });
+                }
+            }
+
         }
     }
     return Promise.resolve(null);
