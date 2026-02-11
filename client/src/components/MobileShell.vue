@@ -26,12 +26,12 @@ onMounted(() => {
 <template>
   <!-- Outer Container: Handles desktop centering and background -->
   <div
-    class="min-h-screen w-full bg-black flex justify-center items-center overflow-hidden"
+    class="min-h-screen w-full bg-transparent flex justify-center items-center overflow-hidden"
   >
     <!-- Inner Shell: The "Phone" frame -->
     <div
       id="mobile-scroll-container"
-      class="relative w-full max-w-[430px] h-[90vh] bg-black overflow-y-auto overflow-x-hidden flex flex-col /* Mobile (Small Screens) overrides: */ max-[500px]:max-w-full max-[500px]:h-[100dvh] max-[500px]:shadow-none max-[500px]:rounded-none border border-[#222222]"
+      class="relative w-full max-w-[430px] h-[90vh] bg-transparent overflow-y-auto overflow-x-hidden flex flex-col /* Mobile (Small Screens) overrides: */ max-[500px]:max-w-full max-[500px]:h-[100dvh] max-[500px]:shadow-none max-[500px]:rounded-none border border-[#222222]"
     >
       <!-- Safe Area padding wrappers could go here if needed globally, 
            but usually page content handles its own padding or we wrap slot.

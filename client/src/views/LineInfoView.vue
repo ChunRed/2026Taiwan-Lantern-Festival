@@ -1,5 +1,5 @@
 <template>
-  <LiffProfile />
+  <div class="line-info-view-placeholder"></div>
 </template>
 
 <script setup>

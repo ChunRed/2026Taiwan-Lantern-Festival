@@ -1,15 +1,33 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import { RouterLink, RouterView, useRoute } from "vue-router";
 import MobileShell from "./components/MobileShell.vue";
 import LoadingPage from "./components/LoadingPage.vue";
 import { motion } from "motion-v";
 import IconStroll from "./components/IconStroll.vue";
 import LiffProfile from "./components/LiffProfile.vue";
+import GradientBackground from "./components/GradientBackground.vue";
 
 const isMenuOpen = ref(false);
 const isLoading = ref(true);
+const brightness = ref(0.3);
 const route = useRoute();
+
+// Define color palettes for different pages
+// Format: [Color1, Color2, Color3]
+const colorMap = {
+  'home': ['#000000', '#517ADA', '#C8AAFF'],      // Dark Blue/Black theme
+  'library': ['#000000', '#000000', '#000000'],   // Example: More earthy/dark for library
+  'gen-choose': ['#000000', '#000000', '#000000'],  // Original purple/blue mix
+  'gen-show': ['#000000', '#000000', '#000000'], 
+  'information': ['#000000', '#000000', '#000000'], // Dark Slate Gray
+  'lineinfo': ['#000000', '#000000', '#000000'],
+  'test': ['#000000', '#000000', '#000000'],      // Example: Reddish for test
+};
+
+const currentColors = computed(() => {
+  return colorMap[route.name] || ['#000000', '#517ADA', '#000000'];
+});
 
 // Close menu when route changes
 watch(route, () => {
@@ -42,6 +60,11 @@ onMounted(() => {
 </script>
 
 <template>
+  <GradientBackground 
+    :colors="currentColors" 
+    :brightness="brightness" 
+    :speed="30"
+  />
   <MobileShell>
     <transition
       enter-active-class="transition duration-500 ease-out"
@@ -160,8 +183,17 @@ onMounted(() => {
             </div></RouterLink
           >
 
-          <!-- <RouterLink to="/practice" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">PRACTICE</RouterLink>
-          <RouterLink to="/lineinfo" class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors" @click="toggleMenu">LINEINFO</RouterLink> -->
+          <RouterLink
+            to="/lineinfo"
+            class="text-2xl font-light text-center tracking-widest hover:text-gray-300 transition-colors"
+            @click="toggleMenu"
+            >玩家資訊
+            <div
+              class="mt-3 text-sm text-center text-gray-300 font-light tracking-[0.6em]"
+            >
+              INFO
+            </div></RouterLink
+          >
         </div>
       </transition>
 
@@ -176,6 +208,19 @@ onMounted(() => {
         class="absolute top-0 left-0 w-full h-[108px] bg-[rgb(0,0,0,0.3)] backdrop-blur-sm z-40"
       ></div>
       <LiffProfile />
+    </div>
+
+    <!-- Debug Control for Brightness (Hidden by default, hover bottom-left to see) -->
+    <div class="fixed bottom-4 left-4 z-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
+      <input 
+        type="range" 
+        min="0" 
+        max="2" 
+        step="0.1" 
+        v-model.number="brightness" 
+        class="w-32 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+      />
+      <div class="text-xs text-white bg-black/50 px-2 py-1 rounded mt-1 text-center">Brightness: {{ brightness }}</div>
     </div>
   </MobileShell>
 </template>

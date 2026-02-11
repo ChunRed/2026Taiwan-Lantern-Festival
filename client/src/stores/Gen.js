@@ -7,8 +7,8 @@ export const useGenStore = defineStore('gen', () => {
     const socket = ref(null)
     const userId = ref(null)
 
-    let trigger_state = 100;
-    let current_state = 100;
+    const trigger_state = ref(100);
+    const current_state = ref(100);
 
     function initSocket(uid) {
         if (!uid) return
@@ -30,19 +30,15 @@ export const useGenStore = defineStore('gen', () => {
 
         socket.value.on('beacon-enter', (data) => {
             if (data.message == '靠近了baecon') {
-                alert(data.message || '您已靠近一隻鹿！')
-                trigger_state = 1;
+                // alert(data.message || '您已靠近一隻鹿！')
+                trigger_state.value = 1;
+                current_state.value = 1;
             }
             else if (data.message == '離開了baecon') {
-                alert(data.message || '您已離開一隻鹿！')
-                trigger_state = 0;
+                // alert(data.message || '您已離開一隻鹿！')
+                trigger_state.value = 0;
+                current_state.value = 0;
             }
-
-            // if (current_state != trigger_state) {
-            //     if (trigger_state == 0) alert(data.message || '您已離開一隻鹿！')
-            //     else if (trigger_state == 1) alert(data.message || '您已接近一隻鹿！')
-            //     current_state = trigger_state;
-            // }
         })
     }
 
@@ -88,6 +84,8 @@ export const useGenStore = defineStore('gen', () => {
         initSocket,
         socket,
         userId,
-        loadingFinish
+        userId,
+        loadingFinish,
+        current_state
     }
 })

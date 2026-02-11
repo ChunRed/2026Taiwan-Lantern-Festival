@@ -2,6 +2,9 @@
 import { ref, onMounted } from 'vue';
 import { RouterLink, RouterView } from "vue-router";
 import { motion } from "motion-v";
+import { useGenStore } from "@/stores/Gen";
+
+const genStore = useGenStore();
 
 // Components
 import MobileShell from "../components/MobileShell.vue";
@@ -125,6 +128,13 @@ setTimeout(() => {
           <!-- Divider -->
           <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4"></div>
           <div class="my-5 text-center">2026 Taiwan Lantern Festival</div>
+
+          <!-- 狀態機 -->
+          <div class="my-5 text-center">
+            {{ state }} 
+            <span v-if="genStore.current_state === 0">尚未接近鹿</span>
+            <span v-else-if="genStore.current_state === 1">正在接近鹿</span>
+          </div>
         </motion.div>
       </div>
 
@@ -191,7 +201,7 @@ setTimeout(() => {
           class="w-full"
         >
           <footer class="grid grid-cols-[1fr_auto_1fr] items-center w-full mt-auto mb-12 px-5">
-             <!-- Left Spacer -->
+            <!-- Left Spacer -->
             <div></div>
 
             <!-- Deer Button -->
@@ -247,7 +257,7 @@ setTimeout(() => {
           class="w-full"
         >
           <footer class="grid grid-cols-[1fr_auto_1fr] items-center w-full mt-auto mb-12 px-5">
-             <!-- Left Spacer -->
+            <!-- Left Spacer -->
             <div></div>
 
             <!-- Deer Button -->
@@ -275,7 +285,7 @@ setTimeout(() => {
           class="w-full"
         >
           <footer class="grid grid-cols-[1fr_auto_1fr] items-center w-full mt-auto mb-12 px-5">
-             <!-- Left Spacer -->
+            <!-- Left Spacer -->
             <div></div>
 
             <!-- Deer Button -->

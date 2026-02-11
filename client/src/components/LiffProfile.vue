@@ -1,7 +1,6 @@
 <template>
-  <!-- 
-  <div class="liff-profile">
-    
+  <div v-if="route.path === '/lineinfo'" class="liff-profile">
+    <!-- 在LineInfoView頁面要顯示的內容 -->
     <h2>Welcome to my LIFF page Test</h2> 
 
     <pre>{{ status }}</pre>
@@ -11,15 +10,15 @@
       <div>pictureUrl: {{ profile.pictureUrl }}</div>
     </div>
   </div>
-  -->
-  
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import { useGenStore } from "../stores/Gen";
 
 // 狀態
+const route = useRoute();
 const status = ref("loading...");
 const profile = ref(null);
 
