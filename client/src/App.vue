@@ -30,11 +30,8 @@ const colorMap = {
 
 const currentColors = computed(() => {
   // Check if we are home and close to a deer
-  if (route.name === 'home' && genStore.beaconStatus !== 0) {
+  if (route.name === 'home' && genStore.beaconStatus > 1) {
     return colorMap['home-active'];
-  }
-  else{
-    return colorMap['home'];
   }
   
   return colorMap[route.name] || ['#000000', '#517ADA', '#000000'];
