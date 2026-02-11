@@ -11,6 +11,7 @@ export const useGenStore = defineStore('gen', () => {
 
     let triggerName = [
         ' -- ',
+        ' -- ',
         '構樹鹿',
         '月桃鹿',
         '青剛櫟鹿',
@@ -42,11 +43,11 @@ export const useGenStore = defineStore('gen', () => {
         socket.value.on('beacon-enter', (data) => {
             beaconStatus.value = Number(data.message); // Store raw status
 
-            if (data.message == 0) {
+            if (data.message == 1) {
                 alert('您已離開一隻鹿！')
                 current_state.value = '您已離開一隻鹿！';
             }
-            else if (data.message > 0 && data.message < triggerName.length) {
+            else if (data.message > 1 && data.message < triggerName.length) {
                 alert('您已接近' + triggerName[data.message])
                 current_state.value = '您已接近' + triggerName[data.message];
             }
