@@ -36,14 +36,15 @@ export const useGenStore = defineStore('gen', () => {
             else if (data == '離開了baecon') {
                 trigger_state = 0;
             }
+
+            if (current_state != trigger_state) {
+                if (trigger_state == 0) alert(data.message || '您已離開一隻鹿！')
+                else if (trigger_state == 1) alert(data.message || '您已接近一隻鹿！')
+                current_state = trigger_state;
+            }
         })
 
-        if (current_state == trigger_state) return
-        else {
-            if (trigger_state == 0) alert(data.message || '您已離開一隻鹿！')
-            else if (trigger_state == 1) alert(data.message || '您已接近一隻鹿！')
-            current_state = trigger_state;
-        }
+
 
     }
 
