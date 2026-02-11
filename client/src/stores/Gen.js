@@ -30,12 +30,12 @@ export const useGenStore = defineStore('gen', () => {
 
         socket.value.on('beacon-enter', (data) => {
             if (data.message == '靠近了baecon') {
-                // alert(data.message || '您已靠近一隻鹿！')
+                alert(data.message || '您已靠近一隻鹿！')
                 trigger_state.value = 1;
                 current_state.value = 1;
             }
             else if (data.message == '離開了baecon') {
-                // alert(data.message || '您已離開一隻鹿！')
+                alert(data.message || '您已離開一隻鹿！')
                 trigger_state.value = 0;
                 current_state.value = 0;
             }
