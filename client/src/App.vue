@@ -30,6 +30,10 @@ const colorMap = {
 };
 
 const currentColors = computed(() => {
+  if (forceBlackBackground.value) {
+    return ['#000000', '#000000', '#000000'];
+  }
+
   // Check if we are home and close to a deer
   if (route.name === 'home' && genStore.beaconStatus > 1) {
     return colorMap['home-active'];
@@ -97,6 +101,19 @@ onMounted(() => {
     isLoading.value = false;
   }, 100);
 });
+
+const forceBlackBackground = ref(false);
+
+watch([isLoading, () => genStore.isHomeLoading], ([loading, homeLoading]) => {
+  if (loading || homeLoading) {
+    forceBlackBackground.value = true;
+  } else {
+    // Both finished loading, keep black for 1 more second
+    setTimeout(() => {
+      forceBlackBackground.value = false;
+    }, 1000);
+  }
+}, { immediate: true });
 </script>
 
 <template>

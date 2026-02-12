@@ -34,7 +34,12 @@ import IntroGen4Img from "../assets/Intro_gen4.png";
 
 // State
 const state = ref(0);
-const isLoading = ref(true);
+// Use store state for loading
+// Initialize store state
+onMounted(() => {
+  genStore.isHomeLoading = true;
+});
+
 
 // Methods
 const nextState = () => {
@@ -62,9 +67,9 @@ const PN_Intro_Skip = () => {
 };
 
 const triggerLoading = () => {
-  isLoading.value = true;
+  genStore.isHomeLoading = true;
   setTimeout(() => {
-    isLoading.value = false;
+    genStore.isHomeLoading = false;
   }, 1000); // 1 second loading when switching back to 0
 }
 
@@ -92,8 +97,8 @@ onMounted(() => {
 
   // Give it some time for the glass effect to initialize and stablize
   setTimeout(() => {
-    isLoading.value = false;
-  }, 2000); // 2 second local loading for smoother entry
+    genStore.isHomeLoading = false;
+  }, 3000); // 3 second local loading for smoother entry
 });
 
 setTimeout(() => {
@@ -105,7 +110,7 @@ setTimeout(() => {
   <div class="flex flex-col h-full px-6 py-6 text-white font-sans relative">
     
     <transition name="fade">
-      <LoadingPage v-if="isLoading" class="absolute inset-0 z-[100]" />
+      <LoadingPage v-if="genStore.isHomeLoading" class="absolute inset-0 z-[100]" />
     </transition>
 
     <!-- Navigation Arrows -->

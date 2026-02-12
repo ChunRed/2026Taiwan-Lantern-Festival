@@ -185,6 +185,24 @@ const resize = () => {
   gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 };
 
+const currentRgbColors = ref([
+  [0, 0, 0],
+  [0, 0, 0],
+  [0, 0, 0]
+]);
+
+const lerp = (start, end, t) => {
+  return start + (end - start) * t;
+};
+
+const lerpColor = (current, target, t) => {
+  return [
+    lerp(current[0], target[0], t),
+    lerp(current[1], target[1], t),
+    lerp(current[2], target[2], t)
+  ];
+};
+
 const render = (time) => {
   if (!gl || !program) return;
 
@@ -193,13 +211,19 @@ const render = (time) => {
   gl.uniform1f(gl.getUniformLocation(program, "uTime"), elapsedTime);
   gl.uniform1f(gl.getUniformLocation(program, "uBrightness"), props.brightness);
   
-  const c1 = hexToRgb(props.colors[0]);
-  const c2 = hexToRgb(props.colors[1]);
-  const c3 = hexToRgb(props.colors[2]);
+  const targetC1 = hexToRgb(props.colors[0]);
+  const targetC2 = hexToRgb(props.colors[1]);
+  const targetC3 = hexToRgb(props.colors[2]);
 
-  gl.uniform3fv(gl.getUniformLocation(program, "uColor1"), c1);
-  gl.uniform3fv(gl.getUniformLocation(program, "uColor2"), c2);
-  gl.uniform3fv(gl.getUniformLocation(program, "uColor3"), c3);
+  // Smoothly interpolate current colors towards target colors
+  // Factor 0.02 provides a slow, smooth transition
+  currentRgbColors.value[0] = lerpColor(currentRgbColors.value[0], targetC1, 0.02);
+  currentRgbColors.value[1] = lerpColor(currentRgbColors.value[1], targetC2, 0.02);
+  currentRgbColors.value[2] = lerpColor(currentRgbColors.value[2], targetC3, 0.02);
+
+  gl.uniform3fv(gl.getUniformLocation(program, "uColor1"), currentRgbColors.value[0]);
+  gl.uniform3fv(gl.getUniformLocation(program, "uColor2"), currentRgbColors.value[1]);
+  gl.uniform3fv(gl.getUniformLocation(program, "uColor3"), currentRgbColors.value[2]);
 
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 

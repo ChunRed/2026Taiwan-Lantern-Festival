@@ -9,6 +9,7 @@ export const useGenStore = defineStore('gen', () => {
     const current_state = ref(' -- ');
     const beaconStatus = ref(0);
     const isTriggerActive = ref(false);
+    const isHomeLoading = ref(false);
 
     let triggerName = [
         ' -- ',
@@ -128,6 +129,7 @@ export const useGenStore = defineStore('gen', () => {
         isTriggerActive,
         triggerTimer,
         startCountdown,
-        stopCountdown
+        stopCountdown,
+        isHomeLoading
     }
 })
