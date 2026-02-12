@@ -22,7 +22,15 @@ import LoadingPage from "../components/LoadingPage.vue";
 
 // Assets
 import MapImg from "../assets/Map.png";
+import TriggerMapImg from "../assets/Trigger/trigger-五節芒.png";
 import DeerBtn from "../assets/deer_button.png";
+import IntroMapImg from "../assets/Intro_map.png";
+import IntroCollectImg from "../assets/Intro_collect.png";
+import IntroLibraryImg from "../assets/Intro_library.png";
+import IntroGenImg from "../assets/Intro_gen.png";
+import IntroGen2Img from "../assets/Intro_gen2.png";
+import IntroGen3Img from "../assets/Intro_gen3.png";
+import IntroGen4Img from "../assets/Intro_gen4.png";
 
 // State
 const state = ref(0);
@@ -60,8 +68,28 @@ const triggerLoading = () => {
   }, 1000); // 1 second loading when switching back to 0
 }
 
+const preloadImages = () => {
+  const images = [
+    IntroMapImg,
+    IntroCollectImg,
+    IntroLibraryImg,
+    IntroGenImg,
+    IntroGen2Img,
+    IntroGen3Img,
+    IntroGen4Img
+  ];
+
+  images.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+};
+
 // Lifecycle
 onMounted(() => {
+  // Preload images for smoother transitions
+  preloadImages();
+
   // Give it some time for the glass effect to initialize and stablize
   setTimeout(() => {
     isLoading.value = false;
@@ -110,10 +138,18 @@ setTimeout(() => {
               :transition="{ duration: 1, delay: 1 }"
               class="relative w-full h-full"
             >
-              <img :src="MapImg" alt="Main Map" class="w-full h-full object-contain" />
-              <FluidFrostedGlass />
+              <img :src="genStore.isTriggerActive ? TriggerMapImg : MapImg" alt="Main Map" class="w-full h-full object-contain transition-opacity duration-500" />
+              <MapPath />
+              <motion.div
+                v-if="!genStore.isTriggerActive"
+                :initial="{ opacity: 0 }"
+                :animate="{ opacity: 1 }"
+                :transition="{ duration: 1.5, delay: 0.5 }"
+                class="absolute inset-0 w-full h-full"
+              >
+                <FluidFrostedGlass />
+              </motion.div>
             </motion.div>
-            <MapPath />
           </div>
 
           <!-- Other States -->
@@ -159,7 +195,7 @@ setTimeout(() => {
                   <span class="text-3xl leading-none text-[#fffff]">!</span>
                 </button>
                 
-                <RouterLink to="/gen-choose" class="flex h-12 w-12 items-center justify-center rounded-full border border-white bg-white/5">
+                <RouterLink to="/library" class="flex h-12 w-12 items-center justify-center rounded-full border border-white bg-white/5">
                   <img :src="DeerBtn" alt="Navigate" class="w-full h-full object-contain" />
                 </RouterLink>
               </footer>

@@ -126,13 +126,13 @@ onMounted(() => {
       <!-- Moon/Deer Composition -->
       <div class="moon-composition relative z-10">
         <!-- Main Moon Circle -->
-        <div class="relative w-40 h-40 flex items-center justify-center">
+        <div class="relative w-60 h-60 flex items-center justify-center">
           <!-- Background Image -->
-          <img
+          <!-- <img
             src="@/assets/Intro/I_IconBG.png"
             alt="Moon Background"
             class="absolute inset-0 w-full h-full object-contain blur-sm"
-          />
+          /> -->
 
           <!-- Deer Image -->
           <motion.div
@@ -142,9 +142,9 @@ onMounted(() => {
             class="flex flex-col items-start"
           >
             <img
-              src="@/assets/Intro/I_deer.png"
+              src="@/assets/Intro_logo.png"
               alt="Deer"
-              class="w-32 h-auto object-contain relative z-20 translate-y-3 drop-shadow-[-6px_5px_4px_rgba(0,0,0,0.6)]"
+              class="w-80 h-auto object-contain relative z-20 translate-y-3 drop-shadow-[-6px_5px_4px_rgba(0,0,0,0.6)]"
             />
           </motion.div>
 

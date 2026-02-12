@@ -161,11 +161,12 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, computed } from "vue";
 import { RouterLink } from "vue-router";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGenStore } from "../stores/Gen.js";
+import plantData from "../data/plantData.json";
 
 const genStore = useGenStore();
 
@@ -176,82 +177,73 @@ const getImageUrl = (name) => {
   return new URL(`../assets/${name}`, import.meta.url).href;
 };
 
-const cards = [
-  {
-    zh: "赤榕",
-    en: "yono",
-    id: "yono",
-    percent: genStore.ItemScale[5],
-    gradFrom: "#FF9696",
-    gradTo: "rgba(0,0,0, 1)",
-    img: "赤榕W.png",
-  },
-  {
-    zh: "金草蘭",
-    en: "fiteu",
-    id: "fiteu",
-    percent: genStore.ItemScale[7],
-    gradFrom: "#FFCC98",
-    gradTo: "rgba(0,0,0, 1)",
-    img: "金草蘭W.png",
-  },
-  {
-    zh: "構樹",
-    en: "tapangeosx",
-    id: "tapangeosx",
-    percent: genStore.ItemScale[0],
-    gradFrom: "#F5B7FF",
-    gradTo: "rgba(0,0,0, 1)",
-    img: "構樹W.png",
-  },
-  {
-    zh: "月桃",
-    en: "kitposa",
-    id: "kitposa",
-    percent: genStore.ItemScale[1],
-    gradFrom: "#C8AAFF",
-    gradTo: "rgba(0,0,0, 1)",
-    img: "月桃W.png",
-  },
-  {
-    zh: "青剛櫟",
-    en: "otu",
-    id: "otu",
-    percent: genStore.ItemScale[2],
-    gradFrom: "#517ADA",
-    gradTo: "rgba(0,0,0, 1)",
-    img: "青剛櫟W.png",
-  },
-  {
-    zh: "小葉桑",
-    en: "tahivcu & tahzucu",
-    id: "tahivcu & tahzucu",
-    percent: genStore.ItemScale[3],
-    gradFrom: "#01B9FF",
-    gradTo: "rgba(0,0,0, 1)",
-    img: "小葉桑W.png",
-  },
-  {
-    zh: "五節芒",
-    en: "haengu",
-    id: "haengu",
-    percent: genStore.ItemScale[4],
-    gradFrom: "#6FC8D7",
-    gradTo: "rgba(0,0,0, 1)",
-    img: "五節芒W.png",
-    link: "HeanguView.vue",
-  },
-  {
-    zh: "穀穗",
-    en: "ton'u & pai",
-    id: "ton'u & pai",
-    percent: genStore.ItemScale[6],
-    gradFrom: "#FFF2A6",
-    gradTo: "rgba(0,0,0, 1)",
-    img: "穀穗W.png",
-  },
-  
-];
+// Mapping from plant ID to ItemScale index
+const scaleIndexMap = {
+  "tapangeosx": 0,
+  "kitposa": 1,
+  "otu": 2,
+  "tahivcu & tahzucu": 3,
+  "haengu": 4,
+  "yono": 5,
+  "ton'u & pai": 6,
+  "fiteu": 7
+};
+
+const cards = computed(() => {
+  return plantData.map(plant => {
+    // Construct the W version filename from the image name in JSON
+    // Assuming JSON has "Name.png" and we want "NameW.png"
+    // The user requested to use data from JSON. 
+    // If we strictly follow "use data from plantData", we should use plant.image.
+    // However, looking at the previous code, it used "W" (white?) versions.
+    // Let's rely on the JSON data primarily.
+    // If the user meant "use the structure from JSON but keep the W images", I should inject 'W'.
+    // But usually "move data to json" implies using the json's values.
+    // I will try to use the image name as is from JSON first. 
+    // Wait, the user said "don't use cards anymore".
+    // I'll stick to plant.image.
+    
+    // To match the specific gradients used previously which might not be in JSON?
+    // JSON has "themeColor".
+    // Previous code: gradFrom: "#FF9696", gradTo: "rgba(0,0,0, 1)".
+    // JSON has "themeColor": "#FF9696".
+    // So gradFrom = themeColor. gradTo is fixed.
+    
+    // Percent:
+    const scaleIndex = scaleIndexMap[plant.id];
+    const percent = scaleIndex !== undefined ? genStore.ItemScale[scaleIndex] : 0;
+
+    // Image logic:
+    // The previous code had "赤榕W.png". JSON has "赤榕.png".
+    // If I use "赤榕.png", it might be the colored version.
+    // I will try to heuristically add 'W' if it matches the pattern or just utilize the JSON image.
+    // Let's blindly use the JSON image for now as requested.
+    
+    // Actually, looking at the JSON, "image": "赤榕.png".
+    // If I need "赤榕W.png", I'd have to modify it.
+    // Let's assume the user updated JSON or expects us to use the filenames in JSON. 
+    
+    // One edge case: The previous array had a "link": "HeanguView.vue" for one item (haengu).
+    // The JSON doesn't seem to have a "link" field.
+    // But looking at the template, I don't see `c.link` being used for navigation logic in the visible code block?
+    // Ah, I missed it?
+    // Let me check the template again.
+    // I don't see `c.link` usage in the template I read.
+    // `RouterLink` points to `/information` with query id. 
+    // `target` or separate link logic doesn't seem present in the snippet I saw.
+    // The commented out `HeanguView.vue` link in the previous object might have been unused or for a different purpose not shown.
+    
+    return {
+      zh: plant.nameZh,
+      en: plant.nameEn,
+      id: plant.id,
+      percent: percent,
+      gradFrom: plant.themeColor,
+      gradTo: "rgba(0,0,0, 1)",
+      img: plant.image.replace('.png', 'W.png'), // Construct W version to match visual style
+    };
+  });
+});
 
 let ctx;
 

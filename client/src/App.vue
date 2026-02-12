@@ -11,7 +11,7 @@ import FloatingParticlesOverlay from "./components/FloatingParticlesOverlay.vue"
 
 const isMenuOpen = ref(false);
 const isLoading = ref(true);
-const brightness = ref(0.9);
+const brightness = ref(1);
 const route = useRoute();
 import { useGenStore } from "@/stores/Gen";
 const genStore = useGenStore();
@@ -42,9 +42,9 @@ const currentColors = computed(() => {
 watch(() => genStore.beaconStatus, (newStatus) => {
   if (route.name === 'home') {
     if (newStatus !== 1) {
-      brightness.value = 0.8; // Brighter when near deer
+      brightness.value = 0.2; // Brighter when near deer
     } else {
-      brightness.value = 0.4; // Default dim
+      brightness.value = 1.0; // Default dim
     }
   }
 });
@@ -57,6 +57,18 @@ watch(route, () => {
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
+
+const toggleTrigger = () => {
+  genStore.isTriggerActive = !genStore.isTriggerActive;
+};
+
+watch(() => genStore.isTriggerActive, (active) => {
+  if (active) {
+    brightness.value = 0.2;
+  } else {
+    brightness.value = 1.0;
+  }
+});
 
 onMounted(() => {
   const handleLoad = () => {
@@ -85,9 +97,8 @@ onMounted(() => {
     :brightness="brightness" 
     :speed="10"
   />
-  <FloatingParticlesOverlay v-if="route.name === 'home'" />
-  <MobileShell>
-    <transition
+  <FloatingParticlesOverlay v-if="['home', 'normal'].includes(route.name)" />
+  <transition
       enter-active-class="transition duration-500 ease-out"
       enter-from-class="opacity-0"
       enter-to-class="opacity-100"
@@ -96,8 +107,10 @@ onMounted(() => {
       leave-to-class="opacity-0"
     >
       <LoadingPage v-if="isLoading" />
-    </transition>
+  </transition>
 
+  <MobileShell>
+    <!-- Content inside shell -->
     <div class="flex flex-col w-full h-full py-6 text-white font-sans relative">
       <!-- Header -->
       <header
@@ -229,19 +242,29 @@ onMounted(() => {
         class="absolute top-0 left-0 w-full h-[108px] bg-[rgb(0,0,0,0.3)] backdrop-blur-sm z-40"
       ></div>
       <LiffProfile />
-    </div>
+      
+      <!-- Debug Control for Brightness (Hidden by default, hover bottom-left to see) -->
+      <div class=" left-4 z-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
+        <input 
+          type="range" 
+          min="0" 
+          max="2" 
+          step="0.1" 
+          v-model.number="brightness" 
+          class="w-32 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+        />
+        <div class="text-xs text-white bg-black/50 px-2 py-1 rounded mt-1 text-center">Brightness: {{ brightness }}</div>
+      </div>
 
-    <!-- Debug Control for Brightness (Hidden by default, hover bottom-left to see) -->
-    <div class="fixed bottom-4 left-4 z-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
-      <input 
-        type="range" 
-        min="0" 
-        max="2" 
-        step="0.1" 
-        v-model.number="brightness" 
-        class="w-32 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-      />
-      <div class="text-xs text-white bg-black/50 px-2 py-1 rounded mt-1 text-center">Brightness: {{ brightness }}</div>
+      <!-- Trigger Toggle Button -->
+      <div class="right-4 z-[9999]">
+        <button 
+          class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white text-xs hover:bg-white/30 transition-colors shadow-lg"
+          @click="toggleTrigger"
+        >
+          {{ genStore.isTriggerActive ? 'ON' : 'OFF' }}
+        </button>
+      </div>
     </div>
   </MobileShell>
 </template>

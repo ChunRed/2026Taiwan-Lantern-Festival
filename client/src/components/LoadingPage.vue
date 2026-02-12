@@ -8,7 +8,7 @@ import { motion } from "motion-v";
 
 <template>
   <div
-    class="absolute inset-0 z-[100] bg-black flex flex-col px-6 py-6 overflow-hidden"
+    class="fixed inset-0 z-[200] bg-black flex flex-col px-6 py-6 overflow-hidden"
   >
     <!-- Phantom Header (App.vue) -->
     <div

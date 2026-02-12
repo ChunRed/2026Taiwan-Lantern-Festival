@@ -1,7 +1,7 @@
 <template>
   <div 
     ref="container"
-    class="fluid-glass-container pointer-events-none absolute inset-0 z-[1] overflow-hidden"
+    class="fluid-glass-container pointer-events-none absolute inset-0 z-[1] overflow-hidden opacity-0 transition-opacity duration-[2000ms]"
     :style="containerStyle"
   >
     <div class="glass-effect w-full h-full absolute inset-0"></div>
@@ -71,6 +71,13 @@ const update = () => {
 
 onMounted(() => {
   update();
+  
+  // Trigger fade-in after 3 seconds delay
+  setTimeout(() => {
+    if (container.value) {
+      container.value.style.opacity = '1';
+    }
+  }, 2000);
 });
 
 onUnmounted(() => {

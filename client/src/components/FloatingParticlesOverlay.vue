@@ -6,7 +6,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { useGenStore } from "@/stores/Gen";
+
+const genStore = useGenStore();
 
 /* --- 參數設定 (Configuration) --- */
 const CONFIG = {
@@ -19,6 +22,8 @@ const CONFIG = {
   wobbleSpeed: 0.6,
   wobbleAmount: 0.08
 };
+
+
 
 const canvas = ref(null);
 let gl = null;
@@ -179,14 +184,34 @@ const resize = () => {
   gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 };
 
+const currentColor = ref([...CONFIG.color]);
+const targetColor = ref([...CONFIG.color]);
+
+watch(() => genStore.isTriggerActive, (active) => {
+  if (active) {
+    targetColor.value = [0.15, 0.15, 0.15]; // Dimmer
+  } else {
+    targetColor.value = [0.5, 0.5, 0.5]; // Default
+  }
+});
+
+function lerp(start, end, t) {
+  return start * (1 - t) + end * t;
+}
+
 const render = (time) => {
   if (!gl || !program) return;
   const elapsedTime = (time - startTime) * 0.001;
 
+  // Smoothly interpolate color
+  currentColor.value[0] = lerp(currentColor.value[0], targetColor.value[0], 0.05);
+  currentColor.value[1] = lerp(currentColor.value[1], targetColor.value[1], 0.05);
+  currentColor.value[2] = lerp(currentColor.value[2], targetColor.value[2], 0.05);
+
   gl.uniform1f(gl.getUniformLocation(program, "uTime"), elapsedTime);
   gl.uniform2f(gl.getUniformLocation(program, "uResolution"), canvas.value.width, canvas.value.height);
   
-  gl.uniform3f(gl.getUniformLocation(program, "uColor"), CONFIG.color[0], CONFIG.color[1], CONFIG.color[2]);
+  gl.uniform3f(gl.getUniformLocation(program, "uColor"), currentColor.value[0], currentColor.value[1], currentColor.value[2]);
   gl.uniform1f(gl.getUniformLocation(program, "uSpeed"), CONFIG.speed);
   gl.uniform1f(gl.getUniformLocation(program, "uBaseSize"), CONFIG.baseSize);
   gl.uniform1f(gl.getUniformLocation(program, "uGlowSize"), CONFIG.glowSize);
