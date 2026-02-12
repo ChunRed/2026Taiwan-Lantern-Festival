@@ -85,7 +85,7 @@ const fragmentShaderSource = `
 
     // Create moving coordinates for noise
     // Reduced scale from 3.0 to 0.8 to make the color blobs larger and more uniform
-    vec2 st = vUv * 0.8;
+    vec2 st = vUv * 1.0;
     
     // Generate noise values for mixing
     float n1 = noise(st + vec2(t * 0.5, t * 0.3));

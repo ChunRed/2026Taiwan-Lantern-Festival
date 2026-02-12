@@ -7,10 +7,11 @@ import { motion } from "motion-v";
 import IconStroll from "./components/IconStroll.vue";
 import LiffProfile from "./components/LiffProfile.vue";
 import GradientBackground from "./components/GradientBackground.vue";
+import FloatingParticlesOverlay from "./components/FloatingParticlesOverlay.vue";
 
 const isMenuOpen = ref(false);
 const isLoading = ref(true);
-const brightness = ref(0.3);
+const brightness = ref(0.9);
 const route = useRoute();
 import { useGenStore } from "@/stores/Gen";
 const genStore = useGenStore();
@@ -18,7 +19,7 @@ const genStore = useGenStore();
 // Define color palettes for different pages
 // Format: [Color1, Color2, Color3]
 const colorMap = {
-  'home': ['#000000', '#517ADA', '#C8AAFF'],      // Dark Blue/Black theme
+  'home': ['#999999', '#517ADA', '#000000'],      // Dark Blue/Black theme
   'home-active': ['#FFD700', '#FF8C00', '#FFFFFF'], // Active/Near Deer (Gold/Orange)
   'library': ['#000000', '#000000', '#000000'],   // Example: More earthy/dark for library
   'gen-choose': ['#000000', '#000000', '#000000'],  // Original purple/blue mix
@@ -40,10 +41,10 @@ const currentColors = computed(() => {
 // Watch beacon status to adjust brightness on home page
 watch(() => genStore.beaconStatus, (newStatus) => {
   if (route.name === 'home') {
-    if (newStatus !== 0) {
+    if (newStatus !== 1) {
       brightness.value = 0.8; // Brighter when near deer
     } else {
-      brightness.value = 0.3; // Default dim
+      brightness.value = 0.4; // Default dim
     }
   }
 });
@@ -82,8 +83,9 @@ onMounted(() => {
   <GradientBackground 
     :colors="currentColors" 
     :brightness="brightness" 
-    :speed="30"
+    :speed="10"
   />
+  <FloatingParticlesOverlay v-if="route.name === 'home'" />
   <MobileShell>
     <transition
       enter-active-class="transition duration-500 ease-out"

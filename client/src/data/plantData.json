@@ -1,5 +1,32 @@
 [
     {
+        "nameZh": "赤榕",
+        "id": "yono",
+        "title": "源生之根",
+        "subtitle": "The Root of Origin",
+        "nameEn": "yono",
+        "description": "梅花鹿的存在象徵著大地的賜予與繁盛。鄒族傳說中，鹿引領獵人尋覓新的獵場與生存之地，象徵生命力的流動與延續。鹿的行蹤與出沒，是自然循環的見證，也暗示著族人與大地之間持續的互惠與依存。",
+        "subtitle2": "The Bestower of Vitality",
+        "description2": "赤榕堅韌且果實為多種野生動物食物，象徵部落探索未知與生生不息。與梅花鹿象徵探索勇氣，赤榕的堅韌與盤根錯節比擬鹿跨越障礙的決心，呈現部落對未知世界的無畏前行。",
+        "themeColor": "#FF9696",
+        "image": "赤榕.png",
+        "DeerImage": "赤榕_示意圖.png"
+    },
+    {
+        "nameZh": "金草蘭",
+        "id": "fiteu",
+        "title": "行徑之引",
+        "subtitle": "The Guiding of the Path",
+        "nameEn": "fiteu",
+        "description": "在鄒族神話中，鹿常被視為祖靈的使者，是人與自然、此世與靈界之間的橋樑。梅花鹿的足跡帶領族人走入森林與山谷，牠的出現也被視為吉兆。鹿成為靈性的引導者，提醒人類回望自身的根源與與自然共生的秩序。",
+        "title2": "靈性引導者",
+        "subtitle2": "A Spiritual Guide",
+        "description2": "鄒族傳統祭典中金草蘭象徵勇士精神和天神降臨，其與鹿結合展現靈性指引與淨化力量，在森林中引領族人踏入深層靈域，結合金草蘭的神聖力量，象徵穿越未知與除邪的純淨指引。",
+        "themeColor": "#FFCC98",
+        "image": "金草蘭.png",
+        "DeerImage": "金草蘭_示意圖.png"
+    },
+    {
         "nameZh": "構樹",
         "id": "tapangeosx",
         "title": "古根的喚",
@@ -70,19 +97,6 @@
         "DeerImage": "芒草_示意圖.png"
     },
     {
-        "nameZh": "赤榕",
-        "id": "yono",
-        "title": "源生之根",
-        "subtitle": "The Root of Origin",
-        "nameEn": "yono",
-        "description": "梅花鹿的存在象徵著大地的賜予與繁盛。鄒族傳說中，鹿引領獵人尋覓新的獵場與生存之地，象徵生命力的流動與延續。鹿的行蹤與出沒，是自然循環的見證，也暗示著族人與大地之間持續的互惠與依存。",
-        "subtitle2": "The Bestower of Vitality",
-        "description2": "赤榕堅韌且果實為多種野生動物食物，象徵部落探索未知與生生不息。與梅花鹿象徵探索勇氣，赤榕的堅韌與盤根錯節比擬鹿跨越障礙的決心，呈現部落對未知世界的無畏前行。",
-        "themeColor": "#51CCB4",
-        "image": "赤榕.png",
-        "DeerImage": "赤榕_示意圖.png"
-    },
-    {
         "nameZh": "穀穗",
         "id": "ton'u & pai",
         "title": "豐收之兆",
@@ -95,19 +109,5 @@
         "themeColor": "#FFF2A6",
         "image": "穀穗.png",
         "DeerImage": "穀穗_示意圖.png"
-    },
-    {
-        "nameZh": "金草蘭",
-        "id": "fiteu",
-        "title": "行徑之引",
-        "subtitle": "The Guiding of the Path",
-        "nameEn": "fiteu",
-        "description": "在鄒族神話中，鹿常被視為祖靈的使者，是人與自然、此世與靈界之間的橋樑。梅花鹿的足跡帶領族人走入森林與山谷，牠的出現也被視為吉兆。鹿成為靈性的引導者，提醒人類回望自身的根源與與自然共生的秩序。",
-        "title2": "靈性引導者",
-        "subtitle2": "A Spiritual Guide",
-        "description2": "鄒族傳統祭典中金草蘭象徵勇士精神和天神降臨，其與鹿結合展現靈性指引與淨化力量，在森林中引領族人踏入深層靈域，結合金草蘭的神聖力量，象徵穿越未知與除邪的純淨指引。",
-        "themeColor": "#FFC3CC",
-        "image": "金草蘭.png",
-        "DeerImage": "金草蘭_示意圖.png"
     }
 ]

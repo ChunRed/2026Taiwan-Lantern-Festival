@@ -155,7 +155,7 @@
       <div class="w-full h-[200px] mt-150 mb-50 text-white"></div>
 
       <!-- Footer Spacer / Hint
-       <div class="pointer-events-none fixed bottom-0 mt-90 left-0 right-0 z-50 h-32 bg-gradient-to-t from-black via-black/80 to-transparent" ></div>-->
+      <div class="pointer-events-none fixed bottom-0 mt-90 left-0 right-0 z-50 h-32 bg-gradient-to-t from-black via-black/80 to-transparent" ></div>-->
     </div>
   </div>
 </template>
@@ -177,6 +177,24 @@ const getImageUrl = (name) => {
 };
 
 const cards = [
+  {
+    zh: "赤榕",
+    en: "yono",
+    id: "yono",
+    percent: genStore.ItemScale[5],
+    gradFrom: "#FF9696",
+    gradTo: "rgba(0,0,0, 1)",
+    img: "赤榕W.png",
+  },
+  {
+    zh: "金草蘭",
+    en: "fiteu",
+    id: "fiteu",
+    percent: genStore.ItemScale[7],
+    gradFrom: "#FFCC98",
+    gradTo: "rgba(0,0,0, 1)",
+    img: "金草蘭W.png",
+  },
   {
     zh: "構樹",
     en: "tapangeosx",
@@ -224,15 +242,6 @@ const cards = [
     link: "HeanguView.vue",
   },
   {
-    zh: "赤榕",
-    en: "yono",
-    id: "yono",
-    percent: genStore.ItemScale[5],
-    gradFrom: "#51CCB4",
-    gradTo: "rgba(0,0,0, 1)",
-    img: "赤榕W.png",
-  },
-  {
     zh: "穀穗",
     en: "ton'u & pai",
     id: "ton'u & pai",
@@ -241,15 +250,7 @@ const cards = [
     gradTo: "rgba(0,0,0, 1)",
     img: "穀穗W.png",
   },
-  {
-    zh: "金草蘭",
-    en: "fiteu",
-    id: "fiteu",
-    percent: genStore.ItemScale[7],
-    gradFrom: "#FFC3CC",
-    gradTo: "rgba(0,0,0, 1)",
-    img: "金草蘭W.png",
-  },
+  
 ];
 
 let ctx;
