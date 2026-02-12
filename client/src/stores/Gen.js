@@ -23,6 +23,27 @@ export const useGenStore = defineStore('gen', () => {
         '金草蘭鹿',
     ]
 
+    const triggerTimer = ref(0);
+    let countdownInterval = null;
+
+    function startCountdown() {
+        if (countdownInterval) clearInterval(countdownInterval);
+        triggerTimer.value = 10;
+
+        countdownInterval = setInterval(() => {
+            triggerTimer.value--;
+            if (triggerTimer.value <= 0) {
+                clearInterval(countdownInterval);
+                isTriggerActive.value = false;
+            }
+        }, 1000);
+    }
+
+    function stopCountdown() {
+        if (countdownInterval) clearInterval(countdownInterval);
+        triggerTimer.value = 0;
+    }
+
     function initSocket(uid) {
         if (!uid) return
         userId.value = uid
@@ -47,10 +68,14 @@ export const useGenStore = defineStore('gen', () => {
             if (data.message == 1) {
                 alert('您已離開一隻鹿！')
                 current_state.value = '您已離開一隻鹿！';
+                isTriggerActive.value = false;
+                stopCountdown();
             }
             else if (data.message > 1 && data.message < triggerName.length) {
                 alert('您已接近' + triggerName[data.message])
                 current_state.value = '您已接近' + triggerName[data.message];
+                isTriggerActive.value = true;
+                startCountdown();
             }
         })
     }
@@ -100,7 +125,9 @@ export const useGenStore = defineStore('gen', () => {
         userId,
         loadingFinish,
         current_state,
-        beaconStatus,
-        isTriggerActive
+        isTriggerActive,
+        triggerTimer,
+        startCountdown,
+        stopCountdown
     }
 })

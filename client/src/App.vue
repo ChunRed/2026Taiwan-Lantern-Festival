@@ -59,7 +59,15 @@ const toggleMenu = () => {
 };
 
 const toggleTrigger = () => {
-  genStore.isTriggerActive = !genStore.isTriggerActive;
+  if (genStore.isTriggerActive) {
+    // Manually turning off
+    genStore.isTriggerActive = false;
+    genStore.stopCountdown();
+  } else {
+    // Manually turning on
+    genStore.isTriggerActive = true;
+    genStore.startCountdown();
+  }
 };
 
 watch(() => genStore.isTriggerActive, (active) => {
@@ -257,7 +265,10 @@ onMounted(() => {
       </div>
 
       <!-- Trigger Toggle Button -->
-      <div class="right-4 z-[9999]">
+      <div class="right-4 z-[9999] flex items-center gap-2">
+        <div v-if="genStore.triggerTimer > 0" class="text-white font-bold text-shadow bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
+          {{ genStore.triggerTimer }}s
+        </div>
         <button 
           class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white text-xs hover:bg-white/30 transition-colors shadow-lg"
           @click="toggleTrigger"

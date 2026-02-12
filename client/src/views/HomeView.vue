@@ -93,7 +93,7 @@ onMounted(() => {
   // Give it some time for the glass effect to initialize and stablize
   setTimeout(() => {
     isLoading.value = false;
-  }, 3000); // 3 second local loading for smoother entry
+  }, 2000); // 2 second local loading for smoother entry
 });
 
 setTimeout(() => {
@@ -138,7 +138,21 @@ setTimeout(() => {
               :transition="{ duration: 1, delay: 1 }"
               class="relative w-full h-full"
             >
-              <img :src="genStore.isTriggerActive ? TriggerMapImg : MapImg" alt="Main Map" class="w-full h-full object-contain transition-opacity duration-500" />
+              <!-- Normal Map (Relative to maintain layout size) -->
+              <img 
+                :src="MapImg" 
+                alt="Main Map" 
+                class="relative w-full h-full object-contain transition-opacity duration-1000"
+                :class="{ 'opacity-0': genStore.isTriggerActive, 'opacity-100': !genStore.isTriggerActive }"
+              />
+              
+              <!-- Trigger Map (Absolute overlay) -->
+              <img 
+                :src="TriggerMapImg" 
+                alt="Trigger Map" 
+                class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 animate-pulse-glow"
+                :class="{ 'opacity-100': genStore.isTriggerActive, 'opacity-0': !genStore.isTriggerActive }"
+              />
               <MapPath />
               <motion.div
                 v-if="!genStore.isTriggerActive"
@@ -241,5 +255,20 @@ setTimeout(() => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+</style>
+
+<style scoped>
+@keyframes pulse-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 1));
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite ease-in-out;
 }
 </style>

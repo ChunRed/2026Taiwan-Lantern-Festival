@@ -189,7 +189,7 @@ const targetColor = ref([...CONFIG.color]);
 
 watch(() => genStore.isTriggerActive, (active) => {
   if (active) {
-    targetColor.value = [0.15, 0.15, 0.15]; // Dimmer
+    targetColor.value = [0.25, 0.25, 0.25]; // Dimmer
   } else {
     targetColor.value = [0.5, 0.5, 0.5]; // Default
   }
