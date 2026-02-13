@@ -34,8 +34,8 @@ onMounted(() => {
       class="relative w-full max-w-[430px] h-[90vh] bg-transparent overflow-y-auto overflow-x-hidden flex flex-col /* Mobile (Small Screens) overrides: */ max-[500px]:max-w-full max-[500px]:h-[100dvh] max-[500px]:shadow-none max-[500px]:rounded-none border border-[#222222]"
     >
       <!-- Safe Area padding wrappers could go here if needed globally, 
-           but usually page content handles its own padding or we wrap slot.
-           Here we provide a slot that fills the shell.
+          but usually page content handles its own padding or we wrap slot.
+          Here we provide a slot that fills the shell.
             -->
       <main
         class="flex-1 w-full pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]"

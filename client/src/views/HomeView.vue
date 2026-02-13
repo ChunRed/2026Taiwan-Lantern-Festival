@@ -18,6 +18,7 @@ import PN_Intro_Gen2 from "../components/PN_Intro_Gen2.vue";
 import PN_Intro_Gen3 from "../components/PN_Intro_Gen3.vue";
 import PN_Intro_Gen4 from "../components/PN_Intro_Gen4.vue";
 import FluidFrostedGlass from "../components/FluidFrostedGlass.vue";
+import CrossOverlay from "../components/CrossOverlay.vue";
 import LoadingPage from "../components/LoadingPage.vue";
 
 // Assets
@@ -113,6 +114,8 @@ setTimeout(() => {
       <LoadingPage v-if="genStore.isHomeLoading" class="absolute inset-0 z-[100]" />
     </transition>
 
+    <CrossOverlay v-if="state === 0" />
+
     <!-- Navigation Arrows -->
     <button 
       v-if="state !== 0"
@@ -133,8 +136,6 @@ setTimeout(() => {
     <!-- Main Content: Map -->
     <main class="flex-1 flex justify-center items-center w-full relative overflow-hidden my-4">
       <div class="relative w-full h-full max-w-[390px] flex items-center justify-center">
-        <transition name="fade" mode="out-in">
-          
           <!-- State 0 -->
           <div v-if="state == 0" key="state0" class="w-full h-full">
             <motion.div
@@ -194,12 +195,10 @@ setTimeout(() => {
             <PN_Intro_Gen4 />
           </div>
 
-        </transition>
       </div>
     </main>
 
     <!-- Footer Section -->
-    <transition name="fade" mode="out-in">
         <!-- State 0 Footer -->
         <div v-if="state == 0" key="state0" class="mt-auto">
           <motion.div
@@ -247,7 +246,6 @@ setTimeout(() => {
               </footer>
             </div>
         </div>
-    </transition>
   </div>
 </template>
 

@@ -16,84 +16,9 @@ watch(() => genStore.isTriggerActive, (active) => {
 
 
 onMounted(() => {
-  gsap.to("#rect3", {
-    duration: 12,
-    delay: 2,
 
-    repeat: 12,
-    repeatDelay: 3,
-    yoyo: true,
-    ease: "power1.inOut",
-    motionPath: {
-      path: "#path3",
-      align: "#path3",
-      autoRotate: true,
-      alignOrigin: [0.5, 0.5],
-    },
-    scale: 100,
-  });
-
-  gsap.to("#rect1", {
-    duration: 16,
-    delay: 2,
-    repeat: 12,
-    repeatDelay: 5,
-    yoyo: true,
-    ease: "power1.inOut",
-    motionPath: {
-      path: "#path1",
-      align: "#path1",
-      autoRotate: true,
-      alignOrigin: [0.5, 0.5],
-    },
-    scale: 100,
-  });
-  gsap.to("#rect4", {
-    duration: 14,
-    delay: 2,
-    repeat: 12,
-    repeatDelay: 7,
-    yoyo: true,
-    ease: "power1.inOut",
-    motionPath: {
-      path: "#path4",
-      align: "#path4",
-      autoRotate: true,
-      alignOrigin: [0.5, 0.5],
-    },
-    scale: 100,
-  });
-  gsap.to("#rect2", {
-    duration: 14,
-    delay: 2,
-    repeat: 12,
-    repeatDelay: 1,
-    yoyo: true,
-    ease: "power1.inOut",
-    motionPath: {
-      path: "#path2",
-      align: "#path2",
-      autoRotate: true,
-      alignOrigin: [0.5, 0.5],
-    },
-    scale: 100,
-  });
-  gsap.to("#rect5", {
-    duration: 12,
-    delay: 2,
-    repeat: 12,
-    repeatDelay: 2,
-    yoyo: true,
-    ease: "power1.inOut",
-    motionPath: {
-      path: "#path5",
-      align: "#path5",
-      autoRotate: true,
-      alignOrigin: [0.5, 0.5],
-    },
-    scale: 100,
-  });
 });
+
 </script>
 
 <template>
@@ -115,9 +40,7 @@ onMounted(() => {
       class="blur-[2px] transition-opacity duration-500"
       :style="{ opacity: pathOpacity }"
     />
-    <g id="rect1" :style="{ opacity: pathOpacity }" class="transition-opacity duration-500">
-      <circle ref="dotEl" r=".1" fill="white" />
-    </g>
+    
   </svg>
 
   <!-- MP05 -->
@@ -137,9 +60,7 @@ onMounted(() => {
       :animate="{ pathLength: 1 }"
       :transition="{ duration: 3, ease: 'easeInOut', delay: 0 }"
     />
-    <g id="rect2" :style="{ opacity: pathOpacity }" class="transition-opacity duration-500">
-      <circle ref="dotEl" r=".09" fill="white" />
-    </g>
+    
   </svg>
 
   <!-- MP04 -->
@@ -159,9 +80,7 @@ onMounted(() => {
       :animate="{ pathLength: 1 }"
       :transition="{ duration: 3, ease: 'easeInOut', delay: 0 }"
     />
-    <g id="rect3" class="circle3 transition-opacity duration-500" :style="{ opacity: pathOpacity }">
-      <circle ref="dotEl" r=".1" fill="white" />
-    </g>
+    
   </svg>
 
   <!-- MP03 -->
@@ -181,9 +100,7 @@ onMounted(() => {
       :animate="{ pathLength: 1 }"
       :transition="{ duration: 3, ease: 'easeInOut', delay: 0 }"
     />
-    <g id="rect5" :style="{ opacity: pathOpacity }" class="transition-opacity duration-500">
-      <circle ref="dotEl" r=".12" fill="white" />
-    </g>
+    
   </svg>
 
   <!-- MP02 -->
@@ -203,8 +120,5 @@ onMounted(() => {
       :animate="{ pathLength: 1 }"
       :transition="{ duration: 3, ease: 'easeInOut', delay: 0 }"
     />
-    <g id="rect4" :style="{ opacity: pathOpacity }" class="transition-opacity duration-500">
-      <circle ref="dotEl" r=".08" fill="white" />
-    </g>
   </svg>
 </template>
