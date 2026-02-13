@@ -9,14 +9,15 @@ const getImageUrl = (name) => {
 };
 
 const plants = [
+  { zh: "赤榕", en: "Ficus subpisocarpa", img: "赤榕W.png" },
+  { zh: "金草蘭", en: "Cymbidium kanran", img: "金草蘭W.png" },
   { zh: "構樹", en: "Broussonetia papyrifera", img: "構樹W.png" },
   { zh: "月桃", en: "Alpinia katsumadai", img: "月桃W.png" },
   { zh: "青剛櫟", en: "Quercus glauca", img: "青剛櫟W.png" },
   { zh: "小葉桑", en: "Morus australis", img: "小葉桑W.png" },
   { zh: "五節芒", en: "Haengu", img: "五節芒W.png" },
-  { zh: "赤榕", en: "Ficus subpisocarpa", img: "赤榕W.png" },
   { zh: "穀穗", en: "Oryza sativa", img: "穀穗W.png" },
-  { zh: "金草蘭", en: "Cymbidium kanran", img: "金草蘭W.png" },
+  
 ];
 
 const resetAll = () => {

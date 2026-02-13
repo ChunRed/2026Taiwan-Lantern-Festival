@@ -8,6 +8,7 @@ import IconStroll from "./components/IconStroll.vue";
 import LiffProfile from "./components/LiffProfile.vue";
 import GradientBackground from "./components/GradientBackground.vue";
 import FloatingParticlesOverlay from "./components/FloatingParticlesOverlay.vue";
+import plantData from "@/data/plantData.json";
 
 const isMenuOpen = ref(false);
 const isLoading = ref(true);
@@ -16,13 +17,23 @@ const route = useRoute();
 import { useGenStore } from "@/stores/Gen";
 const genStore = useGenStore();
 
+const currentParticlesColor = computed(() => {
+  if (route.name === 'information') {
+    // Attempt to find theme color from plantData
+    const id = route.query.id;
+    const plant = plantData.find(p => p.id === id);
+    if (plant) return plant.themeColor;
+  }
+  return null; // Fallback to component default
+});
+
 // Define color palettes for different pages
 // Format: [Color1, Color2, Color3]
 const colorMap = {
   'home': ['#999999', '#517ADA', '#000000'],      // Dark Blue/Black theme
   'home-active': ['#FFD700', '#FF8C00', '#FFFFFF'], // Active/Near Deer (Gold/Orange)
   'library': ['#000000', '#000000', '#000000'],   // Example: More earthy/dark for library
-  'gen-choose': ['#000000', '#000000', '#000000'],  // Original purple/blue mix
+  'gen-choose': ['#000000', '#0B143B', '#000000'],  // Original purple/blue mix
   'gen-show': ['#000000', '#000000', '#000000'], 
   'information': ['#000000', '#000000', '#000000'], // Dark Slate Gray
   'lineinfo': ['#000000', '#000000', '#000000'],
@@ -122,7 +133,10 @@ watch([isLoading, () => genStore.isHomeLoading], ([loading, homeLoading]) => {
     :brightness="brightness" 
     :speed="10"
   />
-  <FloatingParticlesOverlay v-if="['home', 'normal'].includes(route.name)" />
+  <FloatingParticlesOverlay 
+    v-if="['home', 'normal', 'library', 'information'].includes(route.name)" 
+    :theme-color="currentParticlesColor" 
+  />
   <transition
       enter-active-class="transition duration-500 ease-out"
       enter-from-class="opacity-0"
@@ -268,26 +282,17 @@ watch([isLoading, () => genStore.isHomeLoading], ([loading, homeLoading]) => {
       ></div>
       <LiffProfile />
       
-      <!-- Debug Control for Brightness (Hidden by default, hover bottom-left to see) -->
-      <div class=" left-4 z-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
-        <input 
-          type="range" 
-          min="0" 
-          max="2" 
-          step="0.1" 
-          v-model.number="brightness" 
-          class="w-32 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-        />
-        <div class="text-xs text-white bg-black/50 px-2 py-1 rounded mt-1 text-center">Brightness: {{ brightness }}</div>
-      </div>
+      
+
+
 
       <!-- Trigger Toggle Button -->
-      <div class="right-4 z-[9999] flex items-center gap-2">
-        <div v-if="genStore.triggerTimer > 0" class="text-white font-bold text-shadow bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
+      <div class="relative z-[9999] flex items-center gap-2">
+        <div class="absolute left-4 bottom-4 text-white font-bold text-shadow bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
           {{ genStore.triggerTimer }}s
         </div>
         <button 
-          class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white text-xs hover:bg-white/30 transition-colors shadow-lg"
+          class="absolute right-4 bottom-4 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white text-xs hover:bg-white/30 transition-colors shadow-lg"
           @click="toggleTrigger"
         >
           {{ genStore.isTriggerActive ? 'ON' : 'OFF' }}

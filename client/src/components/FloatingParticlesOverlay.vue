@@ -184,16 +184,38 @@ const resize = () => {
   gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 };
 
+const props = defineProps({
+  themeColor: {
+    type: String,
+    default: null
+  }
+});
+
 const currentColor = ref([...CONFIG.color]);
 const targetColor = ref([...CONFIG.color]);
 
-watch(() => genStore.isTriggerActive, (active) => {
+function hexToRgbNormalized(hex) {
+  if (!hex) return null;
+  const h = hex.replace(/^#/, '');
+  const bigint = parseInt(h, 16);
+  const r = ((bigint >> 16) & 255) / 255;
+  const g = ((bigint >> 8) & 255) / 255;
+  const b = (bigint & 255) / 255;
+  return [r, g, b];
+}
+
+watch([() => genStore.isTriggerActive, () => props.themeColor], ([active, color]) => {
   if (active) {
     targetColor.value = [0.25, 0.25, 0.25]; // Dimmer
+  } else if (color) {
+    const rgb = hexToRgbNormalized(color);
+    if (rgb) targetColor.value = rgb;
+    else targetColor.value = [0.5, 0.5, 0.5];
   } else {
     targetColor.value = [0.5, 0.5, 0.5]; // Default
   }
-});
+}, { immediate: true });
+
 
 function lerp(start, end, t) {
   return start * (1 - t) + end * t;

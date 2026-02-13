@@ -1,6 +1,7 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import SelectPhysics from "../components/Gen_select.vue";
+import FloatingParticlesOverlay from "../components/FloatingParticlesOverlay.vue";
 import plantData from "@/data/plantData.json";
 import { useGenStore } from "../stores/Gen.js";
 
@@ -9,6 +10,25 @@ const genStore = useGenStore();
 const MAX_BALLS = 8;
 const ready = ref(false);
 const toggles = ref(Array.from({ length: MAX_BALLS }, () => false));
+
+// Compute indices of top 2 selected items by scale
+const topTwoIndices = computed(() => {
+  // Map to objects with index, active status, and scale
+  const items = toggles.value.map((isActive, idx) => ({
+    idx,
+    isActive,
+    scale: genStore.ItemScale[idx] || 0
+  }));
+  
+  // Filter only active (selected) items with positive scale
+  const activeItems = items.filter(item => item.isActive && item.scale > 0);
+  
+  // Sort by scale descending
+  activeItems.sort((a, b) => b.scale - a.scale);
+  
+  // Return just the indices of the top 2
+  return activeItems.slice(0, 2).map(item => item.idx);
+});
 
 let clickValue = 0;
 
@@ -34,10 +54,12 @@ const getImageUrl = (name) => {
 </script>
 
 <template>
-  <div class="flex flex-col h-screen overflow-hidden bg-black">
+  <div class="flex flex-col h-screen overflow-hidden ">
+    <FloatingParticlesOverlay theme-color="#333333" />
+    
     <!-- 固定在上方的 SelectPhysics 區塊 -->
     <div
-      class="flex-none z-10 bg-black pt-2 px-4 pb-2 border-b border-white/10"
+      class="flex-none z-10 pt-2 px-4 pb-2 border-b border-white/10"
     >
       <SelectPhysics
         :Index="toggles"
@@ -58,8 +80,16 @@ const getImageUrl = (name) => {
           class="relative flex flex-col items-center justify-center aspect-square rounded-xl border text-base transition disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
           :class="
             toggles[i - 1]
-              ? ' border-white/80 bg-white/5'
-              : 'bg-black text-white border-white/10 hover:border-white/40'
+              ? ' border-[#888888]/50 bg-white/5'
+              : 'bg-[#000000]/50  text-white border-white/10 hover:border-white/40'
+          "
+          :style="
+            topTwoIndices.includes(i - 1)
+              ? {
+                  boxShadow: `0 0 15px ${plantData[i - 1].themeColor}`,
+                  borderColor: plantData[i - 1].themeColor
+                }
+              : {}
           "
         >
           <!-- Selection Indicator (Dot) -->
@@ -68,6 +98,7 @@ const getImageUrl = (name) => {
             class="absolute top-2 right-2 h-2 w-2 rounded-full shadow-[0_0_5px_currentColor]"
             :style="{ backgroundColor: plantData[i - 1].themeColor }"
           ></span>
+<!-- ... rest of template ... -->
 
           <!-- Known Plant -->
           <div
@@ -77,7 +108,7 @@ const getImageUrl = (name) => {
             <img
               :src="getImageUrl(plantData[i - 1].image)"
               alt=""
-              class="w-12 h-12 object-contain mb-1"
+              class="w-10 h-10 object-contain mb-1 my-2"
             />
 
             <div class="flex flex-col text-center w-full overflow-hidden">
@@ -96,6 +127,26 @@ const getImageUrl = (name) => {
 
           <!-- Unknown Element -->
           <div v-else class="flex flex-col items-center gap-1 w-full opacity-40">
+            <img
+              :src="getImageUrl('未知元素.png')"
+              alt=""
+              class="w-10 h-10 grayscale mb-1"
+            />
+            <div class="flex flex-col text-center">
+              <span class="font-medium text-xs tracking-[0.5em] text-white/40"
+                >????</span
+              >
+            </div>
+          </div>
+        </button>
+
+        <!-- 9th Filler Item (Placeholder for grid completion) -->
+        <button
+          type="button"
+          disabled
+          class="relative flex flex-col items-center justify-center aspect-square rounded-xl border text-base transition opacity-80 cursor-not-allowed overflow-hidden bg-[#000000]/50 text-white border-white/20"
+        >
+          <div class="flex flex-col items-center gap-1 w-full opacity-40">
             <img
               :src="getImageUrl('未知元素.png')"
               alt=""

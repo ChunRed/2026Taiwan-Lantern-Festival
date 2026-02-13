@@ -31,7 +31,8 @@ const colors = [
   '#517ADA',
   '#01B9FF', 
   '#6FC8D7', 
-  '#FFF2A6'  
+  '#FFF2A6',
+  
 ];
 
 function hexToRgb(hex) {
