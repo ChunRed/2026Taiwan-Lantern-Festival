@@ -23,6 +23,7 @@ import LoadingPage from "../components/LoadingPage.vue";
 
 // Assets
 import MapImg from "../assets/Map.png";
+import MapUIImg from "../assets/Map-UI.png";
 import TriggerMapImg from "../assets/Trigger/trigger-五節芒.png";
 import DeerBtn from "../assets/deer_button.png";
 import IntroMapImg from "../assets/Intro_map.png";
@@ -99,12 +100,16 @@ onMounted(() => {
   // Give it some time for the glass effect to initialize and stablize
   setTimeout(() => {
     genStore.isHomeLoading = false;
-  }, 3000); // 3 second local loading for smoother entry
-});
+  }, 2000); // 3 second local loading for smoother entry
 
-setTimeout(() => {
-  state.value = 1;
-}, 5000); // Adjusted timing to account for loading
+  // Only auto-advance to state 1 on first visit
+  if (!genStore.hasVisitedHome) {
+    setTimeout(() => {
+        state.value = 1;
+        genStore.hasVisitedHome = true;
+    }, 5000); // Adjusted timing to account for loading
+  }     
+});
 </script>
 
 <template>
@@ -169,6 +174,14 @@ setTimeout(() => {
               >
                 <FluidFrostedGlass />
               </motion.div>
+
+              <!-- Map UI Overlay (Placed last to be on top of glass) -->
+              <img 
+                :src="MapUIImg" 
+                alt="Map UI" 
+                class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 pointer-events-none z-20"
+                :class="{ 'opacity-0': genStore.isTriggerActive, 'opacity-100': !genStore.isTriggerActive }"
+              />
             </motion.div>
           </div>
 
