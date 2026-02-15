@@ -49,8 +49,10 @@ function toggleBall(idx) {
 }
 
 const getImageUrl = (name) => {
-  return new URL(`../assets/${name}`, import.meta.url).href;
+  return new URL(`../assets/item/${name}`, import.meta.url).href;
 };
+
+
 </script>
 
 <template>

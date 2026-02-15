@@ -47,16 +47,71 @@ io.on('connection', (socket) => {
     });
 });
 
+
+app.use(express.json());
+
+// Enable CORS for development
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+// API Route to update plant color
+app.post('/api/update-plant-color', (req, res) => {
+    const { index, color } = req.body;
+    const fs = require('fs');
+    // Adjust path to reach client/src/data/plantData.json from server/
+    const filePath = path.join(__dirname, '../client/src/data/plantData.json');
+
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading plant data:', err);
+            return res.status(500).send('Error reading data');
+        }
+
+        try {
+            const plants = JSON.parse(data);
+            if (index >= 0 && index < plants.length) {
+                plants[index].themeColor = color;
+
+                fs.writeFile(filePath, JSON.stringify(plants, null, 4), (err) => {
+                    if (err) {
+                        console.error('Error writing plant data:', err);
+                        return res.status(500).send('Error writing data');
+                    }
+                    console.log(`Updated plant ${index} color to ${color}`);
+                    res.json({ success: true });
+                });
+            } else {
+                res.status(400).send('Invalid index');
+            }
+        } catch (parseErr) {
+            console.error('Error parsing JSON:', parseErr);
+            res.status(500).send('Error parsing data');
+        }
+    });
+});
+
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-app.post('/webhook', line.middleware(config), (req, res) => {
-    Promise.all(req.body.events.map(handleEvent))
-        .then((result) => res.json(result))
-        .catch((err) => {
-            console.error(err);
-            res.status(500).end();
-        });
+
+// API Route to save all plant data (for reordering)
+app.post('/api/save-plant-data', (req, res) => {
+    const defaultPoints = req.body;
+    const fs = require('fs');
+    const filePath = path.join(__dirname, '../client/src/data/plantData.json');
+
+    fs.writeFile(filePath, JSON.stringify(defaultPoints, null, 4), (err) => {
+        if (err) {
+            console.error('Error writing plant data:', err);
+            return res.status(500).send('Error writing data');
+        }
+        console.log('Updated all plant data');
+        res.json({ success: true });
+    });
 });
+
 
 async function handleEvent(event) {
     if (event.type === 'beacon') {

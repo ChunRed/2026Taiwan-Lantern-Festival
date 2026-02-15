@@ -154,14 +154,63 @@
 
       <div class="w-full h-[200px] mt-150 mb-50 text-white"></div>
 
-      <!-- Footer Spacer / Hint
+
+  <!-- Footer Spacer / Hint
       <div class="pointer-events-none fixed bottom-0 mt-90 left-0 right-0 z-50 h-32 bg-gradient-to-t from-black via-black/80 to-transparent" ></div>-->
+      
+      <!-- Color Editor Section -->
+      <div class="px-6 py-8 bg-gray-900/80 mt-10 rounded-xl mx-4 mb-32 border border-white/10">
+        <h3 class="text-white text-lg mb-4 font-bold tracking-wider text-center">Theme Color Editor</h3>
+        <div class="grid grid-cols-1 gap-4">
+          <div 
+            v-for="(plant, index) in localPlants" 
+            :key="plant.id" 
+            class="flex items-center gap-4 bg-white/5 p-3 rounded-lg border border-white/5"
+          >
+            <span class="text-white/80 text-sm font-medium w-20 truncate">{{ plant.nameZh }}</span>
+            
+
+            <div class="flex items-center gap-2 flex-1">
+              <div class="flex flex-col gap-1 mr-2">
+                <button 
+                  @click="moveUp(index)" 
+                  :disabled="index === 0"
+                  class="w-6 h-6 flex items-center justify-center bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed rounded text-white text-xs"
+                >
+                  ▲
+                </button>
+                <button 
+                  @click="moveDown(index)" 
+                  :disabled="index === localPlants.length - 1"
+                  class="w-6 h-6 flex items-center justify-center bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed rounded text-white text-xs"
+                >
+                  ▼
+                </button>
+              </div>
+              <input 
+                type="color" 
+                v-model="plant.themeColor"
+                @input="handleColorChange(index, plant.themeColor)"
+                class="bg-transparent border-none w-10 h-10 cursor-pointer rounded overflow-hidden"
+              />
+              <input 
+                type="text" 
+                v-model="plant.themeColor"
+                @change="handleColorChange(index, plant.themeColor)"
+                class="bg-black/40 text-white text-sm px-3 py-2 rounded border border-white/10 w-full font-mono uppercase focus:border-rose-500 focus:outline-none transition-colors"
+                placeholder="#000000"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, computed } from "vue";
+import { onMounted, onUnmounted, computed, ref } from "vue";
 import { RouterLink } from "vue-router";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -169,6 +218,9 @@ import { useGenStore } from "../stores/Gen.js";
 import plantData from "../data/plantData.json";
 
 const genStore = useGenStore();
+
+// Create reactive copy of plant data
+const localPlants = ref(JSON.parse(JSON.stringify(plantData)));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -189,8 +241,59 @@ const scaleIndexMap = {
   "fiteu": 7
 };
 
+
+// Debounce timer for API calls
+let debounceTimer;
+
+const handleColorChange = (index, newColor) => {
+  // Clear previous timer to debounce multiple rapid changes
+  if (debounceTimer) clearTimeout(debounceTimer);
+  
+  // Set new timer
+  debounceTimer = setTimeout(() => {
+    saveAllPlants();
+  }, 300);
+};
+
+const moveUp = (index) => {
+  if (index > 0) {
+    const temp = localPlants.value[index];
+    localPlants.value[index] = localPlants.value[index - 1];
+    localPlants.value[index - 1] = temp;
+    saveAllPlants();
+  }
+};
+
+const moveDown = (index) => {
+  if (index < localPlants.value.length - 1) {
+    const temp = localPlants.value[index];
+    localPlants.value[index] = localPlants.value[index + 1];
+    localPlants.value[index + 1] = temp;
+    saveAllPlants();
+  }
+};
+
+const saveAllPlants = async () => {
+  try {
+    const response = await fetch('http://localhost:4000/api/save-plant-data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(localPlants.value),
+    });
+    
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    console.log('Saved all plant data');
+  } catch (error) {
+    console.error('Failed to save plant data:', error);
+  }
+};
+
 const cards = computed(() => {
-  return plantData.map(plant => {
+  return localPlants.value.map(plant => {
     // Construct the W version filename from the image name in JSON
     // Assuming JSON has "Name.png" and we want "NameW.png"
     // The user requested to use data from JSON. 
@@ -249,6 +352,17 @@ let ctx;
 
 onMounted(() => {
   ctx = gsap.context(() => {
+    // Re-select elements whenever localPlants changes triggers a re-render ideally, 
+    // but GSAP context runs once on mount. 
+    // Vue's list rendering handles DOM updates.
+    // However, for scrollTrigger to work correctly with dynamic lists (reordering), 
+    // we might need to refresh or kill/recreate triggers.
+    // But let's assume the stack effect is simple enough or won't break horribly on reorder.
+    // Actually, if we reorder, the DOM elements change order. 
+    // ScrollTrigger calculations are based on position.
+    // We should probably rely on a watcher or manually refresh, but for now let's keep it simple.
+    // If needed, we can add a watcher on `localPlants` to ScrollTrigger.refresh().
+    
     const cardEls = gsap.utils.toArray(".stack-card");
     const headerOffset = 110;
     const stackGap = 35; // User changed this to 35 previously
@@ -265,6 +379,8 @@ onMounted(() => {
       if (!nextCard) return;
 
       const nextCardStickyTop = headerOffset + (i + 1) * stackGap;
+
+
 
       gsap.to(card, {
         scale: 0.9 + 0.01 * i, // Smaller scale for deeper cards

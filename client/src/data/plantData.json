@@ -27,6 +27,20 @@
         "DeerImage": "金草蘭_示意圖.png"
     },
     {
+        "nameZh": "穀穗",
+        "id": "ton'u & pai",
+        "title": "豐收之兆",
+        "subtitle": "The Omen of Harvest",
+        "nameEn": "ton'u & pai",
+        "description": "在鄒族祭典中，小米象徵豐收與共享。梅花鹿群聚的行為，仿佛穀粒堆疊，展現出社群互助與共榮的象徵。鹿在此成為穀神的使者，提醒人們珍惜自然所賜的禮物與群體間的互依。",
+        "title2": "穀神的贈禮",
+        "subtitle2": "A Gift from the Grain Deity",
+        "description2": "稻米與小米穗與鹿象徵豐收與共榮，鹿角化穗凝聚族群祝福與生命循環。守護季節循環與糧食安全的靈魂，增添棲地的溫暖感。",
+        "themeColor": "#FFF2A6",
+        "image": "穀穗.png",
+        "DeerImage": "穀穗_示意圖.png"
+    },
+    {
         "nameZh": "構樹",
         "id": "tapangeosx",
         "title": "古根的喚",
@@ -36,7 +50,7 @@
         "title2": "文化根源的召喚者",
         "subtitle2": "the Summoner of Cultural Origins",
         "description2": "構樹承載織布傳統及族群記憶，搭配鹿象徵文化傳承與根源召喚。梅花鹿作為文化守望者，與構樹共守族群記憶，彰顯土地與文化的時空交織。連結自然與人類歷史的媒介，召喚鹿與人回歸共同的根源。構樹承載織布傳統及族群記憶，搭配鹿象徵文化傳承與根源召喚。",
-        "themeColor": "#F5B7FF",
+        "themeColor": "#FFCEE4",
         "image": "構樹.png",
         "DeerImage": "構樹_示意圖.png"
     },
@@ -95,19 +109,5 @@
         "themeColor": "#6FC8D7",
         "image": "五節芒.png",
         "DeerImage": "芒草_示意圖.png"
-    },
-    {
-        "nameZh": "穀穗",
-        "id": "ton'u & pai",
-        "title": "豐收之兆",
-        "subtitle": "The Omen of Harvest",
-        "nameEn": "ton'u & pai",
-        "description": "在鄒族祭典中，小米象徵豐收與共享。梅花鹿群聚的行為，仿佛穀粒堆疊，展現出社群互助與共榮的象徵。鹿在此成為穀神的使者，提醒人們珍惜自然所賜的禮物與群體間的互依。",
-        "title2": "穀神的贈禮",
-        "subtitle2": "A Gift from the Grain Deity",
-        "description2": "稻米與小米穗與鹿象徵豐收與共榮，鹿角化穗凝聚族群祝福與生命循環。守護季節循環與糧食安全的靈魂，增添棲地的溫暖感。",
-        "themeColor": "#FFF2A6",
-        "image": "穀穗.png",
-        "DeerImage": "穀穗_示意圖.png"
     }
 ]
