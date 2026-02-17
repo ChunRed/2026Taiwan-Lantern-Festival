@@ -37,7 +37,7 @@ onMounted(async () => {
 
     // 若不是在 LINE App 內開啟，要求登入
     if (!liff.isLoggedIn()) {
-      //liff.login();
+      liff.login();
       // For fallback logic if login doesn't redirect or for testing flow
       const fallbackId = "test"; 
       profile.value = {

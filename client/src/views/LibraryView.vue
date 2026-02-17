@@ -183,14 +183,14 @@ const getImageUrl = (name) => {
 
 // Mapping from plant ID to ItemScale index
 const scaleIndexMap = {
-  "tapangeosx": 0,
-  "kitposa": 1,
-  "otu": 2,
-  "tahivcu & tahzucu": 3,
-  "haengu": 4,
-  "yono": 5,
-  "ton'u & pai": 6,
-  "fiteu": 7
+  "yono": 0,
+  "fiteu": 1,
+  "ton'u & pai": 2,
+  "tapangeosx": 3,
+  "kitposa": 4,
+  "otu": 5,
+  "tahivcu & tahzucu": 6,
+  "haengu": 7,
 };
 
 const cards = computed(() => {
