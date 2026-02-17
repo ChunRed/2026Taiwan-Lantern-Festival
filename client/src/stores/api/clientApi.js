@@ -38,3 +38,7 @@ export async function apiDeleteSession(id) {
     method: "DELETE"
   });
 }
+
+export async function apiFindSessionByUserId(userId) {
+  return apiFetch(`/api/session/find/${encodeURIComponent(userId)}`);
+}

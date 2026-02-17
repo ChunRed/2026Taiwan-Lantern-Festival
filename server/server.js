@@ -11,7 +11,8 @@ const {
     createSession,
     readSession,
     updateSession,
-    deleteSession
+    deleteSession,
+    findSessionByUserId
 } = require("./api/supabaseSessions.js");
 
 
@@ -193,6 +194,15 @@ app.delete("/api/session/delete/:id", async (req, res) => {
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
+
+app.get("/api/session/find/:userId", async (req, res) => {
+    try {
+        const data = await findSessionByUserId(req.params.userId);
+        res.json(data);
+    } catch (e) {
+        res.status(400).json({ message: e.message || String(e) });
+    }
+});
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));

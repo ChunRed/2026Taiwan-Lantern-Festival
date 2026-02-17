@@ -16,6 +16,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useGenStore } from "../stores/Gen";
+import { useServerSyncStore } from "../stores/ServerSync";
 
 // 狀態
 const route = useRoute();
@@ -30,17 +31,26 @@ onMounted(async () => {
     // 動態載入 LIFF SDK（避免 index.html 污染）
     await loadLiffSdk();
 
+    const serverSyncStore = useServerSyncStore(); // Get instance
+
     await liff.init({ liffId: LIFF_ID });
 
     // 若不是在 LINE App 內開啟，要求登入
     if (!liff.isLoggedIn()) {
       //liff.login();
+      // For fallback logic if login doesn't redirect or for testing flow
+      const fallbackId = "test"; 
       profile.value = {
         displayName: "Test",
-        userId: "test",
+        userId: fallbackId,
         pictureUrl: "test",
       };
-
+      
+      // Even in fallback/test mode, initialize
+      const genStore = useGenStore();
+      genStore.initSocket(fallbackId);
+      serverSyncStore.initializeSync(fallbackId);
+      
       return;
     }
 
@@ -50,6 +60,9 @@ onMounted(async () => {
     // Initialize Socket
     const genStore = useGenStore();
     genStore.initSocket(p.userId);
+    
+    // Initialize Sync
+    serverSyncStore.initializeSync(p.userId);
 
     status.value = "LIFF ready";
   } catch (e) {
