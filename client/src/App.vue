@@ -15,7 +15,9 @@ const isLoading = ref(true);
 const brightness = ref(1);
 const route = useRoute();
 import { useGenStore } from "@/stores/Gen";
+import { useServerSyncStore } from "@/stores/ServerSync";
 const genStore = useGenStore();
+const serverSyncStore = useServerSyncStore();
 
 const currentParticlesColor = computed(() => {
   if (route.name === 'information') {

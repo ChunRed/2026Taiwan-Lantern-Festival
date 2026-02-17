@@ -2,16 +2,19 @@
 
 const express = require('express');
 const app = express();
-
-// 1. 修正 http 的引入方式
 const http = require('http');
-
 const axios = require("axios");
 const path = require('path');
 const line = require('@line/bot-sdk');
-
-// 2. 必須從 socket.io 中解構出 Server 類別
 const { Server } = require("socket.io");
+const {
+    createSession,
+    readSession,
+    updateSession,
+    deleteSession
+} = require("./api/supabaseSessions.js");
+
+
 
 // LINE Bot 配置
 const config = {
@@ -146,6 +149,50 @@ async function handleEvent(event) {
     }
     return Promise.resolve(null);
 }
+
+
+//Server to Supabase
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+app.post("/api/session/create", async (req, res) => {
+    try {
+        const data = await createSession(req.body.items_mas);
+        res.json(data);
+    } catch (e) {
+        res.status(400).json({ message: e.message || String(e) });
+    }
+});
+
+app.get("/api/session/read/:id", async (req, res) => {
+    try {
+        const data = await readSession(req.params.id);
+        res.json(data);
+    } catch (e) {
+        res.status(400).json({ message: e.message || String(e) });
+    }
+});
+
+app.post("/api/session/update", async (req, res) => {
+    try {
+        const data = await updateSession(req.body.id, req.body.items_mas);
+        res.json(data);
+    } catch (e) {
+        res.status(400).json({ message: e.message || String(e) });
+    }
+});
+
+app.delete("/api/session/delete/:id", async (req, res) => {
+    try {
+        const data = await deleteSession(req.params.id);
+        res.json(data);
+    } catch (e) {
+        res.status(400).json({ message: e.message || String(e) });
+    }
+});
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
