@@ -100,6 +100,16 @@ app.post('/api/update-plant-color', (req, res) => {
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 
+app.post('/webhook', line.middleware(config), (req, res) => {
+    Promise.all(req.body.events.map(handleEvent))
+        .then((result) => res.json(result))
+        .catch((err) => {
+            console.error(err);
+            res.status(500).end();
+        });
+});
+
+
 // API Route to save all plant data (for reordering)
 app.post('/api/save-plant-data', (req, res) => {
     const defaultPoints = req.body;
