@@ -34,6 +34,12 @@ import IntroGen2Img from "../assets/Intro_gen2.png";
 import IntroGen3Img from "../assets/Intro_gen3.png";
 import IntroGen4Img from "../assets/Intro_gen4.png";
 
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { nextTick, watch } from 'vue';
+
+gsap.registerPlugin(ScrollTrigger);
+
 // State
 const state = ref(0);
 // Use store state for loading
@@ -41,6 +47,78 @@ const state = ref(0);
 onMounted(() => {
   genStore.isHomeLoading = true;
 });
+
+// Watch for state changes to re-apply GSAP animation
+watch(state, async (newVal, oldVal) => {
+  if (newVal === 0) {
+    await nextTick();
+    // Small delay to ensure DOM is ready and layout is settled
+    setTimeout(() => {
+      setupScrollAnimation();
+    }, 100); 
+  } else if (oldVal === 0) {
+    // Cleanup when leaving state 0
+    ScrollTrigger.getAll().forEach(t => {
+      // Check if trigger is related to .info-zh
+      if (t.vars && t.vars.trigger === '.info-zh') t.kill();
+       // Also check if the trigger element itself is .info-zh (in case vars.trigger is resolved)
+      if (t.trigger && (t.trigger.classList && t.trigger.classList.contains('info-zh'))) t.kill();
+    });
+  }
+}, { immediate: true });
+
+const setupScrollAnimation = () => {
+
+
+
+
+  // Check if element exists
+  const target_zh = document.querySelector('.info-zh');
+  const target_en = document.querySelector('.info-en');
+  if (!target_zh) return;
+  
+  // Clean up existing triggers for this element to avoid duplicates
+  ScrollTrigger.getAll().forEach(t => {
+    if (t.vars && t.vars.trigger === '.info-zh') t.kill();
+    if (t.trigger === target_zh) t.kill();
+  });
+
+  gsap.fromTo(target_zh, 
+    { x: -100, opacity: 0, rotate:-5 },
+    {
+      x: 0, 
+      opacity: 1, 
+      rotate: 0,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: target_zh, // Use the element directly
+        scroller: "#mobile-scroll-container",
+        start: "top 80%", // Trigger when top of element hits 90% of viewport height
+        end: "top 60%",   // Animation completes when top of element hits 60% of viewport height
+        scrub: 1,         // Smooth scrubbing linked to scroll position
+      }
+    }
+  );
+
+  gsap.fromTo(target_en, 
+    { x: 300, opacity: 0,  rotate:5},
+    {
+      x: 0, 
+      opacity: 1, 
+      rotate: 0,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: target_en, // Use the element directly
+        scroller: "#mobile-scroll-container",
+        start: "top 80%", // Trigger when top of element hits 90% of viewport height
+        end: "top 60%",   // Animation completes when top of element hits 60% of viewport height
+        scrub: 1,         // Smooth scrubbing linked to scroll position
+      }
+    }
+  );
+
+};
+
 
 
 // Methods
@@ -107,7 +185,7 @@ onMounted(() => {
     setTimeout(() => {
         state.value = 1;
         genStore.hasVisitedHome = true;
-    }, 5000); // Adjusted timing to account for loading
+    }, 1000); // Adjusted timing to account for loading
   }     
 });
 </script>
@@ -233,11 +311,25 @@ onMounted(() => {
 
               <div class="my-5"></div>
               <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4"></div>
-              <div class="my-5 text-center">2026 Taiwan Lantern Festival</div>
 
-              <div class="my-5 text-center">
-                {{ genStore.current_state }}
+
+              <div class="info-zh mt-24 bg-[#000000]/20 rounded-lg p-4">
+                <div class="mt-4 text-xl">2026台灣燈會｜逐鹿光溯源展區</div>
+                <div class="mt-4 text-md">活動時間：2026/3/3(二) - 3/15(日)</div>
+                <div class="mt-4 text-md">活動地點：嘉義縣政府前廣場</div>
               </div>
+
+              <div class="info-en mt-8 bg-[#000000]/20 rounded-lg p-4">
+                <div class="mt-4 text-xl">2026 TAIWAN LANTERN FESTIVAL</div>
+                <div class="mt-4 text-md">Chasing Light, Reflecting Deer in the Grass</div>
+                <div class="mt-4 text-md">2026 / 3 / 3 (Tue) - 3 / 15 (Sun)</div>
+                <div class="mt-4 text-md">CHIAYI COUNTY GOVERNMENT PLAZA</div>
+              </div>
+
+              <div style="height: 25vh;"> </div>
+
+            
+
             </motion.div>
         </div>
 

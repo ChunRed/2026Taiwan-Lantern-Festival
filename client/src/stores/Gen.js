@@ -55,7 +55,7 @@ export const useGenStore = defineStore('gen', () => {
         const serverUrl = import.meta.env.DEV ? 'http://localhost:4000' : ''
 
         // Connect to server
-        socket.value = io(serverUrl)
+        socket.value = io(serverUrl);
 
         socket.value.on('connect', () => {
             console.log('Socket Connected:', socket.value.id)

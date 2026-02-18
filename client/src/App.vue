@@ -152,50 +152,59 @@ watch([isLoading, () => genStore.isHomeLoading], ([loading, homeLoading]) => {
 
   <MobileShell>
     <!-- Content inside shell -->
-    <div class="flex flex-col w-full h-full py-6 text-white font-sans relative">
+    <div class="flex flex-col w-full h-full pb-6 text-white font-sans relative">
       <!-- Header -->
-      <header
-        class="flex justify-between items-center w-full px-6 mb-2 z-50 relative"
-      >
-        <motion.div
-          :initial="{ opacity: 0, y: 20 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 1, delay: 0.2 }"
-          class="flex flex-col items-start"
-        >
-          <RouterLink
-            to="/home"
-            class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors"
-            @click="toggleMenu"
+      <!-- Sticky Header Container -->
+      <div class="sticky top-0 z-[100] w-full">
+        <!-- Blurred Background -->
+        <div class="absolute top-0 left-0 w-full h-[108px] bg-[rgb(0,0,0,0.3)] backdrop-blur-sm -z-10"></div>
+        
+        <!-- Header Content -->
+        <div class="pt-6 px-6 mb-2">
+          <header
+            class="flex justify-between items-center w-full relative"
           >
-            <h1 class="text-2xl font-bold tracking-[0.3em] mb-1">
-              逐 鹿 光 溯 源
-            </h1>
-            <p class="text-[0.6rem] text-gray-300 font-light tracking-wide">
-              Chasing Light, Reflecting Deer in the Grass
-            </p>
-          </RouterLink>
-        </motion.div>
+            <motion.div
+              :initial="{ opacity: 0, y: 20 }"
+              :animate="{ opacity: 1, y: 0 }"
+              :transition="{ duration: 1, delay: 0.2 }"
+              class="flex flex-col items-start"
+            >
+              <RouterLink
+                to="/home"
+                class="text-3xl font-light tracking-widest hover:text-gray-300 transition-colors"
+                @click="toggleMenu"
+              >
+                <h1 class="text-2xl font-bold tracking-[0.3em] mb-1">
+                  逐 鹿 光 溯 源
+                </h1>
+                <p class="text-[0.6rem] text-gray-300 font-light tracking-wide">
+                  Chasing Light, Reflecting Deer in the Grass
+                </p>
+              </RouterLink>
+            </motion.div>
 
-        <!-- Menu Icon -->
-        <button
-          @click="toggleMenu"
-          class="w-10 h-10 border border-white rounded-full flex flex-col justify-center items-center gap-1.5 p-2.5 hover:bg-white/10 transition-colors z-50 relative"
-        >
-          <span
-            class="w-full h-0.5 bg-white block transition-transform duration-300"
-            :class="{ 'rotate-45 translate-y-2': isMenuOpen }"
-          ></span>
-          <span
-            class="w-full h-0.5 bg-white block transition-opacity duration-300"
-            :class="{ 'opacity-0': isMenuOpen }"
-          ></span>
-          <span
-            class="w-full h-0.5 bg-white block transition-transform duration-300"
-            :class="{ '-rotate-45 -translate-y-2': isMenuOpen }"
-          ></span>
-        </button>
-      </header>
+            <!-- Menu Icon -->
+            <button
+              @click="toggleMenu"
+              class="w-10 h-10 border border-white rounded-full flex flex-col justify-center items-center gap-1.5 p-2.5 hover:bg-white/10 transition-colors z-50 relative"
+            >
+              <span
+                class="w-full h-0.5 bg-white block transition-transform duration-300"
+                :class="{ 'rotate-45 translate-y-2': isMenuOpen }"
+              ></span>
+              <span
+                class="w-full h-0.5 bg-white block transition-opacity duration-300"
+                :class="{ 'opacity-0': isMenuOpen }"
+              ></span>
+              <span
+                class="w-full h-0.5 bg-white block transition-transform duration-300"
+                :class="{ '-rotate-45 -translate-y-2': isMenuOpen }"
+              ></span>
+            </button>
+          </header>
+        </div>
+      </div>
 
       <!-- Menu Overlay -->
       <transition
@@ -279,9 +288,7 @@ watch([isLoading, () => genStore.isHomeLoading], ([loading, homeLoading]) => {
       <IconStroll v-if="route.name === 'information'" />
 
       <RouterView />
-      <div
-        class="absolute top-0 left-0 w-full h-[108px] bg-[rgb(0,0,0,0.3)] backdrop-blur-sm z-40"
-      ></div>
+
       <LiffProfile />
       
       
@@ -290,11 +297,11 @@ watch([isLoading, () => genStore.isHomeLoading], ([loading, homeLoading]) => {
 
       <!-- Trigger Toggle Button -->
       <div class="relative z-[9999] flex items-center gap-2">
-        <div class="absolute left-4 bottom-4 text-white font-bold text-shadow bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
+        <div class="text-white font-bold text-shadow bg-black/30 px-2 py-1 mx-3 rounded backdrop-blur-sm">
           {{ genStore.triggerTimer }}s
         </div>
         <button 
-          class="absolute right-4 bottom-4 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white text-xs hover:bg-white/30 transition-colors shadow-lg"
+          class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex  mx-3 items-center justify-center text-white text-xs hover:bg-white/30 transition-colors shadow-lg"
           @click="toggleTrigger"
         >
           {{ genStore.isTriggerActive ? 'ON' : 'OFF' }}
