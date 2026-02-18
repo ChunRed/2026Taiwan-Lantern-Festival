@@ -48,9 +48,9 @@ const currentColors = computed(() => {
   }
 
   // Check if we are home and close to a deer
-  if (route.name === 'home' && genStore.beaconStatus > 1) {
-    return colorMap['home-active'];
-  }
+  // if (route.name === 'home' && genStore.beaconStatus > 1) {
+  //   return colorMap['home-active'];
+  // }
   
   return colorMap[route.name] || ['#000000', '#517ADA', '#000000'];
 });
@@ -75,6 +75,8 @@ const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
 
+const inputBeaconStatus = ref(2);
+
 const toggleTrigger = () => {
   if (genStore.isTriggerActive) {
     // Manually turning off
@@ -82,6 +84,7 @@ const toggleTrigger = () => {
     genStore.stopCountdown();
   } else {
     // Manually turning on
+    genStore.beaconStatus = Number(inputBeaconStatus.value);
     genStore.isTriggerActive = true;
     genStore.startCountdown();
   }
@@ -293,15 +296,20 @@ watch([isLoading, () => genStore.isHomeLoading], ([loading, homeLoading]) => {
       
       
 
-
-
       <!-- Trigger Toggle Button -->
-      <div class="relative z-[9999] flex items-center gap-2">
-        <div class="text-white font-bold text-shadow bg-black/30 px-2 py-1 mx-3 rounded backdrop-blur-sm">
+      <div class="relative z-[9999] flex items-center justify-end px-4 gap-2">
+        <div class="text-white font-bold text-shadow bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
           {{ genStore.triggerTimer }}s
         </div>
+        <input 
+          v-model="inputBeaconStatus" 
+          type="number" 
+          min="1" 
+          max="9" 
+          class="w-12 h-8 bg-white/20 border border-white/30 rounded text-center text-white"
+        />
         <button 
-          class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex  mx-3 items-center justify-center text-white text-xs hover:bg-white/30 transition-colors shadow-lg"
+          class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white text-xs hover:bg-white/30 transition-colors shadow-lg"
           @click="toggleTrigger"
         >
           {{ genStore.isTriggerActive ? 'ON' : 'OFF' }}

@@ -15,14 +15,14 @@ export const useGenStore = defineStore('gen', () => {
     let triggerName = [
         ' -- ',
         ' -- ',
+        '赤榕鹿',
+        '金草蘭鹿',
+        '穀穗鹿',
         '構樹鹿',
         '月桃鹿',
         '青剛櫟鹿',
         '小葉桑鹿',
         '五節芒鹿',
-        '赤榕鹿',
-        '穀穗鹿',
-        '金草蘭鹿',
     ]
 
     const triggerTimer = ref(0);
@@ -30,7 +30,7 @@ export const useGenStore = defineStore('gen', () => {
 
     function startCountdown() {
         if (countdownInterval) clearInterval(countdownInterval);
-        triggerTimer.value = 10;
+        triggerTimer.value = 30;
 
         countdownInterval = setInterval(() => {
             triggerTimer.value--;
@@ -132,6 +132,7 @@ export const useGenStore = defineStore('gen', () => {
         startCountdown,
         stopCountdown,
         isHomeLoading,
-        hasVisitedHome
+        hasVisitedHome,
+        beaconStatus
     }
 })

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { RouterLink, RouterView } from "vue-router";
 import { motion } from "motion-v";
 import { useGenStore } from "@/stores/Gen";
@@ -24,7 +24,7 @@ import LoadingPage from "../components/LoadingPage.vue";
 // Assets
 import MapImg from "../assets/Map.png";
 import MapUIImg from "../assets/Map-UI.png";
-import TriggerMapImg from "../assets/Trigger/trigger-五節芒.png";
+import plantData from '../data/plantData.json';
 import DeerBtn from "../assets/deer_button.png";
 import IntroMapImg from "../assets/Intro_map.png";
 import IntroCollectImg from "../assets/Intro_collect.png";
@@ -46,6 +46,17 @@ const state = ref(0);
 // Initialize store state
 onMounted(() => {
   genStore.isHomeLoading = true;
+});
+
+const triggerMapSrc = computed(() => {
+  const index = genStore.beaconStatus - 2;
+  const plant = plantData[index];
+  
+  if (plant) {
+    return new URL(`../assets/Trigger/trigger-${plant.nameZh}.png`, import.meta.url).href;
+  }
+  // Default fallback (e.g. last item or a specific default)
+  return new URL(`../assets/Trigger/trigger-五節芒.png`, import.meta.url).href;
 });
 
 // Watch for state changes to re-apply GSAP animation
@@ -237,7 +248,7 @@ onMounted(() => {
               
               <!-- Trigger Map (Absolute overlay) -->
               <img 
-                :src="TriggerMapImg" 
+                :src="triggerMapSrc" 
                 alt="Trigger Map" 
                 class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 animate-pulse-glow"
                 :class="{ 'opacity-100': genStore.isTriggerActive, 'opacity-0': !genStore.isTriggerActive }"
