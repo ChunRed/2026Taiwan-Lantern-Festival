@@ -37,7 +37,7 @@ const resetAll = () => {
 
 // LIFF ID（之後可以抽成 env）
 const LIFF_ID = "2008806646-oNvJMBiC";
-
+ 
 onMounted(async () => {
   try {
     // 動態載入 LIFF SDK（避免 index.html 污染）
