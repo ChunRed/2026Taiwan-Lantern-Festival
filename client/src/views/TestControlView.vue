@@ -1,7 +1,14 @@
 <script setup>
+import { ref } from "vue";
 import { useGenStore } from "../stores/Gen.js";
 
 const genStore = useGenStore();
+
+const inputBeaconStatus = ref(2);
+
+const toggleTrigger = () => {
+  genStore.toggleManualTrigger(Number(inputBeaconStatus.value));
+};
 
 // Helper to resolve images from assets folder
 const getImageUrl = (name) => {
@@ -61,6 +68,26 @@ const triggerSpecialEvent = () => {
         class="px-6 py-3 bg-white/20 border border-white/80 rounded-lg font-bold tracking-wider transition-colors"
       >
         SPECIAL EVENT
+      </button>
+    </div>
+
+    <!-- Trigger Toggle Button -->
+    <div class="flex items-center justify-center -mt-6 mb-8 gap-2">
+      <div class="text-white font-bold text-shadow bg-white/20 px-2 py-1 rounded backdrop-blur-sm">
+        {{ genStore.triggerTimer }}s
+      </div>
+      <input 
+        v-model="inputBeaconStatus" 
+        type="number" 
+        min="1" 
+        max="9" 
+        class="w-12 h-8 bg-white/20 border border-white/30 rounded text-center text-white"
+      />
+      <button 
+        class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white text-xs hover:bg-white/30 transition-colors shadow-lg"
+        @click="toggleTrigger"
+      >
+        {{ genStore.isTriggerActive ? 'ON' : 'OFF' }}
       </button>
     </div>
 

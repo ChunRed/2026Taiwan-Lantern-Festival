@@ -75,11 +75,7 @@ const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
 
-const inputBeaconStatus = ref(2);
 
-const toggleTrigger = () => {
-  genStore.toggleManualTrigger(Number(inputBeaconStatus.value));
-};
 
 watch(() => genStore.isTriggerActive, (active) => {
   if (active) {
@@ -130,7 +126,7 @@ watch([isLoading, () => genStore.isHomeLoading], ([loading, homeLoading]) => {
     :speed="10"
   />
   <FloatingParticlesOverlay 
-    v-if="['home', 'normal', 'library', 'information'].includes(route.name)" 
+    v-if="['home', 'normal', 'library', 'information', 'gen-show'].includes(route.name)" 
     :theme-color="currentParticlesColor" 
   />
   <transition
@@ -311,28 +307,6 @@ watch([isLoading, () => genStore.isHomeLoading], ([loading, homeLoading]) => {
       <RouterView />
 
       <LiffProfile />
-      
-      
-
-      <!-- Trigger Toggle Button -->
-      <div class="relative z-[9999] flex items-center justify-end px-4 gap-2">
-        <div class="text-white font-bold text-shadow bg-black/30 px-2 py-1 rounded backdrop-blur-sm">
-          {{ genStore.triggerTimer }}s
-        </div>
-        <input 
-          v-model="inputBeaconStatus" 
-          type="number" 
-          min="1" 
-          max="9" 
-          class="w-12 h-8 bg-white/20 border border-white/30 rounded text-center text-white"
-        />
-        <button 
-          class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white text-xs hover:bg-white/30 transition-colors shadow-lg"
-          @click="toggleTrigger"
-        >
-          {{ genStore.isTriggerActive ? 'ON' : 'OFF' }}
-        </button>
-      </div>
     </div>
   </MobileShell>
 </template>
