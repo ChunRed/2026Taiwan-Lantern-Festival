@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { io } from 'socket.io-client'
 
 export const useGenStore = defineStore('gen', () => {
@@ -11,6 +11,20 @@ export const useGenStore = defineStore('gen', () => {
     const isTriggerActive = ref(false);
     const isHomeLoading = ref(false);
     const hasVisitedHome = ref(false);
+    const notificationMessage = ref('');
+    const notificationVisible = ref(false);
+
+    function showNotification(msg) {
+        notificationMessage.value = msg;
+        notificationVisible.value = true;
+    }
+
+    function closeNotification() {
+        notificationVisible.value = false;
+        setTimeout(() => {
+            notificationMessage.value = '';
+        }, 300);
+    }
 
     let triggerName = [
         ' -- ',
@@ -30,7 +44,7 @@ export const useGenStore = defineStore('gen', () => {
 
     function startCountdown() {
         if (countdownInterval) clearInterval(countdownInterval);
-        triggerTimer.value = 30;
+        triggerTimer.value = 55;
 
         countdownInterval = setInterval(() => {
             triggerTimer.value--;
@@ -68,18 +82,37 @@ export const useGenStore = defineStore('gen', () => {
             beaconStatus.value = Number(data.message); // Store raw status
 
             if (data.message == 1) {
-                alert('您已離開一隻鹿！')
+                showNotification('您已離開一隻鹿！');
                 current_state.value = '您已離開一隻鹿！';
                 isTriggerActive.value = false;
                 stopCountdown();
             }
             else if (data.message > 1 && data.message < triggerName.length) {
-                alert('您已接近' + triggerName[data.message])
+                showNotification('您已接近' + triggerName[data.message]);
                 current_state.value = '您已接近' + triggerName[data.message];
                 isTriggerActive.value = true;
                 startCountdown();
             }
         })
+    }
+
+    function toggleManualTrigger(status) {
+        if (!isTriggerActive.value) {
+            // Turn ON
+            beaconStatus.value = status;
+            isTriggerActive.value = true;
+            if (status > 1 && status < triggerName.length) {
+                showNotification('您已接近' + triggerName[status]);
+                current_state.value = '您已接近' + triggerName[status];
+            }
+            startCountdown();
+        } else {
+            // Turn OFF
+            isTriggerActive.value = false;
+            showNotification('您已離開一隻鹿！');
+            current_state.value = '您已離開一隻鹿！';
+            stopCountdown();
+        }
     }
 
     // State
@@ -115,6 +148,48 @@ export const useGenStore = defineStore('gen', () => {
 
 
 
+    let incrementInterval = null;
+
+    function stopIncrementing() {
+        if (incrementInterval) {
+            clearInterval(incrementInterval);
+            incrementInterval = null;
+        }
+    }
+
+    function startIncrementing() {
+        stopIncrementing();
+
+        if (!isTriggerActive.value) return;
+
+        incrementInterval = setInterval(() => {
+            // beaconStatus 2 -> ItemScale[0]
+            // beaconStatus 3 -> ItemScale[1]
+            // ...
+            const index = beaconStatus.value - 2;
+            if (index >= 0 && index < ItemScale.value.length) {
+                if (ItemScale.value[index] < 100) {
+                    ItemScale.value[index] += 10;
+                    if (ItemScale.value[index] > 100) {
+                        ItemScale.value[index] = 100;
+                    }
+                }
+                // console.log(`Auto-incrementing ItemScale[${index}]:`, ItemScale.value[index]);
+            }
+        }, 10000);
+    }
+
+    watch([isTriggerActive, beaconStatus], ([newActive, newStatus], [oldActive, oldStatus]) => {
+        if (newActive) {
+            // If it just became active OR status changed, restart the timer
+            if (newActive !== oldActive || newStatus !== oldStatus) {
+                startIncrementing();
+            }
+        } else {
+            stopIncrementing();
+        }
+    });
+
 
     return {
         gen,
@@ -133,6 +208,11 @@ export const useGenStore = defineStore('gen', () => {
         stopCountdown,
         isHomeLoading,
         hasVisitedHome,
-        beaconStatus
+        beaconStatus,
+        notificationMessage,
+        notificationVisible,
+        showNotification,
+        closeNotification,
+        toggleManualTrigger
     }
 })

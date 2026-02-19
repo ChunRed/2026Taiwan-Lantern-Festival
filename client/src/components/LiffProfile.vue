@@ -9,6 +9,13 @@
       <div>userId: {{ profile.userId }}</div>
       <div>pictureUrl: {{ profile.pictureUrl }}</div>
     </div>
+
+    <button
+        @click="resetAll"
+        class="mt-8 px-6 py-3 bg-white/20 border border-white/80 rounded-lg font-bold tracking-wider text-white transition-colors w-full"
+      >
+        重置紀錄｜RESET
+    </button>
   </div>
 </template>
 
@@ -20,8 +27,13 @@ import { useServerSyncStore } from "../stores/ServerSync";
 
 // 狀態
 const route = useRoute();
+const genStoreInstance = useGenStore(); // Use different name to avoid conflict with local variable if any
 const status = ref("loading...");
 const profile = ref(null);
+
+const resetAll = () => {
+  genStoreInstance.ItemScale = [0, 0, 0, 0, 0, 0, 0, 0];
+};
 
 // LIFF ID（之後可以抽成 env）
 const LIFF_ID = "2008806646-oNvJMBiC";
@@ -37,7 +49,7 @@ onMounted(async () => {
 
     // 若不是在 LINE App 內開啟，要求登入
     if (!liff.isLoggedIn()) {
-      //liff.login();
+      liff.login();
       // For fallback logic if login doesn't redirect or for testing flow
       const fallbackId = "test"; 
       profile.value = {

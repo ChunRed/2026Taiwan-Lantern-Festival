@@ -59,6 +59,17 @@ const triggerMapSrc = computed(() => {
   return new URL(`../assets/Trigger/trigger-五節芒.png`, import.meta.url).href;
 });
 
+const currentTriggerInfo = computed(() => {
+  const index = genStore.beaconStatus - 2;
+  if (index >= 0 && index < plantData.length) {
+    return {
+      name: plantData[index].nameZh,
+      scale: genStore.ItemScale[index]
+    };
+  }
+  return null;
+});
+
 // Watch for state changes to re-apply GSAP animation
 watch(state, async (newVal, oldVal) => {
   if (newVal === 0) {
@@ -210,6 +221,8 @@ onMounted(() => {
 
     <CrossOverlay v-if="state === 0" />
 
+
+
     <!-- Navigation Arrows -->
     <button 
       v-if="state !== 0"
@@ -308,20 +321,35 @@ onMounted(() => {
               :animate="{ opacity: 1, y: 0 }"
               :transition="{ duration: 1, delay: 2 }"
             >
-              <footer class="flex justify-between items-center w-full pt-4">
-                <div class="text-lg tracking-[0.2em] font-light text-white">地 圖 | M A P</div>
-                
-                <button class="w-12 h-12 rounded-full border border-white flex justify-center items-center p-2 bg-transparent hover:bg-white/10 transition-colors" @click="nextState">
-                  <span class="text-3xl leading-none text-[#fffff]">!</span>
-                </button>
-                
-                <RouterLink to="/library" class="flex h-12 w-12 items-center justify-center rounded-full border border-white bg-white/5">
-                  <img :src="DeerBtn" alt="Navigate" class="w-full h-full object-contain" />
-                </RouterLink>
+              <footer class="flex justify-between items-center w-full pt-4 h-16 relative">
+                <transition name="fade" mode="out-in">
+                  <div v-if="!genStore.isTriggerActive" class="flex justify-between items-center w-full">
+                    <div class="text-lg tracking-[0.2em] font-light text-white">地 圖 | M A P</div>
+                    
+                    <div class="flex gap-4">
+                      <button class="w-12 h-12 rounded-full border border-white flex justify-center items-center p-2 bg-transparent hover:bg-white/10 transition-colors" @click="nextState">
+                        <span class="text-3xl leading-none text-[#fffff]">!</span>
+                      </button>
+                      
+                      <RouterLink to="/library" class="flex h-12 w-12 items-center justify-center rounded-full border border-white bg-white/5">
+                        <img :src="DeerBtn" alt="Navigate" class="w-full h-full object-contain" />
+                      </RouterLink>
+                    </div>
+                  </div>
+
+                  <div v-else-if="currentTriggerInfo" class="absolute inset-0 flex items-center justify-center w-full">
+                    <div class="bg-black/40 backdrop-blur-sm px-6 py-2 rounded-full border border-white/30 text-white flex gap-4 items-center shadow-lg transform transition-all duration-300">
+                        <span class="text-lg tracking-widest font-bold">{{ currentTriggerInfo.name }}</span>
+                        <div class="h-4 w-px bg-white/50"></div>
+                        <span class="text-lg font-mono text-white">{{ Math.floor(currentTriggerInfo.scale) }} % </span>
+                    </div>
+                  </div>
+                </transition>
               </footer>
 
-              <div class="my-5"></div>
-              <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4"></div>
+              
+              <div v-if="!genStore.isHomeLoading" class="my-5"></div>
+              <div v-if="!genStore.isHomeLoading"  class="w-[110%] -ml-5 h-px bg-white/50 mb-4"></div>
 
 
               <div class="info-zh mt-24 bg-[#000000]/20 rounded-lg p-4">
@@ -337,9 +365,7 @@ onMounted(() => {
                 <div class="mt-4 text-md">CHIAYI COUNTY GOVERNMENT PLAZA</div>
               </div>
 
-              <div style="height: 25vh;"> </div>
-
-            
+              <div v-if="!genStore.isHomeLoading" style="height: 25vh;"> </div>
 
             </motion.div>
         </div>

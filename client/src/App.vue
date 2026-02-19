@@ -78,16 +78,7 @@ const toggleMenu = () => {
 const inputBeaconStatus = ref(2);
 
 const toggleTrigger = () => {
-  if (genStore.isTriggerActive) {
-    // Manually turning off
-    genStore.isTriggerActive = false;
-    genStore.stopCountdown();
-  } else {
-    // Manually turning on
-    genStore.beaconStatus = Number(inputBeaconStatus.value);
-    genStore.isTriggerActive = true;
-    genStore.startCountdown();
-  }
+  genStore.toggleManualTrigger(Number(inputBeaconStatus.value));
 };
 
 watch(() => genStore.isTriggerActive, (active) => {
@@ -151,6 +142,33 @@ watch([isLoading, () => genStore.isHomeLoading], ([loading, homeLoading]) => {
       leave-to-class="opacity-0"
     >
       <LoadingPage v-if="isLoading" />
+  </transition>
+
+  <!-- Notification Modal -->
+  <transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="opacity-0 translate-y-4"
+      enter-to-class="opacity-100 translate-y-0"
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 translate-y-4"
+    >
+      <div v-if="genStore.notificationVisible" class="fixed inset-0 z-[1000] flex items-center justify-center px-8">
+          <!-- Backdrop -->
+          <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" @click="genStore.closeNotification"></div>
+          
+          <!-- Box -->
+          <div class="relative bg-black/80 border border-white/20 rounded-2xl p-8 max-w-sm w-full text-center shadow-[0_0_30px_rgba(255,255,255,0.1)] backdrop-blur-md">
+              <p class="text-white text-lg font-light tracking-widest mb-8 leading-relaxed">{{ genStore.notificationMessage }}</p>
+              
+              <button 
+                class="w-full py-3 border border-white/30 rounded-full text-white hover:bg-white/10 active:bg-white/20 transition-all duration-300 tracking-[0.2em] text-sm font-light"
+                @click="genStore.closeNotification"
+              >
+                  確 定
+              </button>
+          </div>
+      </div>
   </transition>
 
   <MobileShell>
