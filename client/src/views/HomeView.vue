@@ -42,6 +42,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // State
 const state = ref(0);
+const randomDeerTextSrc = ref(new URL('../assets/DeerIcon/text/0.png', import.meta.url).href);
 // Use store state for loading
 // Initialize store state
 onMounted(() => {
@@ -99,10 +100,15 @@ const setupScrollAnimation = () => {
   const target_en = document.querySelector('.info-en');
   if (!target_zh) return;
   
-  // Clean up existing triggers for this element to avoid duplicates
+  // Clean up existing triggers for these elements to avoid duplicates
   ScrollTrigger.getAll().forEach(t => {
     if (t.vars && t.vars.trigger === '.info-zh') t.kill();
     if (t.trigger === target_zh) t.kill();
+    if (t.vars && t.vars.trigger === '.info-en') t.kill();
+    if (t.trigger === target_en) t.kill();
+    
+    // Clean up deer icons
+    if (t.trigger && t.trigger.classList && t.trigger.classList.contains('deer-icon')) t.kill();
   });
 
   gsap.fromTo(target_zh, 
@@ -138,6 +144,94 @@ const setupScrollAnimation = () => {
       }
     }
   );
+
+  // Deer icons animations
+  const deerIcons = document.querySelectorAll('.deer-icon');
+  deerIcons.forEach(icon => {
+    const parentContainer = icon.closest('.info-zh') || icon.closest('.info-en');
+    
+    // Continuous floating animation (paused initially)
+    const floatAnim = gsap.to(icon, {
+      x: "random(-10, 10)",
+      y: "random(-10, 10)",
+      rotate: "random(-10, 10)",
+      duration: "random(2, 4)",
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+      repeatRefresh: true,
+      paused: true
+    });
+
+    // Fade-in animation with delay
+    gsap.fromTo(icon, 
+      { opacity: 0, scale: 0.5 },
+      {
+        opacity: 0.5,
+        scale: 1,
+        duration: 0.8,
+        delay: 1, // 1 second delay after parent starts entering
+        ease: "back.out(1.7)", // light bounce effect
+        scrollTrigger: {
+          trigger: parentContainer,
+          scroller: "#mobile-scroll-container",
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        },
+        onComplete: () => {
+          floatAnim.resume();
+        },
+        onReverseComplete: () => {
+          floatAnim.pause();
+          // reset float transform so next time it starts fresh
+          gsap.set(icon, { x: 0, y: 0, rotate: 0 });
+        }
+      }
+    );
+  });
+
+  // Bottom deer animation
+  const bottomDeerContainer = document.querySelector('.bottom-deer-container');
+  const bottomDeer = document.querySelector('.bottom-deer');
+  
+  if (bottomDeerContainer && bottomDeer) {
+    ScrollTrigger.getAll().forEach(t => {
+      if (t.trigger === bottomDeerContainer) t.kill();
+    });
+
+    const deerAnim = gsap.fromTo(bottomDeer,
+      { y: 0, opacity: 0 },
+      {
+        y: "-100%", // moves it up by its full height
+        opacity: 1,
+        duration: 0.8,
+        ease: "back.out(1.2)",
+        paused: true
+      }
+    );
+
+    let deerDelayCall;
+
+    ScrollTrigger.create({
+      trigger: bottomDeerContainer,
+      scroller: "#mobile-scroll-container",
+      start: "top 98%", // 當容器快進到畫面範圍內時觸發
+      onEnter: () => {
+        // 隨機選一張文字圖片
+        const randomIdx = Math.floor(Math.random() * 3);
+        randomDeerTextSrc.value = new URL(`../assets/DeerIcon/text/${randomIdx}.png`, import.meta.url).href;
+
+        // 每次滑到底部都要重新延遲1秒再播放
+        if(deerDelayCall) deerDelayCall.kill();
+        deerDelayCall = gsap.delayedCall(1, () => deerAnim.play());
+      },
+      onLeaveBack: () => {
+        // 若在延遲期間滑回去，取消播放並倒轉動畫
+        if(deerDelayCall) deerDelayCall.kill();
+        deerAnim.reverse();
+      }
+    });
+  }
 
 };
 
@@ -352,20 +446,32 @@ onMounted(() => {
               <div v-if="!genStore.isHomeLoading"  class="w-[110%] -ml-5 h-px bg-white/50 mb-4"></div>
 
 
-              <div class="info-zh mt-24 bg-[#000000]/20 rounded-lg p-4">
-                <div class="mt-4 text-xl">2026台灣燈會｜逐鹿光溯源展區</div>
-                <div class="mt-4 text-md">活動時間：2026/3/3(二) - 3/15(日)</div>
-                <div class="mt-4 text-md">活動地點：嘉義縣政府前廣場</div>
+              <div class="info-zh relative mt-24 bg-[#000000]/20 rounded-lg p-4 z-0">
+                <img src="../assets/DeerIcon/Group 435.png" class="deer-icon absolute -top-12 -left-8 w-24 opacity-0 z-[-1] pointer-events-none" />
+                <img src="../assets/DeerIcon/Group 440.png" class="deer-icon absolute -bottom-12 -right-4 w-28 opacity-0 z-[-1] pointer-events-none" />
+                <div class="mt-4 text-md">2026台灣燈會｜逐鹿光溯源展區</div>
+                <div class="mt-4 text-sm">活動時間：2026/3/3(二) - 3/15(日)</div>
+                <div class="mt-4 text-sm">活動地點：嘉義縣政府前廣場</div>
               </div>
 
-              <div class="info-en mt-8 bg-[#000000]/20 rounded-lg p-4">
-                <div class="mt-4 text-xl">2026 TAIWAN LANTERN FESTIVAL</div>
-                <div class="mt-4 text-md">Chasing Light, Reflecting Deer in the Grass</div>
-                <div class="mt-4 text-md">2026 / 3 / 3 (Tue) - 3 / 15 (Sun)</div>
-                <div class="mt-4 text-md">CHIAYI COUNTY GOVERNMENT PLAZA</div>
+              <div class="info-en relative mt-24 bg-[#000000]/20 rounded-lg p-4 z-0">
+                <img src="../assets/DeerIcon/Group 442.png" class="deer-icon absolute -top-8 -right-8 w-20 opacity-0 z-[-1] pointer-events-none" />
+                <img src="../assets/DeerIcon/Group 443.png" class="deer-icon absolute -bottom-12 -left-6 w-28 opacity-0 z-[-1] pointer-events-none" />
+                <div class="mt-4 text-md">2026 TAIWAN LANTERN FESTIVAL</div>
+                <div class="mt-4 text-sm">Chasing Light, Reflecting Deer in the Grass</div>
+                <div class="mt-4 text-sm">2026 / 3 / 3 (Tue) - 3 / 15 (Sun)</div>
+                <div class="mt-4 text-sm">CHIAYI COUNTY GOVERNMENT PLAZA</div>
               </div>
 
-              <div v-if="!genStore.isHomeLoading" style="height: 25vh;"> </div>
+              <div v-if="!genStore.isHomeLoading" style="height: 15vh;"> </div>
+
+              <!-- 頁面底部出現一半的鹿 -->
+              <div class="bottom-deer-container relative w-auto -mx-6 -mb-6 h-[320px] overflow-hidden flex justify-center pointer-events-none">
+                <div class="bottom-deer absolute top-full opacity-0 flex flex-col items-center">
+                  <img :src="randomDeerTextSrc" class="w-56 -ml-8 mb-2" alt="Speech Bubble" />
+                  <img src="../assets/DeerIcon/Group 442-2.png" class="w-48" alt="Bottom Deer" />
+                </div>
+              </div>
 
             </motion.div>
         </div>

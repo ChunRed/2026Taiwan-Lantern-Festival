@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col relative w-full h-full">
+    <LoadingPage v-if="isLoading" />
     <CrossOverlay />
     <ExplosionEffect 
       v-if="showExplosion" 
@@ -62,11 +63,13 @@
 import Gen_Information from "../components/Gen_Information.vue";
 import ExplosionEffect from "../components/ExplosionEffect.vue";
 import CrossOverlay from "../components/CrossOverlay.vue";
+import LoadingPage from "../components/LoadingPage.vue";
 import { useGenStore } from "../stores/Gen.js";
 import { ref, onMounted } from "vue";
 
 const genStore = useGenStore();
-const showExplosion = ref(true);
+const isLoading = ref(true);
+const showExplosion = ref(false);
 
 // Colors for the explosion effect (easily adjustable)
 const explosionColors = ['#C8AAFF', '#ffffff', '#7093FF', '#FFF2A6'] ;
@@ -82,9 +85,15 @@ const explosionConfig = {
 };
 
 onMounted(() => {
-  // Remove the explosion effect after duration to free up resources
+  // 2秒 loading 畫面
   setTimeout(() => {
-    showExplosion.value = false;
-  }, explosionConfig.duration);
+    isLoading.value = false;
+    showExplosion.value = true;
+    
+    // Remove the explosion effect after duration to free up resources
+    setTimeout(() => {
+      showExplosion.value = false;
+    }, explosionConfig.duration);
+  }, 2000);
 });
 </script>
