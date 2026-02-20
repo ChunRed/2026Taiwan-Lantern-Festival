@@ -25,6 +25,24 @@ const currentParticlesColor = computed(() => {
     const id = route.query.id;
     const plant = plantData.find(p => p.id === id);
     if (plant) return plant.themeColor;
+  } else if (route.name === 'gen-show') {
+    const scales = genStore.ItemScale;
+    const selectedGens = genStore.gen;
+    let maxScale = -1;
+    let maxIdx = -1;
+    
+    // 只在已選擇的清單內尋找最大值
+    for (let i = 0; i < selectedGens.length; i++) {
+      const plantIdx = selectedGens[i];
+      if (scales[plantIdx] > maxScale) {
+        maxScale = scales[plantIdx];
+        maxIdx = plantIdx;
+      }
+    }
+
+    if (maxIdx !== -1 && plantData[maxIdx]) {
+      return plantData[maxIdx].themeColor;
+    }
   }
   return null; // Fallback to component default
 });
