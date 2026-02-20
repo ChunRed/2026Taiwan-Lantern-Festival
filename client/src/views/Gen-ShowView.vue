@@ -38,7 +38,7 @@
               }"
             ></div>
 
-            <img src="../assets/Gen_Image/Gen_test1.png" alt="Example Image" class="w-full h-auto relative z-10" />
+            <img :src="genShowImage" alt="Generated Image" class="w-full h-auto relative z-10" />
         </div>
 
         <!-- 漸層 -->
@@ -108,6 +108,25 @@ const maxThemeColor = computed(() => {
     return plantData[maxIdx].themeColor;
   }
   return '#517ADA'; // fallback default color
+});
+
+const genShowImage = computed(() => {
+  const selectedIndices = [...genStore.gen];
+  
+  if (selectedIndices.length < 2) {
+    // 預設防呆機制 (不足兩個元素或只有一個元素時回傳 0.png)
+    return new URL('../assets/Gen_Image/0.png', import.meta.url).href;
+  }
+
+  // 依據分數大小反向排序，取出最高分的前兩個索引
+  selectedIndices.sort((a, b) => genStore.ItemScale[b] - genStore.ItemScale[a]);
+  const top2 = selectedIndices.slice(0, 2);
+
+  // 確保組合檔名時，數字為小到大排序 (例如 1 和 3 -> 13)
+  top2.sort((a, b) => a - b);
+  const imageName = `${top2[0]}${top2[1]}.png`;
+
+  return new URL(`../assets/Gen_Image/${imageName}`, import.meta.url).href;
 });
 
 // === 這裡可以調整圖片與背景元素之間的黑色遮罩透明度「動態參數」 ===

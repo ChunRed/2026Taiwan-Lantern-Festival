@@ -69,8 +69,8 @@ const tex3 = new URL("../assets/item/穀穗.png", import.meta.url).href;
 const tex4 = new URL("../assets/item/構樹.png", import.meta.url).href;
 const tex5 = new URL("../assets/item/月桃.png", import.meta.url).href;
 const tex6 = new URL("../assets/item/青剛櫟.png", import.meta.url).href;
-const tex7 = new URL("../assets/小葉桑.png", import.meta.url).href;
-const tex8 = new URL("../assets/五節芒.png", import.meta.url).href;
+const tex7 = new URL("../assets/item/小葉桑.png", import.meta.url).href;
+const tex8 = new URL("../assets/item/五節芒.png", import.meta.url).href;
 const ballTextures = [tex1, tex2, tex3, tex4, tex5, tex6, tex7, tex8];
 const textureBaseSize = 512;
 
