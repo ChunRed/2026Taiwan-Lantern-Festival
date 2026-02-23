@@ -19,8 +19,8 @@ const {
 
 // LINE Bot 配置
 const config = {
-    channelAccessToken: 'sVrh9lLrLa1c3El9Pgcw/xHMWu/uJ20qs8cB4N4vw1GGaauwjVy7tqnNsu8FwbU/XIRygGBy4FsAHygu5+dsAl7WLfgopy5xYq+grxNm+zdB0z9HjwX2Z526fE2b1KQKDXmvYB/d9Rux8SWqn5b5LwdB04t89/1O/w1cDnyilFU=',
-    channelSecret: 'ac6012cf3c7c1350a1100b748555e468'
+    channelAccessToken: 'dWY4pQnsC99Onk43Y2VFk9JChdka8chTT93YkPYv3Qj6jwIsa9dsnJeEh5n+aQrSSHb9WGjE+ezJnFN5nF27gCZYAbDkn3Ndb0k0cao9wKUWDg75RtCc5i6XKoT2T0Aozvx/sa5lpEBN94n430gT2gdB04t89/1O/w1cDnyilFU=',
+    channelSecret: '2dd143ac957dfefc53b69534da45516d'
 };
 
 // 3. 正確建立伺服器
