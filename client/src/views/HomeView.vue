@@ -296,12 +296,16 @@ onMounted(() => {
     genStore.isHomeLoading = false;
   }, 2000); // 3 second local loading for smoother entry
 
-  // Only auto-advance to state 1 on first visit
+  // Only auto-advance to state 1 on first visit (skip if entered via Query Parameters)
   if (!genStore.hasVisitedHome) {
-    setTimeout(() => {
-        state.value = 1;
-        genStore.hasVisitedHome = true;
-    }, 1000); // Adjusted timing to account for loading
+    if (genStore.beaconStatus !== 0) {
+      genStore.hasVisitedHome = true;
+    } else {
+      setTimeout(() => {
+          state.value = 1;
+          genStore.hasVisitedHome = true;
+      }, 1000); // Adjusted timing to account for loading
+    }
   }     
 });
 </script>

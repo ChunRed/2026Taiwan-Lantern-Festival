@@ -213,7 +213,10 @@ export const useGenStore = defineStore('gen', () => {
         }, 10000);
     }
 
-    watch([isTriggerActive, beaconStatus], ([newActive, newStatus], [oldActive, oldStatus]) => {
+    watch([isTriggerActive, beaconStatus], ([newActive, newStatus], oldValues) => {
+        const oldActive = oldValues ? oldValues[0] : undefined;
+        const oldStatus = oldValues ? oldValues[1] : undefined;
+
         if (newActive) {
             // If it just became active OR status changed, restart the timer
             if (newActive !== oldActive || newStatus !== oldStatus) {
@@ -222,7 +225,7 @@ export const useGenStore = defineStore('gen', () => {
         } else {
             stopIncrementing();
         }
-    });
+    }, { immediate: true });
 
 
     return {

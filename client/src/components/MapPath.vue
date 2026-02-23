@@ -12,7 +12,7 @@ const pathOpacity = ref(1);
 
 watch(() => genStore.isTriggerActive, (active) => {
   pathOpacity.value = active ? 0 : 1;
-});
+}, { immediate: true });
 
 
 onMounted(() => {
