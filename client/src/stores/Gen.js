@@ -96,6 +96,40 @@ export const useGenStore = defineStore('gen', () => {
         })
     }
 
+
+    function QueryParameters() {
+        if (beaconStatus.value == 1) {
+            showNotification('您已離開一隻鹿！');
+            current_state.value = '您已離開一隻鹿！';
+            isTriggerActive.value = false;
+            stopCountdown();
+        }
+        else if (beaconStatus.value > 1 && beaconStatus.value < triggerName.length) {
+            showNotification('您已接近' + triggerName[beaconStatus.value]);
+            current_state.value = '您已接近' + triggerName[beaconStatus.value];
+            isTriggerActive.value = true;
+            startCountdown();
+        }
+    }
+
+    // Check URL parameters on store initialization
+    if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        let statusFromUrl = urlParams.get('BeaconStatus');
+
+        // Also check hash in case Vue Router appended it there
+        if (!statusFromUrl && window.location.hash.includes('?')) {
+            const hashParams = new URLSearchParams(window.location.hash.split('?')[1]);
+            statusFromUrl = hashParams.get('BeaconStatus');
+        }
+
+        if (statusFromUrl) {
+            beaconStatus.value = Number(statusFromUrl);
+            QueryParameters();
+        }
+    }
+
+
     function toggleManualTrigger(status) {
         if (!isTriggerActive.value) {
             // Turn ON
@@ -199,7 +233,6 @@ export const useGenStore = defineStore('gen', () => {
         initSocket,
         socket,
         userId,
-        userId,
         loadingFinish,
         current_state,
         isTriggerActive,
@@ -213,6 +246,7 @@ export const useGenStore = defineStore('gen', () => {
         notificationVisible,
         showNotification,
         closeNotification,
-        toggleManualTrigger
+        toggleManualTrigger,
+        QueryParameters
     }
 })
