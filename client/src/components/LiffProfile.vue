@@ -36,7 +36,7 @@ const resetAll = () => {
 };
 
 // LIFF ID（之後可以抽成 env）
-const LIFF_ID = "2008806646-oNvJMBiC";
+const LIFF_ID = "2009197335-qhEDz57F";
  
 onMounted(async () => {
   try {
