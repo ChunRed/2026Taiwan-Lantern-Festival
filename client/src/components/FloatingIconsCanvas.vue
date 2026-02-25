@@ -30,6 +30,7 @@ let animationId;
 let particles = [];
 let loadedImages = [];
 let resizeObserver = null;
+let lastHeight = 0;
 
 const initParticles = () => {
   particles = [];
@@ -124,6 +125,12 @@ const setupCanvas = () => {
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
       ctx.scale(dpr, dpr);
+
+      // 當圖片載入撐開高度後，重新打散粒子的分佈，避免初始擠在同一個地方
+      if (lastHeight < 50 && rect.height >= 50) {
+        initParticles();
+      }
+      lastHeight = rect.height;
     }
   });
   

@@ -26,6 +26,10 @@ onMounted(() => {
 const getImageUrl = (name) => {
   return new URL(`../assets/Middle_Deer/${name}`, import.meta.url).href;
 };
+
+const getItemImageUrl = (nameZh) => {
+  return new URL(`../assets/item/${nameZh}.png`, import.meta.url).href;
+};
 </script>
 
 <template>
@@ -76,7 +80,9 @@ const getImageUrl = (name) => {
       </div>
 
       <!-- Progress Section -->
-      <div class="mt-10 mb-10">
+      <hr class="border-white/20 my-10" />
+      
+      <div class="mt-4 mb-10">
         <div class="mb-6">
           <h2
             class="text-2xl font-bold tracking-widest tracking-[0.5em] transition-colors duration-500"
@@ -111,6 +117,35 @@ const getImageUrl = (name) => {
           <p>
             {{ currentData.description2 }}
           </p>
+        </div>
+
+        <hr class="border-white/20 my-10" />
+
+        <!-- Item 介紹區塊 -->
+        <div v-if="currentData.item_name && currentData.item" class="mb-12">
+          <div class="flex items-center justify-between mb-6">
+            <h3
+              class="text-lg font-bold tracking-[0.2em] transition-colors duration-500"
+              :style="{ color: currentData.themeColor }"
+            >
+              介紹物件｜{{ currentData.item_name }}
+            </h3>
+            
+            <!-- Item Image (小圖且靠右) -->
+            <img
+              :src="getItemImageUrl(currentData.nameZh)"
+              :alt="currentData.item_name"
+              class="w-16 h-16 object-contain drop-shadow-xl transition-all duration-700 hover:scale-[1.05]"
+            />
+          </div>
+
+          <div
+            class="space-y-6 text-md leading-6 tracking-widest text-gray-200 font-light text-justify"
+          >
+            <p>
+              {{ currentData.item }}
+            </p>
+          </div>
         </div>
       </div>
 

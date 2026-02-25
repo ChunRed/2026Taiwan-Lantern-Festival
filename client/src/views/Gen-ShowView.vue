@@ -48,14 +48,43 @@
         ></div>
 
 
-        <div class="relative -top-12 text-white mt-3 text-[24px] font-bold text-center">
-          你獲得了一隻ＯＯＯ鹿!
+        <div class="relative -top-20 text-white text-[24px] font-bold text-center">
+          你獲得了一隻{{ genDeerData.name }}!
         </div>
-        <Gen_Information
-          :Gen="genStore.gen"
-          :Rate="genStore.SelectedItemRate"
+
+        <div class="relative -top-20">
+          <hr class="border-white/20 my-4 mx-8" />
+        </div>
         
-        />
+        <!-- 新增鹿的內容與 hashtag -->
+        <div class="relative -top-20 text-white mt-2 px-6 space-y-4">
+          <!-- hashtags (加入長方形導圓角底色，白底黑字) -->
+          <div class="flex justify-center flex-wrap gap-2 text-black font-semibold tracking-wide w-full">
+            <span 
+              v-for="(tag, idx) in genDeerData.hashtags" 
+              :key="idx"
+              class="bg-white rounded-[8px] px-11 py-0 text-sm whitespace-nowrap"
+            >
+              {{ tag }}
+            </span>
+          </div>
+          <!-- content (靠左對齊, \n 換行) -->
+          <div class="whitespace-pre-line leading-relaxed text-[15px] opacity-90 text-left w-full">
+            {{ genDeerData.content }}
+          </div>
+        </div>
+
+        <div class="relative -top-12">
+          <hr class="border-white/20 my-0 mx-8" />
+        </div>
+
+        <!-- 元素連結 (百分比資訊區塊) 移至最下方 -->
+        <div class="relative mt-4 -top-12 pb-12">
+          <Gen_Information
+            :Gen="genStore.gen"
+            :Rate="genStore.SelectedItemRate"
+          />
+        </div>
       </div>
 
       <div v-else>
@@ -85,6 +114,7 @@ import FloatingIconsCanvas from "../components/FloatingIconsCanvas.vue";
 import { useGenStore } from "../stores/Gen.js";
 import { ref, onMounted, computed } from "vue";
 import plantData from "@/data/plantData.json";
+import genData from "@/data/genData.json";
 
 const genStore = useGenStore();
 const isLoading = ref(true);
@@ -127,6 +157,22 @@ const genShowImage = computed(() => {
   const imageName = `${top2[0]}${top2[1]}.png`;
 
   return new URL(`../assets/Gen_Image/${imageName}`, import.meta.url).href;
+});
+
+const genDeerData = computed(() => {
+  const selectedIndices = [...genStore.gen];
+  
+  let targetIndex = "0";
+
+  if (selectedIndices.length >= 2) {
+    selectedIndices.sort((a, b) => genStore.ItemScale[b] - genStore.ItemScale[a]);
+    const top2 = selectedIndices.slice(0, 2);
+    top2.sort((a, b) => a - b);
+    targetIndex = `${top2[0]}${top2[1]}`;
+  }
+
+  const foundData = genData.find(d => d.index === targetIndex);
+  return foundData || { name: "未知鹿", content: "這個組合尚未定義", hashtags: [] };
 });
 
 // === 這裡可以調整圖片與背景元素之間的黑色遮罩透明度「動態參數」 ===
