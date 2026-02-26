@@ -129,6 +129,8 @@ const genStore = useGenStore();
 const isLoading = ref(true);
 const showExplosion = ref(false);
 
+let image_id;
+
 const maxThemeColor = computed(() => {
   const scales = genStore.ItemScale;
   const selectedGens = genStore.gen;
@@ -154,6 +156,7 @@ const genShowImage = computed(() => {
   
   if (selectedIndices.length < 2) {
     // 預設防呆機制 (不足兩個元素或只有一個元素時回傳 0.png)
+    image_id = 0;
     return new URL('../assets/Gen_Image/0.png', import.meta.url).href;
   }
 
@@ -164,7 +167,7 @@ const genShowImage = computed(() => {
   // 確保組合檔名時，數字為小到大排序 (例如 1 和 3 -> 13)
   top2.sort((a, b) => a - b);
   const imageName = `${top2[0]}${top2[1]}.png`;
-
+  image_id = imageName;
   return new URL(`../assets/Gen_Image/${imageName}`, import.meta.url).href;
 });
 
@@ -267,7 +270,7 @@ const uploadData = async () => {
       genStore.gen.includes(idx) ? scale : 0
     );
 
-    genStore.socket.emit("tdMSG", [displayName, ...selectedScales]);
+    genStore.socket.emit("tdMSG", [displayName, ...selectedScales, image_id]);
     genStore.showNotification("上傳成功！");
   } else {
     genStore.showNotification("連線尚未建立！");
