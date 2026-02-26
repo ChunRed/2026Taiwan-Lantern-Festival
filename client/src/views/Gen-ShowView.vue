@@ -262,7 +262,10 @@ const uploadData = async () => {
   }
 
   if (genStore.socket) {
-    genStore.socket.emit("tdMSG", [displayName, ...genStore.ItemScale]);
+    // 取得使用者在 gen choose 中所選擇元素的 ItemScale
+    const selectedScales = genStore.gen.map(idx => genStore.ItemScale[idx]);
+    
+    genStore.socket.emit("tdMSG", [displayName, ...selectedScales]);
     genStore.showNotification("上傳成功！");
   } else {
     genStore.showNotification("連線尚未建立！");
