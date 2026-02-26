@@ -79,11 +79,20 @@
         </div>
 
         <!-- 元素連結 (百分比資訊區塊) 移至最下方 -->
-        <div class="relative mt-4 -top-12 pb-12">
+        <div class="relative mt-4 -top-12 pb-4">
           <Gen_Information
             :Gen="genStore.gen"
             :Rate="genStore.SelectedItemRate"
           />
+        </div>
+
+        <div class="flex justify-center relative -top-6 pb-12 w-full px-8">
+          <button 
+            @click="uploadData"
+            class="px-8 py-3 bg-white text-black font-bold rounded-full w-full shadow-lg tracking-widest text-lg transition hover:bg-gray-200"
+          >
+            上 傳 數 據
+          </button>
         </div>
       </div>
 
@@ -237,6 +246,29 @@ const explosionConfig = {
   minForce: 3,        // Minimum explosion force (velocity)
   maxForce: 20,        // Maximum explosion force (velocity)
   duration: 15000      // Duration in milliseconds
+};
+
+const uploadData = async () => {
+  let displayName = "未知用戶";
+  try {
+    if (window.liff && window.liff.isLoggedIn()) {
+      const p = await window.liff.getProfile();
+      displayName = p.displayName;
+    } else {
+      displayName = "Test";
+    }
+  } catch (e) {
+    console.error("Failed to get profile:", e);
+  }
+
+  if (genStore.socket) {
+    genStore.socket.emit("tdMSG", [displayName, ...genStore.ItemScale]);
+    genStore.showNotification("上傳成功！");
+  } else {
+    genStore.showNotification("連線尚未建立！");
+  }
+
+  
 };
 
 onMounted(() => {

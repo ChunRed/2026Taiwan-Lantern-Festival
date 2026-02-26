@@ -1,5 +1,4 @@
-const API_BASE = ""; // 同源就空字串；若不同源才填 http://localhost:3000
-
+const API_BASE = "https://two026taiwan-lantern-festival.onrender.com";
 async function apiFetch(path, options = {}) {
   const res = await fetch(API_BASE + path, options);
   const text = await res.text();

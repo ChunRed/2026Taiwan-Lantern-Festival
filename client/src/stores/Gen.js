@@ -65,14 +65,14 @@ export const useGenStore = defineStore('gen', () => {
         userId.value = uid
 
         // Dev environment: user runs app on port 5173, server on 4000
-        // Production: served by express, relative path ok
-        const serverUrl = import.meta.env.DEV ? 'http://localhost:4000' : ''
+        // Production & Dev both connect to remote server since they are deployed separately
+        const serverUrl = 'https://two026taiwan-lantern-festival.onrender.com';
 
         // Connect to server
         socket.value = io(serverUrl);
 
         socket.value.on('connect', () => {
-            console.log('Socket Connected:', socket.value.id)
+            //console.log('Socket Connected:', socket.value.id)
             // Join room with userId
             socket.value.emit('register', uid)
         })
@@ -174,8 +174,8 @@ export const useGenStore = defineStore('gen', () => {
             let rate = ItemScale.value[gen.value[i]] / mergeScale;
             SelectedItemRate.value[i] = rate;
         }
-        console.log(SelectedItemRate.value);
-        console.log(gen.value);
+        //console.log(SelectedItemRate.value);
+        //console.log(gen.value);
 
     }
 

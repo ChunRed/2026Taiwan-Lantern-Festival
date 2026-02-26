@@ -45,11 +45,11 @@ export const useServerSyncStore = defineStore('serverSync', () => {
             if (existingSession && existingSession.id) {
                 // Update existing
                 await apiUpdateSession(existingSession.id, newData);
-                console.log('Updated session:', existingSession.id, newData);
+                //console.log('Updated session:', existingSession.id, newData);
             } else {
                 // Create new
                 await apiCreateSession(newData);
-                console.log('Created new session:', newData);
+                //console.log('Created new session:', newData);
             }
         } catch (error) {
             console.error('Sync failed:', error);
@@ -65,7 +65,7 @@ export const useServerSyncStore = defineStore('serverSync', () => {
 
         isInitializing = true;
         try {
-            console.log('Initializing sync for user:', userId);
+            //console.log('Initializing sync for user:', userId);
             const existingSession = await apiFindSessionByUserId(userId);
 
             if (existingSession && existingSession.items_mas) {
@@ -73,12 +73,12 @@ export const useServerSyncStore = defineStore('serverSync', () => {
                 // Assuming items_mas is [userId, v1...v8]
                 const remoteScale = existingSession.items_mas.slice(1);
                 if (remoteScale.length === 8) {
-                    console.log('Restoring session from server:', remoteScale);
+                    //console.log('Restoring session from server:', remoteScale);
                     genStore.ItemScale = remoteScale;
                 }
             } else {
                 // Create new default
-                console.log('No session found. Creating default for:', userId);
+                //console.log('No session found. Creating default for:', userId);
                 const defaultScale = [0, 0, 0, 0, 0, 0, 0, 0];
                 const newDataInit = [userId, ...defaultScale];
 

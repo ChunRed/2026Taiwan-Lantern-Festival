@@ -7,7 +7,7 @@ const route = useRoute();
 
 // --- State ---
 const currentId = ref(route.query.id); // Default to Haengu if no ID provided
-console.log(currentId.value);
+//console.log(currentId.value);
 
 // --- Computed ---
 const currentData = computed(() => {

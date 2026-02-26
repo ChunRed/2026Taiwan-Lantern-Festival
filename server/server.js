@@ -49,6 +49,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Client disconnected:', socket.id);
     });
+
+    socket.on('tdMSG', (data) => {
+        console.log('Received tdMSG:', data);
+        io.emit('tdMSG', data);
+    });
 });
 
 
