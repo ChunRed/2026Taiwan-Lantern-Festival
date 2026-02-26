@@ -66,7 +66,8 @@ export const useGenStore = defineStore('gen', () => {
 
         // Dev environment: user runs app on port 5173, server on 4000
         // Production & Dev both connect to remote server since they are deployed separately
-        const serverUrl = 'https://two026taiwan-lantern-festival.onrender.com';
+        //const serverUrl = 'https://two026taiwan-lantern-festival.onrender.com';
+        const serverUrl = 'localhost:4000';
 
         // Connect to server
         socket.value = io(serverUrl);
