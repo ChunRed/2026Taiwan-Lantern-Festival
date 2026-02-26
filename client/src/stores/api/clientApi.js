@@ -1,4 +1,4 @@
-const API_BASE = "https://chasing-light.winnowork.com:4000";
+const API_BASE = "https://chasing-light.winnowork.com";
 async function apiFetch(path, options = {}) {
   const res = await fetch(API_BASE + path, options);
   const text = await res.text();
