@@ -1,4 +1,8 @@
 const API_BASE = "https://chasing-light.winnowork.com";
+
+//const API_BASE = "http://localhost";
+
+
 async function apiFetch(path, options = {}) {
   const res = await fetch(API_BASE + path, options);
   const text = await res.text();

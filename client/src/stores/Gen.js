@@ -67,6 +67,7 @@ export const useGenStore = defineStore('gen', () => {
         // Dev environment: user runs app on port 5173, server on 4000
         // Production & Dev both connect to remote server since they are deployed separately
         const serverUrl = 'https://chasing-light.winnowork.com';
+        //const serverUrl = 'http://localhost';
 
 
         // Connect to server

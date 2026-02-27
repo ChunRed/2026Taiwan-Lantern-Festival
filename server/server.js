@@ -19,7 +19,7 @@ const {
 
 // LINE Bot 配置
 const config = {
-    channelAccessToken: 'dWY4pQnsC99Onk43Y2VFk9JChdka8chTT93YkPYv3Qj6jwIsa9dsnJeEh5n+aQrSSHb9WGjE+ezJnFN5nF27gCZYAbDkn3Ndb0k0cao9wKUWDg75RtCc5i6XKoT2T0Aozvx/sa5lpEBN94n430gT2gdB04t89/1O/w1cDnyilFU=',
+    channelAccessToken: 'P0p6o6PTrruHBmryDDCSRXtOlXeOTX4HAD9FGlBzdNDYLYIkSjKJrO1x6THfbQzjSHb9WGjE+ezJnFN5nF27gCZYAbDkn3Ndb0k0cao9wKUOVP9k/FFoRDHBrBESiYJ8+bx6BYeQzaDNv3/+hSjCyAdB04t89/1O/w1cDnyilFU=',
     channelSecret: '2dd143ac957dfefc53b69534da45516d'
 };
 
