@@ -157,11 +157,13 @@ async function handleEvent(event) {
                     message: deviceId
                 });
 
+
+
                 //推送到line聊天室
-                // return client.pushMessage(userId, {
-                //     type: 'text',
-                //     text: '靠近了baecon！發現了一隻鹿。'
-                // });
+                return client.pushMessage(userId, {
+                    type: 'text',
+                    text: '靠近了baecon！發現了一隻鹿。'
+                });
             }
 
         }

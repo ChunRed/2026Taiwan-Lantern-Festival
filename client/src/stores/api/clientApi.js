@@ -1,6 +1,6 @@
 const API_BASE = "https://chasing-light.winnowork.com";
 
-//const API_BASE = "http://localhost";
+//const API_BASE = import.meta.env.DEV ? "http://localhost:4000" : window.location.origin;
 
 
 async function apiFetch(path, options = {}) {
