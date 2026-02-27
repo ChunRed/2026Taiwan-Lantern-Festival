@@ -7,7 +7,7 @@ import plantData from "../data/plantData.json";
 
 const route = useRoute();
 
-// --- State ---
+// --- State ---//
 const currentId = ref(route.query.id || "haengu"); // Default to Haengu
 
 // --- Computed ---
