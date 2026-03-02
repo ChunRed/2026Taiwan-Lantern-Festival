@@ -290,17 +290,6 @@ watch([isLoading, () => genStore.isHomeLoading], ([loading, homeLoading]) => {
             </div></RouterLink
           >
 
-          <RouterLink
-            to="/test"
-            class="text-2xl font-light text-center tracking-widest hover:text-gray-300 transition-colors"
-            @click="toggleMenu"
-            >測試
-            <div
-              class="mt-3 text-sm text-center text-gray-300 font-light tracking-[0.6em]"
-            >
-              TEST
-            </div></RouterLink
-          >
 
           <RouterLink
             to="/lineinfo"

@@ -40,14 +40,18 @@ const client = new line.Client(config);
 
 io.on('connection', (socket) => {
     console.log('A client connected:', socket.id);
+    console.log(`即時連線人數: ${io.engine.clientsCount}`);
+
     socket.on('register', (userId) => {
         if (userId) {
             socket.join(userId);
             console.log(`Socket ${socket.id} joined room ${userId}`);
         }
     });
+
     socket.on('disconnect', () => {
         console.log('Client disconnected:', socket.id);
+        console.log(`即時連線人數: ${io.engine.clientsCount}`);
     });
 
     socket.on('tdMSG', (data) => {

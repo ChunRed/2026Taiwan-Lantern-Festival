@@ -54,7 +54,7 @@ const router = createRouter({
       component: () => import('../views/DeerInformationView.vue'),
     },
     {
-      path: '/test',
+      path: '/adminTest',
       name: 'test',
       component: () => import('../views/TestControlView.vue'),
     },
