@@ -86,12 +86,17 @@
           />
         </div>
 
-        <div class="flex justify-center relative -top-6 pb-12 w-full px-8">
+        <div class="flex flex-col items-center justify-center relative -top-6 pb-12 w-full px-8 space-y-3">
+          <div class="text-white/80 text-sm font-light tracking-wider text-center">
+            將生成鹿上傳顯示於主鹿下方的 LED 螢幕中
+          </div>
           <button 
             @click="uploadData"
-            class="px-8 py-3 bg-white text-black font-bold rounded-full w-full shadow-lg tracking-widest text-lg transition hover:bg-gray-200"
+            :disabled="genStore.isUploaded"
+            class="px-8 py-3 font-bold rounded-full w-full shadow-lg tracking-widest text-lg transition"
+            :class="genStore.isUploaded ? 'bg-gray-400 text-white opacity-80 cursor-not-allowed' : 'bg-white text-black hover:bg-gray-200'"
           >
-            上 傳 數 據
+            {{ genStore.isUploaded ? '已 上 傳' : '上 傳 數 據' }}
           </button>
         </div>
       </div>
@@ -252,6 +257,11 @@ const explosionConfig = {
 };
 
 const uploadData = async () => {
+  if (genStore.isUploaded) {
+    genStore.showNotification("已經上傳過囉！請重新選擇元素生成。");
+    return;
+  }
+
   let displayName = "未知用戶";
   try {
     if (window.liff && window.liff.isLoggedIn()) {
@@ -271,6 +281,7 @@ const uploadData = async () => {
     );
 
     genStore.socket.emit("tdMSG", [displayName, ...selectedScales, image_id]);
+    genStore.isUploaded = true;
     genStore.showNotification("上傳成功！");
   } else {
     genStore.showNotification("連線尚未建立！");

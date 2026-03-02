@@ -35,6 +35,8 @@ let clickValue = 0;
 onMounted(() => {
   // ✅ 沒有 Matter.js 的話，至少先把 ready 打開，按鈕才可按
   ready.value = true;
+  // 重置上傳狀態，允許再次上傳
+  genStore.isUploaded = false;
 });
 
 function toggleBall(idx) {

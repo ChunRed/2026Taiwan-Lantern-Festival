@@ -13,6 +13,7 @@ export const useGenStore = defineStore('gen', () => {
     const hasVisitedHome = ref(false);
     const notificationMessage = ref('');
     const notificationVisible = ref(false);
+    const isUploaded = ref(false);
 
     function showNotification(msg) {
         notificationMessage.value = msg;
@@ -252,6 +253,7 @@ export const useGenStore = defineStore('gen', () => {
         showNotification,
         closeNotification,
         toggleManualTrigger,
-        QueryParameters
+        QueryParameters,
+        isUploaded
     }
 })
