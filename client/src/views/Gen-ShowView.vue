@@ -158,7 +158,13 @@ const maxThemeColor = computed(() => {
 
 const genShowImage = computed(() => {
   const selectedIndices = [...genStore.gen];
+  const allScale100 = genStore.ItemScale.slice(0, 8).every(scale => scale === 100);
   
+  if (selectedIndices.length === 8 && allScale100) {
+    image_id = '9';
+    return new URL('../assets/Gen_Image/9.png', import.meta.url).href;
+  }
+
   if (selectedIndices.length < 2) {
     // 預設防呆機制 (不足兩個元素或只有一個元素時回傳 0.png)
     image_id = 0;
@@ -180,6 +186,11 @@ const genDeerData = computed(() => {
   const selectedIndices = [...genStore.gen];
   
   let targetIndex = "0";
+  const allScale100 = genStore.ItemScale.slice(0, 8).every(scale => scale === 100);
+
+  if (selectedIndices.length === 8 && allScale100) {
+    return { name: "彩蛋神鹿", content: "你觸發了隱藏機制，解鎖了獨一無二的九宮格神鹿！這代表著全元素的完美融合。", hashtags: ["#全收集", "#隱藏機制"] };
+  }
 
   if (selectedIndices.length >= 2) {
     selectedIndices.sort((a, b) => genStore.ItemScale[b] - genStore.ItemScale[a]);
