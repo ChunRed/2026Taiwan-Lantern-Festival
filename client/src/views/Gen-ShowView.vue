@@ -161,7 +161,7 @@ const genShowImage = computed(() => {
   const allScale100 = genStore.ItemScale.slice(0, 8).every(scale => scale === 100);
   
   if (selectedIndices.length === 8 && allScale100) {
-    image_id = '9';
+    image_id = '9.png';
     return new URL('../assets/Gen_Image/9.png', import.meta.url).href;
   }
 

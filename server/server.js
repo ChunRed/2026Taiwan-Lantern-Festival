@@ -163,11 +163,11 @@ async function handleEvent(event) {
 
 
 
-                //推送到line聊天室
-                return client.pushMessage(userId, {
-                    type: 'text',
-                    text: '靠近了baecon！發現了一隻鹿。'
-                });
+                // //推送到line聊天室
+                // return client.pushMessage(userId, {
+                //     type: 'text',
+                //     text: '靠近了baecon！發現了一隻鹿。'
+                // });
             }
 
         }
