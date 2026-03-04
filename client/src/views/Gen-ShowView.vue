@@ -96,8 +96,8 @@
         <!-- 元素連結 (百分比資訊區塊) 移至最下方 -->
         <div class="relative mt-4 -top-2 pb-12">
           <Gen_Information
-            :Gen="genStore.gen"
-            :Rate="genStore.SelectedItemRate"
+            :Gen="genStore.gen.filter(i => i !== 8)"
+            :Rate="genStore.SelectedItemRate.filter((r, i) => genStore.gen[i] !== 8)"
           />
         </div>
       </div>
@@ -168,8 +168,16 @@ const uploadName = ref("");
 let image_id;
 
 const maxThemeColor = computed(() => {
+  const selectedIndices = [...genStore.gen];
+  const all8Selected = [0,1,2,3,4,5,6,7].every(i => selectedIndices.includes(i));
+  const hasGodDeer = selectedIndices.includes(8);
+  
+  if (all8Selected && hasGodDeer) {
+    return '#FFD700'; // special color for god deer
+  }
+
   const scales = genStore.ItemScale;
-  const selectedGens = genStore.gen;
+  const selectedGens = selectedIndices.filter(i => i !== 8);
   let maxScale = -1;
   let maxIdx = -1;
   
@@ -189,22 +197,31 @@ const maxThemeColor = computed(() => {
 
 const genShowImage = computed(() => {
   const selectedIndices = [...genStore.gen];
+  const all8Selected = [0,1,2,3,4,5,6,7].every(i => selectedIndices.includes(i));
+  const hasGodDeer = selectedIndices.includes(8);
   const allScale100 = genStore.ItemScale.slice(0, 8).every(scale => scale === 100);
   
-  if (selectedIndices.length === 8 && allScale100) {
-    image_id = '9.png';
-    return new URL('../assets/Gen_Image/9.png', import.meta.url).href;
+  if (all8Selected && hasGodDeer) {
+    if (allScale100) {
+      image_id = '9.png';
+      return new URL('../assets/Gen_Image/9.png', import.meta.url).href;
+    } else {
+      image_id = '91.png';
+      return new URL('../assets/Gen_Image/91.png', import.meta.url).href;
+    }
   }
 
-  if (selectedIndices.length < 2) {
+  const normalSelectedIndices = selectedIndices.filter(i => i !== 8);
+
+  if (normalSelectedIndices.length < 2) {
     // 預設防呆機制 (不足兩個元素或只有一個元素時回傳 0.png)
     image_id = 0;
     return new URL('../assets/Gen_Image/0.png', import.meta.url).href;
   }
 
   // 依據分數大小反向排序，取出最高分的前兩個索引
-  selectedIndices.sort((a, b) => genStore.ItemScale[b] - genStore.ItemScale[a]);
-  const top2 = selectedIndices.slice(0, 2);
+  normalSelectedIndices.sort((a, b) => genStore.ItemScale[b] - genStore.ItemScale[a]);
+  const top2 = normalSelectedIndices.slice(0, 2);
 
   // 確保組合檔名時，數字為小到大排序 (例如 1 和 3 -> 13)
   top2.sort((a, b) => a - b);
@@ -217,15 +234,23 @@ const genDeerData = computed(() => {
   const selectedIndices = [...genStore.gen];
   
   let targetIndex = "0";
+  const all8Selected = [0,1,2,3,4,5,6,7].every(i => selectedIndices.includes(i));
+  const hasGodDeer = selectedIndices.includes(8);
   const allScale100 = genStore.ItemScale.slice(0, 8).every(scale => scale === 100);
 
-  if (selectedIndices.length === 8 && allScale100) {
-    return { name: "彩蛋神鹿", content: "你觸發了隱藏機制，解鎖了獨一無二的九宮格神鹿！這代表著全元素的完美融合。", hashtags: ["#全收集", "#隱藏機制"] };
+  if (all8Selected && hasGodDeer) {
+    if (allScale100) {
+      return { name: "彩蛋神鹿", content: "你觸發了隱藏機制，解鎖了獨一無二的九宮格神鹿！這代表著全元素的完美融合。", hashtags: ["#全收集", "#隱藏機制"] };
+    } else {
+      return { name: "彩蛋神鹿", content: "你觸發了隱藏機制，解鎖了獨一無二的九宮格神鹿！", hashtags: ["#全收集", "#隱藏機制"] };
+    }
   }
 
-  if (selectedIndices.length >= 2) {
-    selectedIndices.sort((a, b) => genStore.ItemScale[b] - genStore.ItemScale[a]);
-    const top2 = selectedIndices.slice(0, 2);
+  const normalSelectedIndices = selectedIndices.filter(i => i !== 8);
+
+  if (normalSelectedIndices.length >= 2) {
+    normalSelectedIndices.sort((a, b) => genStore.ItemScale[b] - genStore.ItemScale[a]);
+    const top2 = normalSelectedIndices.slice(0, 2);
     top2.sort((a, b) => a - b);
     targetIndex = `${top2[0]}${top2[1]}`;
   }
@@ -263,9 +288,10 @@ const floatingConfigRest = ref({
 
 const floatingImages = computed(() => {
   const selectedIndices = [...genStore.gen];
+  const normalSelectedIndices = selectedIndices.filter(i => i !== 8);
   // 依據分數大小反向排序
-  selectedIndices.sort((a, b) => genStore.ItemScale[b] - genStore.ItemScale[a]);
-  const top2 = selectedIndices.slice(0, 2);
+  normalSelectedIndices.sort((a, b) => genStore.ItemScale[b] - genStore.ItemScale[a]);
+  const top2 = normalSelectedIndices.slice(0, 2);
 
   return top2.map(idx => {
     return new URL(`../assets/${plantData[idx].nameZh}.png`, import.meta.url).href;
@@ -274,11 +300,12 @@ const floatingImages = computed(() => {
 
 const floatingImagesRest = computed(() => {
   const selectedIndices = [...genStore.gen];
+  const normalSelectedIndices = selectedIndices.filter(i => i !== 8);
   // 依據分數大小反向排序
-  selectedIndices.sort((a, b) => genStore.ItemScale[b] - genStore.ItemScale[a]);
+  normalSelectedIndices.sort((a, b) => genStore.ItemScale[b] - genStore.ItemScale[a]);
   
   // 抓取第 3 個之後的所有剩餘項目 (若沒超過 2 個則回傳空陣列)
-  const rest = selectedIndices.slice(2);
+  const rest = normalSelectedIndices.slice(2);
 
   return rest.map(idx => {
     return new URL(`../assets/${plantData[idx].nameZh}W.png`, import.meta.url).href;
@@ -328,7 +355,7 @@ const confirmUpload = () => {
 
   if (genStore.socket) {
     // 取得所有元素的 ItemScale，若未被選中 (不在 genStore.gen 內) 則以 0 代替
-    const selectedScales = genStore.ItemScale.map((scale, idx) => 
+    const selectedScales = genStore.ItemScale.slice(0, 8).map((scale, idx) => 
       genStore.gen.includes(idx) ? scale : 0
     );
 

@@ -173,14 +173,25 @@ watch([isLoading, () => genStore.isHomeLoading], ([loading, homeLoading]) => {
           
           <!-- Box -->
           <div class="relative bg-black/80 border border-white/20 rounded-2xl p-8 max-w-sm w-full text-center shadow-[0_0_30px_rgba(255,255,255,0.1)] backdrop-blur-md">
-              <p class="text-white text-lg font-light tracking-widest mb-8 leading-relaxed whitespace-pre-line">{{ genStore.notificationMessage }}</p>
+              <p class="text-white text-lg font-bold tracking-widest mb-6 leading-relaxed" v-html="genStore.notificationMessage"></p>
               
-              <button 
-                class="w-full py-3 border border-white/30 rounded-full text-white hover:bg-white/10 active:bg-white/20 transition-all duration-300 tracking-[0.2em] text-sm font-light"
-                @click="genStore.closeNotification"
-              >
-                  確 定
-              </button>
+              <div class="flex flex-col gap-3">
+                <a 
+                  href="https://line.me/R/ti/p/@576ungrr"
+                  target="_blank"
+                  class="w-full py-3 bg-[#06C755] text-white font-bold rounded-full shadow-[0_0_15px_rgba(6,199,85,0.4)] hover:bg-[#05b34c] transition text-center tracking-[0.2em] text-sm"
+                  @click="genStore.closeNotification"
+                >
+                  加 入 L I N E 好 友
+                </a>
+                
+                <button 
+                  class="w-full py-3 border border-white/30 rounded-full text-white hover:bg-white/10 active:bg-white/20 transition-all duration-300 tracking-[0.2em] text-sm font-light"
+                  @click="genStore.closeNotification"
+                >
+                    返 回
+                </button>
+              </div>
           </div>
       </div>
   </transition>

@@ -60,8 +60,8 @@ const props = defineProps({
   },
 });
 
-const MAX_BALLS = 8;
-const ballRadii = [26, 30, 22, 34, 48, 20, 10, 35];
+const MAX_BALLS = 9;
+const ballRadii = [26, 30, 22, 34, 48, 20, 10, 35, 40];
 
 const tex1 = new URL("../assets/item/赤榕.png", import.meta.url).href;
 const tex2 = new URL("../assets/item/金草蘭.png", import.meta.url).href;
@@ -71,7 +71,8 @@ const tex5 = new URL("../assets/item/月桃.png", import.meta.url).href;
 const tex6 = new URL("../assets/item/青剛櫟.png", import.meta.url).href;
 const tex7 = new URL("../assets/item/小葉桑.png", import.meta.url).href;
 const tex8 = new URL("../assets/item/五節芒.png", import.meta.url).href;
-const ballTextures = [tex1, tex2, tex3, tex4, tex5, tex6, tex7, tex8];
+const tex9 = new URL("../assets/item/鹿王.png", import.meta.url).href;
+const ballTextures = [tex1, tex2, tex3, tex4, tex5, tex6, tex7, tex8, tex9];
 const textureBaseSize = 512;
 
 const sceneEl = ref(null);
@@ -370,7 +371,7 @@ function buildWorld() {
     
     for (const [idx, body] of ballByIndex) {
       if (top2Ids.includes(idx)) {
-        const color = plantData[idx].themeColor;
+        const color = plantData[idx] ? plantData[idx].themeColor : '#FFD700';
         
         ctx.beginPath();
         const r = body.circleRadius + 15; // Glow radius padding
@@ -520,7 +521,10 @@ function findNonOverlappingPosition(newR) {
 function createBallByIndex(idx) {
   const { Bodies, Body, World } = Matter;
   const table = [10, 20, 30, 40, 50];
-  const idx2 = Math.min(Math.floor(props.Scale[idx] / 20), table.length - 1);
+  let idx2 = 4; // Default largest for God Deer
+  if (idx < 8) {
+    idx2 = Math.min(Math.floor(props.Scale[idx] / 20), table.length - 1);
+  }
   const r = table[idx2];
   const padding = 5;
   const collisionRadius = r + padding;

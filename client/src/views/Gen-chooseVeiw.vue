@@ -9,19 +9,22 @@ const genStore = useGenStore();
 
 const MAX_BALLS = 8;
 const ready = ref(false);
-const toggles = ref(Array.from({ length: MAX_BALLS }, () => false));
+const toggles = ref(Array.from({ length: 9 }, () => false));
+
+const isGodDeerAvailable = computed(() => {
+  return genStore.ItemScale.slice(0, 8).every(s => s > 0);
+});
 
 // Compute indices of top 2 selected items by scale
 const topTwoIndices = computed(() => {
-  // Map to objects with index, active status, and scale
   const items = toggles.value.map((isActive, idx) => ({
     idx,
     isActive,
     scale: genStore.ItemScale[idx] || 0
   }));
   
-  // Filter only active (selected) items with positive scale
-  const activeItems = items.filter(item => item.isActive && item.scale > 0);
+  // Filter only active (selected) items with positive scale, excluding God Deer
+  const activeItems = items.filter(item => item.isActive && item.scale > 0 && item.idx !== 8);
   
   // Sort by scale descending
   activeItems.sort((a, b) => b.scale - a.scale);
@@ -42,7 +45,11 @@ onMounted(() => {
 function toggleBall(idx) {
   if (!ready.value) return;
 
-  if (genStore.ItemScale[idx] == 0) return;
+  if (idx < 8) {
+    if (genStore.ItemScale[idx] == 0) return;
+  } else if (idx === 8) {
+    if (!isGodDeerAvailable.value) return;
+  }
 
   const next = !toggles.value[idx];
   toggles.value[idx] = next;
@@ -144,13 +151,47 @@ const getImageUrl = (name) => {
           </div>
         </button>
 
-        <!-- 9th Filler Item (Placeholder for grid completion) -->
+        <!-- 9th Filler Item / God Deer -->
         <button
           type="button"
-          disabled
-          class="relative flex flex-col items-center justify-center aspect-square rounded-xl border text-base transition opacity-80 cursor-not-allowed overflow-hidden bg-[#000000]/50 text-white border-white/20"
+          @click="toggleBall(8)"
+          :disabled="!ready || !isGodDeerAvailable"
+          class="relative flex flex-col items-center justify-center aspect-square rounded-xl border text-base transition overflow-hidden"
+          :class="[
+            !isGodDeerAvailable ? 'opacity-80 cursor-not-allowed bg-[#000000]/50 text-white border-white/20' : 
+            toggles[8] ? 'border-[#888888]/50 bg-white/5' : 'bg-[#000000]/50 text-white border-white/10 hover:border-white/40'
+          ]"
         >
-          <div class="flex flex-col items-center gap-1 w-full opacity-40">
+          <!-- Selection Indicator (Dot) -->
+          <span
+            v-if="isGodDeerAvailable && toggles[8]"
+            class="absolute top-2 right-2 h-2 w-2 rounded-full shadow-[0_0_5px_currentColor]"
+            style="background-color: #FFD700" 
+          ></span>
+
+          <!-- God Deer -->
+          <div v-if="isGodDeerAvailable" class="flex flex-col items-center gap-1 w-full px-1">
+            <img
+              :src="getImageUrl('鹿王.png')"
+              alt=""
+              class="w-10 h-10 object-contain mb-1 my-2"
+            />
+            <div class="flex flex-col text-center w-full overflow-hidden">
+              <span
+                class="font-medium text-[13px] tracking-widest truncate w-full"
+                style="color: #FFD700"
+                >鹿神元素
+              </span>
+              <span
+                class="font-medium text-[9px] tracking-wider opacity-60 truncate w-full"
+                style="color: #FFD700"
+                >GOD DEER</span
+              >
+            </div>
+          </div>
+
+          <!-- Unknown Element -->
+          <div v-else class="flex flex-col items-center gap-1 w-full opacity-40">
             <img
               :src="getImageUrl('未知元素.png')"
               alt=""

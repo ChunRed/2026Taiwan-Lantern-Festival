@@ -6,7 +6,7 @@ export const useGenStore = defineStore('gen', () => {
 
     const socket = ref(null)
     const userId = ref(null)
-    const current_state = ref(' -- ');
+    const current_state = ref(' - ');
     const beaconStatus = ref(0);
     const isTriggerActive = ref(false);
     const isHomeLoading = ref(false);
@@ -91,8 +91,8 @@ export const useGenStore = defineStore('gen', () => {
                 stopCountdown();
             }
             else if (data.message > 1 && data.message < triggerName.length) {
-                showNotification('您已接近' + triggerName[data.message] + '！\n請繼續掃描蒐集下一隻鹿吧！');
-                current_state.value = '您已接近' + triggerName[data.message] + '！\n請繼續掃描蒐集下一隻鹿吧！';
+                showNotification(`您已接近${triggerName[data.message]}！<br>請繼續蒐集下一隻鹿吧！<br><span style="color: #06C755;">加入LINE好友後保持網頁開啟就會自動蒐集哦！</span>`);
+                current_state.value = '您已接近' + triggerName[data.message] + '！\n請繼續蒐集下一隻鹿吧！\n加入LINE好友後保持網頁開啟就會自動蒐集哦！';
                 isTriggerActive.value = true;
                 startCountdown();
             }
@@ -108,8 +108,8 @@ export const useGenStore = defineStore('gen', () => {
             stopCountdown();
         }
         else if (beaconStatus.value > 1 && beaconStatus.value < triggerName.length) {
-            showNotification('您已接近' + triggerName[beaconStatus.value] + '！\n請繼續掃描蒐集下一隻鹿吧！');
-            current_state.value = '您已接近' + triggerName[beaconStatus.value] + '！\n請繼續掃描蒐集下一隻鹿吧！';
+            showNotification(`您已接近${triggerName[beaconStatus.value]}！<br>請繼續蒐集下一隻鹿吧！<br><span style="color: #06C755;">加入LINE好友後保持網頁開啟就會自動蒐集哦！</span>`);
+            current_state.value = '您已接近' + triggerName[beaconStatus.value] + '！\n請繼續蒐集下一隻鹿吧！\n加入LINE好友後保持網頁開啟就會自動蒐集哦！';
             isTriggerActive.value = true;
             startCountdown();
         }
@@ -139,8 +139,8 @@ export const useGenStore = defineStore('gen', () => {
             beaconStatus.value = status;
             isTriggerActive.value = true;
             if (status > 1 && status < triggerName.length) {
-                showNotification('您已接近' + triggerName[status] + '！\n請繼續掃描蒐集下一隻鹿吧！');
-                current_state.value = '您已接近' + triggerName[status] + '！\n請繼續掃描蒐集下一隻鹿吧！';
+                showNotification(`您已接近${triggerName[status]}！<br>請繼續蒐集下一隻鹿吧！<br><span style="color: #06C755;">加入LINE好友後保持網頁開啟就會自動蒐集哦！</span>`);
+                current_state.value = '您已接近' + triggerName[status] + '！\n請繼續蒐集下一隻鹿吧！\n加入LINE好友後保持網頁開啟就會自動蒐集哦！';
             }
             startCountdown();
         } else {
@@ -156,13 +156,13 @@ export const useGenStore = defineStore('gen', () => {
     const loadingFinish = ref(false)
 
     const gen = ref([]);
-    const ItemScale = ref([0, 0, 0, 0, 0, 0, 0, 0]);
+    const ItemScale = ref([0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const SelectedItemRate = ref([]);
 
 
     const SetGen = (newValue) => {
         gen.value = [];
-        SelectedItemRate.value = [0, 0, 0, 0, 0, 0, 0, 0];
+        SelectedItemRate.value = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         let mergeScale = 0;
 
