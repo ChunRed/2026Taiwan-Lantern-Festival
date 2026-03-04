@@ -1,0 +1,1 @@
+import{_ as e,b as t,j as c}from"./index-YJKkDnSD.js";const o={},n={class:"text-white text-center"};function s(r,_){return c(),t("h1",n,"404 Not Found")}const f=e(o,[["render",s]]);export{f as default};
