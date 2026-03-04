@@ -91,8 +91,8 @@ export const useGenStore = defineStore('gen', () => {
                 stopCountdown();
             }
             else if (data.message > 1 && data.message < triggerName.length) {
-                showNotification('您已接近' + triggerName[data.message]);
-                current_state.value = '您已接近' + triggerName[data.message];
+                showNotification('您已接近' + triggerName[data.message] + '！\n請繼續掃描蒐集下一隻鹿吧！');
+                current_state.value = '您已接近' + triggerName[data.message] + '！\n請繼續掃描蒐集下一隻鹿吧！';
                 isTriggerActive.value = true;
                 startCountdown();
             }
@@ -108,8 +108,8 @@ export const useGenStore = defineStore('gen', () => {
             stopCountdown();
         }
         else if (beaconStatus.value > 1 && beaconStatus.value < triggerName.length) {
-            showNotification('您已接近' + triggerName[beaconStatus.value]);
-            current_state.value = '您已接近' + triggerName[beaconStatus.value];
+            showNotification('您已接近' + triggerName[beaconStatus.value] + '！\n請繼續掃描蒐集下一隻鹿吧！');
+            current_state.value = '您已接近' + triggerName[beaconStatus.value] + '！\n請繼續掃描蒐集下一隻鹿吧！';
             isTriggerActive.value = true;
             startCountdown();
         }
@@ -139,8 +139,8 @@ export const useGenStore = defineStore('gen', () => {
             beaconStatus.value = status;
             isTriggerActive.value = true;
             if (status > 1 && status < triggerName.length) {
-                showNotification('您已接近' + triggerName[status]);
-                current_state.value = '您已接近' + triggerName[status];
+                showNotification('您已接近' + triggerName[status] + '！\n請繼續掃描蒐集下一隻鹿吧！');
+                current_state.value = '您已接近' + triggerName[status] + '！\n請繼續掃描蒐集下一隻鹿吧！';
             }
             startCountdown();
         } else {

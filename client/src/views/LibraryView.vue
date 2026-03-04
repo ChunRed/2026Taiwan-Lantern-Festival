@@ -150,10 +150,13 @@
         </article>
       </main>
       <div class="w-[110%] -ml-5 h-px bg-white/50 mb-4 mt-20"></div>
-      <div class="my-5 text-center">2026 Taiwan Lantern Festival</div>
+      <div class="my-5 text-center relative">
+        2026 Taiwan Lantern Festival
+        <!-- Hidden button linked to adminTest -->
+        <RouterLink to="/adminTest" class="absolute inset-0 z-50 opacity-0"></RouterLink>
+      </div>
 
-      <div class="w-full h-[200px] mt-150 mb-50 text-white"></div>
-
+      <RouterLink to="/adminTest" class="block w-full h-[200px] mt-150 mb-50 opacity-0"></RouterLink>
 
   <!-- Footer Spacer / Hint
       <div class="pointer-events-none fixed bottom-0 mt-90 left-0 right-0 z-50 h-32 bg-gradient-to-t from-black via-black/80 to-transparent" ></div>-->

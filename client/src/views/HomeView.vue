@@ -240,7 +240,7 @@ const setupScrollAnimation = () => {
 // Methods
 const nextState = () => {
   let next = state.value + 1;
-  if (next > 7) {
+  if (next > 8) {
     next = 0;
     triggerLoading();
   }
@@ -249,7 +249,7 @@ const nextState = () => {
 
 const prevState = () => {
   let prev = state.value - 1;
-  if (prev < 0) prev = 7;
+  if (prev < 0) prev = 8;
   
   if (prev === 0) {
     triggerLoading();
@@ -407,6 +407,30 @@ onMounted(() => {
           <div v-else-if="state == 7" key="state7" class="w-full h-full object-contain flex items-center justify-center">
             <PN_Intro_Gen4 />
           </div>
+          <div v-else-if="state == 8" key="state8" class="w-full h-full flex flex-col items-center justify-center space-y-8 fade-enter-active">
+            <div class="text-center space-y-4">
+              <h2 class="text-3xl font-bold tracking-[0.2em] text-white">加 入 好 友</h2>
+              <p class="text-gray-300 font-light tracking-widest leading-relaxed">
+                加入官方 LINE 好友<br>掌握最新活動資訊，獲得更好互動體驗！
+              </p>
+            </div>
+            
+            <div class="flex flex-col gap-4 w-60">
+              <a 
+                href="https://line.me/R/ti/p/@576ungrr"
+                target="_blank"
+                class="w-full py-4 bg-[#06C755] text-white font-bold rounded-full shadow-[0_0_15px_rgba(6,199,85,0.4)] hover:bg-[#05b34c] transition text-center tracking-[0.2em] text-lg"
+              >
+                加 入 L I N E
+              </a>
+              <button 
+                @click="PN_Intro_Skip"
+                class="w-full py-4 bg-transparent border border-white/40 text-white font-light rounded-full hover:bg-white/10 transition text-center tracking-[0.2em] text-lg"
+              >
+                稍 後 再 說
+              </button>
+            </div>
+          </div>
 
       </div>
     </main>
@@ -487,7 +511,7 @@ onMounted(() => {
                 <div></div>
 
                 <div class="w-14 h-14 rounded-full border border-white flex justify-center items-center p-2 bg-transparent">
-                  <span class="text-xl leading-none text-[#fffff]">{{state}}/7</span>
+                  <span class="text-xl leading-none text-[#fffff]">{{state}}/8</span>
                 </div>
 
                 <div class="flex justify-end">

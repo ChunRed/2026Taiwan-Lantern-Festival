@@ -78,26 +78,27 @@
           <hr class="border-white/20 my-0 mx-8" />
         </div>
 
-        <!-- 元素連結 (百分比資訊區塊) 移至最下方 -->
-        <div class="relative mt-4 -top-12 pb-4">
-          <Gen_Information
-            :Gen="genStore.gen"
-            :Rate="genStore.SelectedItemRate"
-          />
-        </div>
-
-        <div class="flex flex-col items-center justify-center relative -top-6 pb-12 w-full px-8 space-y-3">
+        <!-- 上傳資訊區塊 -->
+        <div class="flex flex-col items-center justify-center relative -top-6 pb-4 w-full px-8 space-y-3">
           <div class="text-white/80 text-sm font-light tracking-wider text-center">
             將生成鹿上傳顯示於主鹿下方的 LED 螢幕中
           </div>
           <button 
-            @click="uploadData"
+            @click="openUploadDialog"
             :disabled="genStore.isUploaded"
             class="px-8 py-3 font-bold rounded-full w-full shadow-lg tracking-widest text-lg transition"
             :class="genStore.isUploaded ? 'bg-gray-400 text-white opacity-80 cursor-not-allowed' : 'bg-white text-black hover:bg-gray-200'"
           >
             {{ genStore.isUploaded ? '已 上 傳' : '上 傳 數 據' }}
           </button>
+        </div>
+
+        <!-- 元素連結 (百分比資訊區塊) 移至最下方 -->
+        <div class="relative mt-4 -top-2 pb-12">
+          <Gen_Information
+            :Gen="genStore.gen"
+            :Rate="genStore.SelectedItemRate"
+          />
         </div>
       </div>
 
@@ -113,6 +114,33 @@
           >
             <span class="text-3xl leading-none text-[#ffffff]"> › </span>
           </RouterLink>
+        </div>
+      </div>
+    </div>
+
+    <!-- 彈出輸入視窗 -->
+    <div v-if="showUploadDialog" class="fixed inset-0 z-50 flex items-center justify-center bg-black px-4">
+      <div class="bg-[#000000] border border-white/20 rounded-2xl p-6 w-full max-w-sm flex flex-col items-center shadow-2xl">
+        <h3 class="text-xl font-bold mb-4 text-white">請輸入上傳名稱</h3>
+        <input 
+          v-model="uploadName" 
+          type="text" 
+          class="w-full bg-[#333333] border border-black rounded-lg px-4 py-3 mb-6 text-white text-lg focus:outline-none focus:ring-2 focus:ring-white text-center placeholder-gray-500"
+          placeholder="請輸入名稱"
+        />
+        <div class="flex justify-between w-full gap-4">
+          <button 
+            @click="showUploadDialog = false" 
+            class="flex-1 py-3 rounded-lg font-bold bg-black text-white  border border-white transition text-lg"
+          >
+            取 消
+          </button>
+          <button 
+            @click="confirmUpload" 
+            class="flex-1 py-3 rounded-lg font-bold bg-white text-black  transition shadow-md text-lg"
+          >
+            確 認
+          </button>
         </div>
       </div>
     </div>
@@ -133,6 +161,9 @@ import genData from "@/data/genData.json";
 const genStore = useGenStore();
 const isLoading = ref(true);
 const showExplosion = ref(false);
+
+const showUploadDialog = ref(false);
+const uploadName = ref("");
 
 let image_id;
 
@@ -267,22 +298,32 @@ const explosionConfig = {
   duration: 15000      // Duration in milliseconds
 };
 
-const uploadData = async () => {
+const openUploadDialog = async () => {
   if (genStore.isUploaded) {
     genStore.showNotification("已經上傳過囉！請重新選擇元素生成。");
     return;
   }
 
-  let displayName = "未知用戶";
+  let defaultName = "未知用戶";
   try {
     if (window.liff && window.liff.isLoggedIn()) {
       const p = await window.liff.getProfile();
-      displayName = p.displayName;
+      defaultName = p.displayName;
     } else {
-      displayName = "Test";
+      defaultName = "Test";
     }
   } catch (e) {
     console.error("Failed to get profile:", e);
+  }
+
+  uploadName.value = defaultName;
+  showUploadDialog.value = true;
+};
+
+const confirmUpload = () => {
+  if (!uploadName.value.trim()) {
+    genStore.showNotification("請輸入名稱！");
+    return;
   }
 
   if (genStore.socket) {
@@ -291,14 +332,13 @@ const uploadData = async () => {
       genStore.gen.includes(idx) ? scale : 0
     );
 
-    genStore.socket.emit("tdMSG", [displayName, ...selectedScales, image_id]);
+    genStore.socket.emit("tdMSG", [uploadName.value.trim(), ...selectedScales, image_id]);
     genStore.isUploaded = true;
+    showUploadDialog.value = false;
     genStore.showNotification("上傳成功！");
   } else {
     genStore.showNotification("連線尚未建立！");
   }
-
-  
 };
 
 onMounted(() => {
