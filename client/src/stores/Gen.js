@@ -213,7 +213,7 @@ export const useGenStore = defineStore('gen', () => {
                 }
                 // console.log(`Auto-incrementing ItemScale[${index}]:`, ItemScale.value[index]);
             }
-        }, 10000);
+        }, 5000);
     }
 
     watch([isTriggerActive, beaconStatus], ([newActive, newStatus], oldValues) => {

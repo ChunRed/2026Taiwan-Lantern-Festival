@@ -1,1 +1,0 @@
-import{b as e,j as o}from"./index-BnutqG4X.js";const n={class:"line-info-view-placeholder"},r={__name:"LineInfoView",setup(t){return(c,s)=>(o(),e("div",n))}};export{r as default};
