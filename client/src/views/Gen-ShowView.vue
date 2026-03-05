@@ -1,8 +1,9 @@
 <template>
-  <div class="flex flex-col relative w-full h-full">
-    <LoadingPage v-if="isLoading" />
-    <CrossOverlay />
+  <div ref="captureArea" class="flex flex-col relative w-full h-full bg-[#000000]">
+    <LoadingPage data-html2canvas-ignore="true" v-if="isLoading" />
+    <CrossOverlay data-html2canvas-ignore="true" />
     <ExplosionEffect 
+      data-html2canvas-ignore="true"
       v-if="showExplosion" 
       :colors="explosionColors" 
       :particleCount="explosionConfig.particleCount"
@@ -58,12 +59,12 @@
         
         <!-- 新增鹿的內容與 hashtag -->
         <div class="relative -top-20 text-white mt-2 px-6 space-y-4">
-          <!-- hashtags (加入長方形導圓角底色，白底黑字) -->
-          <div class="flex justify-center flex-wrap gap-2 text-black font-semibold tracking-wide w-full">
+          <!-- hashtags (改為無底色、粗體白字) -->
+          <div class="flex justify-center flex-wrap gap-2 text-white font-bold tracking-wide w-full text-lg drop-shadow-md">
             <span 
               v-for="(tag, idx) in genDeerData.hashtags" 
               :key="idx"
-              class="bg-white rounded-[8px] px-11 py-0 text-sm whitespace-nowrap"
+              class="px-2 py-1 whitespace-nowrap flex items-center justify-center leading-none"
             >
               {{ tag }}
             </span>
@@ -79,7 +80,7 @@
         </div>
 
         <!-- 上傳資訊區塊 -->
-        <div class="flex flex-col items-center justify-center relative -top-6 pb-4 w-full px-8 space-y-3">
+        <div data-html2canvas-ignore="true" class="flex flex-col items-center justify-center relative -top-6 pb-4 w-full px-8 space-y-3">
           <div class="text-white/80 text-sm font-light tracking-wider text-center">
             將生成鹿上傳顯示於主鹿下方的 LED 螢幕中
           </div>
@@ -91,10 +92,19 @@
           >
             {{ genStore.isUploaded ? '已 上 傳' : '上 傳 數 據' }}
           </button>
+          
+          <button 
+            @click="downloadImage"
+            :disabled="isDownloading"
+            class="px-8 py-3 font-bold rounded-full w-full shadow-lg tracking-widest text-lg transition bg-black border border-white text-white hover:bg-white hover:text-black mt-2 flex items-center justify-center gap-2"
+          >
+            <span v-if="isDownloading" class="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
+            {{ isDownloading ? '產 生 中' : '下 載 圖 片' }}
+          </button>
         </div>
 
         <!-- 元素連結 (百分比資訊區塊) 移至最下方 -->
-        <div class="relative mt-4 -top-2 pb-12">
+        <div class="relative mt-4 -top-2 pb-12" data-html2canvas-ignore="true">
           <Gen_Information
             :Gen="genStore.gen.filter(i => i !== 8)"
             :Rate="genStore.SelectedItemRate.filter((r, i) => genStore.gen[i] !== 8)"
@@ -107,7 +117,7 @@
           你還沒有選擇任何元素，請選擇元素!
         </div>
         <!-- Button -->
-        <div class="flex justify-center">
+        <div class="flex justify-center" data-html2canvas-ignore="true">
           <RouterLink
             to="/gen-choose"
             class="flex h-12 w-12 items-center justify-center rounded-full border border-[#ffffff] bg-black/60"
@@ -118,8 +128,32 @@
       </div>
     </div>
 
+    <!-- 彈出截圖視窗 -->
+    <div data-html2canvas-ignore="true" v-if="showImageDialog" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/95 px-6 backdrop-blur-sm">
+      <div class="text-white text-xl font-bold mb-6 tracking-widest animate-pulse drop-shadow-lg">
+        請長按下方圖片儲存
+      </div>
+      <div class="relative w-full max-w-sm flex flex-col items-center">
+        <img :src="generatedImageUrl" class="w-full h-auto max-h-[65vh] object-contain rounded-lg shadow-[0_0_20px_rgba(255,255,255,0.3)] border border-white/20" alt="Generated Image" />
+      </div>
+      <div class="flex gap-4 mt-8 w-full max-w-sm px-4">
+        <button 
+          @click="showImageDialog = false" 
+          class="flex-1 py-3 rounded-full font-bold bg-white text-black hover:bg-gray-200 transition shadow-lg text-lg tracking-widest"
+        >
+          完 成
+        </button>
+        <button 
+          @click="shareToInstagram" 
+          class="flex-1 py-3 rounded-full font-bold bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white hover:opacity-90 transition shadow-lg text-lg tracking-widest"
+        >
+          分 享 至 IG
+        </button>
+      </div>
+    </div>
+
     <!-- 彈出輸入視窗 -->
-    <div v-if="showUploadDialog" class="fixed inset-0 z-50 flex items-center justify-center bg-black px-4">
+    <div data-html2canvas-ignore="true" v-if="showUploadDialog" class="fixed inset-0 z-50 flex items-center justify-center bg-black px-4">
       <div class="bg-[#000000] border border-white/20 rounded-2xl p-6 w-full max-w-sm flex flex-col items-center shadow-2xl">
         <h3 class="text-xl font-bold mb-4 text-white">請輸入上傳名稱</h3>
         <input 
@@ -157,13 +191,19 @@ import { useGenStore } from "../stores/Gen.js";
 import { ref, onMounted, computed } from "vue";
 import plantData from "@/data/plantData.json";
 import genData from "@/data/genData.json";
+import html2canvas from "html2canvas";
 
 const genStore = useGenStore();
 const isLoading = ref(true);
 const showExplosion = ref(false);
+const captureArea = ref(null);
+const isDownloading = ref(false);
 
 const showUploadDialog = ref(false);
 const uploadName = ref("");
+
+const showImageDialog = ref(false);
+const generatedImageUrl = ref("");
 
 let image_id;
 
@@ -215,7 +255,7 @@ const genShowImage = computed(() => {
 
   if (normalSelectedIndices.length < 2) {
     // 預設防呆機制 (不足兩個元素或只有一個元素時回傳 0.png)
-    image_id = 0;
+    image_id = '0.png';
     return new URL('../assets/Gen_Image/0.png', import.meta.url).href;
   }
 
@@ -358,6 +398,9 @@ const confirmUpload = () => {
     const selectedScales = genStore.ItemScale.slice(0, 8).map((scale, idx) => 
       genStore.gen.includes(idx) ? scale : 0
     );
+    
+    // 多加一個數值表示有無選擇鹿王元素 (1代表有選，0代表沒選)
+    selectedScales.push(genStore.gen.includes(8) ? 100 : 0);
 
     genStore.socket.emit("tdMSG", [uploadName.value.trim(), ...selectedScales, image_id]);
     genStore.isUploaded = true;
@@ -368,7 +411,69 @@ const confirmUpload = () => {
   }
 };
 
+const downloadImage = async () => {
+  if (!captureArea.value || isDownloading.value) return;
+  
+  try {
+    isDownloading.value = true;
+    genStore.showNotification("圖片準備中，請稍候...");
+    
+    // 讓 DOM 更新
+    await new Promise(r => setTimeout(r, 200));
+
+    // 使用 html2canvas 將 DOM 轉換為 canvas
+    const canvas = await html2canvas(captureArea.value, {
+      backgroundColor: "#000000",
+      useCORS: true,
+      scale: 2, // 提升畫質
+      logging: false,
+    });
+    
+    // 顯示在彈窗內
+    generatedImageUrl.value = canvas.toDataURL("image/png");
+    showImageDialog.value = true;
+    
+    genStore.closeNotification();
+  } catch (err) {
+    console.error("生成圖片錯誤:", err);
+    genStore.showNotification("產生圖片時發生錯誤！");
+  } finally {
+    isDownloading.value = false;
+  }
+};
+
+const shareToInstagram = async () => {
+  if (!generatedImageUrl.value) return;
+
+  try {
+    // 轉換 base64 為 blob
+    const response = await fetch(generatedImageUrl.value);
+    const blob = await response.blob();
+    const file = new File([blob], `my-deer-${Date.now()}.png`, { type: 'image/png' });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        title: '我的專屬生成鹿',
+        text: '來看看我的 2026 台灣燈節生成鹿！',
+        files: [file]
+      });
+      genStore.showNotification("分享成功！");
+    } else {
+      // 降級處理：提醒用戶長按儲存後去 IG 發布
+      genStore.showNotification("您的設備暫不支持直接分享，請長按儲存後分享至 IG！");
+    }
+  } catch (err) {
+    if (err.name !== 'AbortError') {
+      console.error("分享失敗:", err);
+      genStore.showNotification("分享時發生錯誤！");
+    }
+  }
+};
+
 onMounted(() => {
+  // 讓頁面先捲動到最上面，確保 html2canvas 擷取的內容不會跑掉
+  window.scrollTo(0, 0);
+
   // 2秒 loading 畫面
   setTimeout(() => {
     isLoading.value = false;
