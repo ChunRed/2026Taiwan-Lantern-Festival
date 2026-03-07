@@ -23,13 +23,13 @@ export const useServerSyncStore = defineStore('serverSync', () => {
             if (!genStore.userId) {
                 console.warn('User ID not set yet, skipping sync');
                 // Construct new data
-                newData = ['test', ...newValue];
+                newData = ['test', ...newValue, ""];
                 SendData('test');
             }
             else {
                 // Construct new data
-                newData = [genStore.userId, ...newValue];
-                SendData(genStore.userId)
+                newData = [genStore.userId, ...newValue, ""];
+                SendData(genStore.userId);
             }
 
         },
@@ -69,18 +69,27 @@ export const useServerSyncStore = defineStore('serverSync', () => {
             const existingSession = await apiFindSessionByUserId(userId);
 
             if (existingSession && existingSession.items_mas) {
-                // Determine if valid (items_mas length check?)
-                // Assuming items_mas is [userId, v1...v8]
-                const remoteScale = existingSession.items_mas.slice(1);
+                // Extract everything after userId
+                let remoteScale = existingSession.items_mas.slice(1);
+
+                // If the last item is a string (uploadName), remove it so we only have numbers
+                if (typeof remoteScale[remoteScale.length - 1] === 'string') {
+                    remoteScale.pop();
+                }
+
+                // If it's an old save (8 items, no deer god), pad it to 9 items
                 if (remoteScale.length === 8) {
-                    //console.log('Restoring session from server:', remoteScale);
+                    genStore.ItemScale = [...remoteScale, 0];
+                }
+                // Restore new save (9 items)
+                else if (remoteScale.length === 9) {
                     genStore.ItemScale = remoteScale;
                 }
             } else {
                 // Create new default
                 //console.log('No session found. Creating default for:', userId);
-                const defaultScale = [0, 0, 0, 0, 0, 0, 0, 0];
-                const newDataInit = [userId, ...defaultScale];
+                const defaultScale = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+                const newDataInit = [userId, ...defaultScale, ""];
 
                 await apiCreateSession(newDataInit);
                 genStore.ItemScale = defaultScale; // This will trigger watch, but we can manage it

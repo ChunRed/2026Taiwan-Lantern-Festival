@@ -192,6 +192,7 @@ import { ref, onMounted, computed } from "vue";
 import plantData from "@/data/plantData.json";
 import genData from "@/data/genData.json";
 import html2canvas from "html2canvas";
+import { apiFindSessionByUserId, apiUpdateSession } from "../stores/api/clientApi.js";
 
 const genStore = useGenStore();
 const isLoading = ref(true);
@@ -387,7 +388,7 @@ const openUploadDialog = async () => {
   showUploadDialog.value = true;
 };
 
-const confirmUpload = () => {
+const confirmUpload = async () => {
   if (!uploadName.value.trim()) {
     genStore.showNotification("請輸入名稱！");
     return;
@@ -403,6 +404,18 @@ const confirmUpload = () => {
     selectedScales.push(genStore.gen.includes(8) ? 100 : 0);
 
     genStore.socket.emit("tdMSG", [uploadName.value.trim(), ...selectedScales, image_id]);
+    
+    // Save to Supabase
+    try {
+      const existingSession = await apiFindSessionByUserId(genStore.userId || 'test');
+      if (existingSession && existingSession.id) {
+        const newData = [genStore.userId || 'test', ...genStore.ItemScale, uploadName.value.trim()];
+        await apiUpdateSession(existingSession.id, newData);
+      }
+    } catch (err) {
+      console.error("Failed to update supabase with name:", err);
+    }
+    
     genStore.isUploaded = true;
     showUploadDialog.value = false;
     genStore.showNotification("上傳成功！");

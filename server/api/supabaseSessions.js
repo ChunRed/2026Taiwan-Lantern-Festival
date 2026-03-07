@@ -7,10 +7,18 @@ const supabase = createClient(
 
 function validateItemsMas(items) {
   if (!Array.isArray(items)) throw new Error("items_mas 必須是 array");
-  if (items.length !== 9) throw new Error("items_mas 長度必須為 9");
+  if (items.length < 9 || items.length > 11) throw new Error("items_mas 長度必須介於 9 到 11 之間");
   if (typeof items[0] !== "string") throw new Error("items_mas[0] 必須是 string");
-  for (let i = 1; i < 9; i++) {
-    if (!Number.isInteger(items[i])) throw new Error(`items_mas[${i}] 必須是整數`);
+
+  for (let i = 1; i < items.length; i++) {
+    // 若陣列為 11 筆，則最後一筆一定是 string (uploadName)
+    // 若陣列為 10 筆，最後一筆可能是數字 (舊的鹿神) 也可能是 string (uploadName沒鹿神)
+    if (i === items.length - 1 && typeof items[i] === "string") {
+      continue; // 符合上傳字串的條件
+    }
+    if (!Number.isInteger(items[i])) {
+      throw new Error(`items_mas[${i}] 必須是整數`);
+    }
   }
 }
 
