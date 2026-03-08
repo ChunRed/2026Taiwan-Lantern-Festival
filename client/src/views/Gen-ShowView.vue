@@ -372,6 +372,19 @@ const openUploadDialog = async () => {
     return;
   }
 
+  // 判斷台灣時間是否為下午 16:30 之前
+  const now = new Date();
+  const taiwanTimeOptions = { timeZone: 'Asia/Taipei', hour12: false, hour: 'numeric', minute: 'numeric' };
+  const formatter = new Intl.DateTimeFormat('en-US', taiwanTimeOptions);
+  const parts = formatter.formatToParts(now);
+  const hour = parseInt(parts.find(p => p.type === 'hour').value, 10);
+  const minute = parseInt(parts.find(p => p.type === 'minute').value, 10);
+
+  if (hour < 16 || (hour === 16 && minute < 30)) {
+    genStore.showNotification("LED螢幕於16：30開放，歡迎回來再次上傳！");
+    return;
+  }
+
   let defaultName = "未知用戶";
   try {
     if (window.liff && window.liff.isLoggedIn()) {

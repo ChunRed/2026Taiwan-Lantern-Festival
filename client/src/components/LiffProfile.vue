@@ -60,6 +60,7 @@ onMounted(async () => {
       
       // Even in fallback/test mode, initialize
       const genStore = useGenStore();
+      genStore.displayName = "Test";
       genStore.initSocket(fallbackId);
       serverSyncStore.initializeSync(fallbackId);
       
@@ -71,6 +72,7 @@ onMounted(async () => {
 
     // Initialize Socket
     const genStore = useGenStore();
+    genStore.displayName = p.displayName;
     genStore.initSocket(p.userId);
     
     // Initialize Sync

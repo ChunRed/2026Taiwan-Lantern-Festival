@@ -23,12 +23,12 @@ export const useServerSyncStore = defineStore('serverSync', () => {
             if (!genStore.userId) {
                 console.warn('User ID not set yet, skipping sync');
                 // Construct new data
-                newData = ['test', ...newValue, ""];
+                newData = ['test', ...newValue, genStore.displayName || ""];
                 SendData('test');
             }
             else {
                 // Construct new data
-                newData = [genStore.userId, ...newValue, ""];
+                newData = [genStore.userId, ...newValue, genStore.displayName || ""];
                 SendData(genStore.userId);
             }
 
@@ -89,7 +89,7 @@ export const useServerSyncStore = defineStore('serverSync', () => {
                 // Create new default
                 //console.log('No session found. Creating default for:', userId);
                 const defaultScale = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-                const newDataInit = [userId, ...defaultScale, ""];
+                const newDataInit = [userId, ...defaultScale, genStore.displayName || ""];
 
                 await apiCreateSession(newDataInit);
                 genStore.ItemScale = defaultScale; // This will trigger watch, but we can manage it

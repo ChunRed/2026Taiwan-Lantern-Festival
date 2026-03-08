@@ -6,6 +6,7 @@ export const useGenStore = defineStore('gen', () => {
 
     const socket = ref(null)
     const userId = ref(null)
+    const displayName = ref('')
     const current_state = ref(' - ');
     const beaconStatus = ref(0);
     const isTriggerActive = ref(false);
@@ -239,6 +240,7 @@ export const useGenStore = defineStore('gen', () => {
         initSocket,
         socket,
         userId,
+        displayName,
         loadingFinish,
         current_state,
         isTriggerActive,
