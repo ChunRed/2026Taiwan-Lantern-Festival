@@ -129,9 +129,9 @@ const getImageUrl = (name) => {
                 >{{ plantData[i - 1].nameZh }}
               </span>
               <span
-                class="font-medium text-[9px] tracking-wider opacity-60 truncate w-full"
+                class="font-medium text-[10px] tracking-wider truncate w-full opacity-80"
                 :style="{ color: plantData[i - 1].themeColor }"
-                >{{ plantData[i - 1].nameEn }}</span
+                >{{ genStore.ItemScale[i - 1] }}%</span
               >
             </div>
           </div>
@@ -146,6 +146,9 @@ const getImageUrl = (name) => {
             <div class="flex flex-col text-center">
               <span class="font-medium text-xs tracking-[0.5em] text-white/40"
                 >????</span
+              >
+              <span class="font-medium text-[10px] tracking-wider text-white/40"
+                >0%</span
               >
             </div>
           </div>
@@ -183,9 +186,9 @@ const getImageUrl = (name) => {
                 >鹿神元素
               </span>
               <span
-                class="font-medium text-[9px] tracking-wider opacity-60 truncate w-full"
+                class="font-medium text-[10px] tracking-wider truncate w-full opacity-80"
                 style="color: #FFD700"
-                >GOD DEER</span
+                >100%</span
               >
             </div>
           </div>
@@ -200,6 +203,9 @@ const getImageUrl = (name) => {
             <div class="flex flex-col text-center">
               <span class="font-medium text-xs tracking-[0.5em] text-white/40"
                 >????</span
+              >
+              <span class="font-medium text-[10px] tracking-wider text-white/40"
+                >0%</span
               >
             </div>
           </div>
