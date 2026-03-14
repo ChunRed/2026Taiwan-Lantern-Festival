@@ -430,7 +430,7 @@ const confirmUpload = async () => {
     if (hour < 16 || (hour === 16 && minute < 30)) {
       genStore.showNotification("上傳成功！提醒您，LED螢幕於16：30才會開放顯示喔！");
     } else {
-      genStore.showNotification("上傳成功！");
+      genStore.showNotification("快來LED螢幕與鹿合影！<br>將依序出現，參與人數多時請稍等");
     }
   } else {
     genStore.showNotification("連線尚未建立！");
